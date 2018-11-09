@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data></data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_64"
+            android:background="@color/color_FF8F00"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_match_grade_search"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/sp_13"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_margin="@dimen/dp_10"
+                    android:drawableLeft="@mipmap/icon_search"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center_vertical"
+                    android:hint="@string/matchapply_search_hint"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:textColorHint="@color/color_FFFFFF"
+                    android:background="@drawable/search_frame_bg"
+                    />
+
+                <ImageView
+                    android:layout_alignRight="@+id/tv_match_apply_search"
+                    android:id="@+id/img_match_grade_header"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:scaleType="fitXY" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

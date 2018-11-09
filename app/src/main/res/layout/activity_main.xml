@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.example.bqj.sport_capacity.custom.NoScrollViewPager
+            android:id="@+id/vp_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></com.example.bqj.sport_capacity.custom.NoScrollViewPager>
+        <View
+            android:background="@color/color_E2E2E2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"/>
+        <!--底部tab-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:background="@color/color_FFFFFF"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="4">
+            <!--大赛报名-->
+            <LinearLayout
+                android:onClick="onClick"
+                android:id="@+id/ll_match_apply"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_match_apply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_match_apply_select" />
+
+                <TextView
+                    android:id="@+id/tv_match_apply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:gravity="center"
+                    android:text="@string/match_apply"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_10" />
+
+            </LinearLayout>
+
+            <!--比赛成绩-->
+            <LinearLayout
+                android:onClick="onClick"
+                android:id="@+id/ll_match_score"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/img_match_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_match_grade_unselect" />
+
+                <TextView
+                    android:id="@+id/tv_match_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:gravity="center"
+                    android:text="@string/match_grade"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_10" />
+
+            </LinearLayout>
+
+            <!--发现-->
+            <LinearLayout
+                android:onClick="onClick"
+                android:id="@+id/ll_discover"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/img_discover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_discover_unselect" />
+
+                <TextView
+                    android:id="@+id/tv_discover"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:gravity="center"
+                    android:text="@string/discover"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_10" />
+
+            </LinearLayout>
+
+            <!--个人中心-->
+            <LinearLayout
+                android:onClick="onClick"
+                android:id="@+id/ll_personalcenter"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_pcenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_22"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_pcenter_unselect" />
+
+                <TextView
+                    android:id="@+id/tv_pcenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/dp_2"
+                    android:gravity="center"
+                    android:text="@string/pcenter"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_10" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</layout>
