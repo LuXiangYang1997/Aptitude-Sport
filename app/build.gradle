@@ -102,7 +102,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:recyclerview-v7:24.2.1'//RecyclerView
 
-    implementation 'com.lzy.net:okgo:+'        //版本号使用 + 可以自动引用最新版
+    implementation 'com.lzy.net:okgo:+'//版本号使用 + 可以自动引用最新版
 
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'//smartRefreshLayout
 
