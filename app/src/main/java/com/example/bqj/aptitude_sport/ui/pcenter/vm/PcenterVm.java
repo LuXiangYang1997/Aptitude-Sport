@@ -1,15 +1,17 @@
 package com.example.bqj.aptitude_sport.ui.pcenter.vm;
 
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.example.bqj.aptitude_sport.base.BaseViewModel;
+import com.example.bqj.aptitude_sport.ui.pcenter.view.PCenterFragment;
 
 public class PcenterVm extends BaseViewModel{
 
-    private FragmentActivity activity;
+    private PCenterFragment fragment;
 
-    public PcenterVm(FragmentActivity activity) {
-        this.activity=activity;
+    public PcenterVm(PCenterFragment fragment) {
+        this.fragment=fragment;
     }
 
 
@@ -137,5 +139,10 @@ public class PcenterVm extends BaseViewModel{
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fragment.initUserInfo();
 
+    }
 }

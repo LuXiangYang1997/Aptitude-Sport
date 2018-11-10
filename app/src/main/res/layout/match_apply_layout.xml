@@ -44,7 +44,7 @@
                 <ImageView
                     android:onClick="@{()->matchApplyVm.headerView()}"
                     android:layout_alignRight="@+id/img_match_apply_header"
-                    android:id="@+id/iv_homepage_icon"
+                    android:id="@+id/img_match_apply_header"
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
                     android:layout_gravity="center"

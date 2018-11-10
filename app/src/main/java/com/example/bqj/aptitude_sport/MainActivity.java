@@ -1,6 +1,7 @@
 package com.example.bqj.aptitude_sport;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +16,10 @@ import com.example.bqj.aptitude_sport.databinding.ActivityMainBinding;
 import com.example.bqj.aptitude_sport.ui.discover.view.DiscoverFragment;
 import com.example.bqj.aptitude_sport.ui.matchapply.view.MatchApplyFragment;
 import com.example.bqj.aptitude_sport.ui.matchgrade.view.MatchGradeFragment;
+import com.example.bqj.aptitude_sport.ui.pcenter.loginbind.view.LoginActivity;
 import com.example.bqj.aptitude_sport.ui.pcenter.view.PCenterFragment;
+import com.example.bqj.aptitude_sport.util.EmptyUtil;
+import com.example.bqj.aptitude_sport.util.IntentUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int type = 0;
     private ViewPagerAdapter viewPagerAdapter;
     private long exitTime = 0;
+    private boolean loginState;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.ll_match_apply:
                 type = StatusVariable.MATCHAPPLY;
@@ -108,6 +114,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 type = StatusVariable.DISCOVER;
                 break;
             case R.id.ll_personalcenter:
+                //判断是否登录，未登录则到登录界面，否则到个人中心
+                if (!loginState){
+                    MyApplication.getInstance().setClickState(true);
+                    IntentUtil.startActivityForResult(this,LoginActivity.class);
+                    return;
+                }
                 type = StatusVariable.PERSONALCENTE;
                 break;
 
@@ -120,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      *
      * @param type
      */
-    private void tabState(int type) {
+    public void tabState(int type) {
 
         homeBinding.imgMatchApply.setImageResource(R.mipmap.icon_match_apply_unselect);
         homeBinding.tvMatchApply.setTextColor(getResources().getColor(R.color.color_333333));
@@ -176,8 +188,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //根据返回的Code来切换tab
+        if (!EmptyUtil.isEmpty(resultCode)){
+            if (resultCode==StatusVariable.MATCHAPPLYCODE){
+                tabState(StatusVariable.MATCHAPPLY);
+            }else if (resultCode==StatusVariable.MATCHAPPLYCODE){
+                tabState(StatusVariable.MATCHAPPLY);
+            }else if (resultCode==StatusVariable.MATCHGRADECODE){
+                tabState(StatusVariable.MATCHSCORE);
+            }else if (resultCode==StatusVariable.DISCOVERCODE){
+                tabState(StatusVariable.DISCOVER);
+            }else if (resultCode==StatusVariable.PCENTERCODE){
+                tabState(StatusVariable.PERSONALCENTE);
+            }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        loginState = MyApplication.getInstance().getLoginState();
+
+
     }
 
 

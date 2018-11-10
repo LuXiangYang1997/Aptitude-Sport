@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data></data>
+    <data>
+        <variable
+            name="matchGradeVm"
+            type="com.example.bqj.aptitude_sport.ui.matchgrade.vm.MatchGradeVm"/>
+
+
+    </data>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -38,8 +44,9 @@
                     />
 
                 <ImageView
-                    android:layout_alignRight="@+id/tv_match_apply_search"
+                    android:onClick="@{()->matchGradeVm.matchGradeHeader()}"
                     android:id="@+id/img_match_grade_header"
+                    android:layout_alignRight="@+id/tv_match_apply_search"
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
                     android:layout_gravity="center"

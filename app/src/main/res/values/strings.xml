@@ -33,6 +33,21 @@
     <string name="login_phonenum_empty">手机号不能为空，请输入手机号</string>
     <string name="login_phonenum_error">请输入正确的手机号</string>
     <string name="login_reset_get">重新获取</string>
+    <string name="login_success">登录成功</string>
+    <string name="wx_no_install">您还未安装微信客户端</string>
+    <string name="wx_pay_failed">调起微信支付失败，请重试</string>
+    <string name="sinawb_no_install">您还未安装新浪微博客户端</string>
+    <string name="sina_login_success">新浪微博授权成功</string>
+    <string name="sina_login_cancle">取消新浪微博授权</string>
+    <string name="sina_login_failed">新浪微博授权失败</string>
+    <string name="pay_failed">支付失败，请重试</string>
+    <string name="pay_cancel">取消支付</string>
+    <string name="pay_success">支付成功</string>
+    <string name="qq_no_install">您还未安装手机QQ客户端</string>
+    <string name="qq_login_success">QQ登录授权成功</string>
+    <string name="qq_login_failed">QQ登录授权失败</string>
+    <string name="qq_login_cancel">取消QQ登录</string>
+    <string name="wechat_authorizationlogin_failed">微信授权登录失败</string>
 
 
 </resources>

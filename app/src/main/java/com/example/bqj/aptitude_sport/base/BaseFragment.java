@@ -22,7 +22,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        boolean b = initStatus();
         super.onCreate(savedInstanceState);
         initParam();
     }
@@ -107,6 +106,12 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         viewModel.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.onResume();
     }
 
     @Override

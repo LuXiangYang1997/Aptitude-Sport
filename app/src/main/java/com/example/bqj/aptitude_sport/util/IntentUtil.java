@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+
+import com.example.bqj.aptitude_sport.constant.StatusVariable;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,14 +22,25 @@ public class IntentUtil {
 
     /**
      * 跳转页面
+     *
      * @param context
      * @param tClass
      */
-    public static void startActivity(Context context,Class<?> tClass){
+    public static void startActivity(Context context, Class<?> tClass) {
 
-        context.startActivity(new Intent(context,tClass));
+        context.startActivity(new Intent(context, tClass));
 
     }
+
+    /**
+     * 携带参数跳转
+     */
+    public static void startActivityForResult(Context context, Class<?> tClass) {
+        Activity activity = (Activity) context;
+        Intent intent = new Intent(context, tClass);
+        activity.startActivityForResult(intent, StatusVariable.INTENTCODE);
+    }
+
 
     /**
      * 注册广播
@@ -110,4 +124,21 @@ public class IntentUtil {
         return Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED);
     }
+
+    /**
+     * 退出页面返回参数
+     */
+    public static void finishPage(Context context, int code) {
+        if (code == StatusVariable.NORMALCODE) {
+            ((Activity) context).finish();//直接返回
+        } else {
+            //携带code返回
+            Activity activity = (Activity) context;
+            activity.setResult(code);
+            activity.finish();
+
+        }
+    }
+
+
 }

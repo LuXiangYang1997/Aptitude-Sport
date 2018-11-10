@@ -1,5 +1,8 @@
 package com.example.bqj.aptitude_sport.util;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 public class Util {
@@ -26,7 +29,23 @@ public class Util {
             return mobileNums.matches(telRegex);
     }
 
-
+    /**
+     * 获取版本name
+     * @param context
+     * @return
+     */
+    public static String getVersionName(Context context) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            String version = info.versionName;
+            int versioncode = info.versionCode;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
 
 

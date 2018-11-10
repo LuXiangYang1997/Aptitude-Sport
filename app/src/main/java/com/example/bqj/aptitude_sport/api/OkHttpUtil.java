@@ -28,7 +28,7 @@ public class OkHttpUtil {
     public static <T> void getRequest(Context context, HashMap params, final RequestCallBack<T> requestCallBack){
         //判断参数列表是否为空
         if (EmptyUtil.isEmpty(params)){
-            Log.e("lxy-http","参数Map为空");
+            Log.e("lxy-get-http","参数Map为空");
             return;
         }
         //判断baseUrl是否为空
@@ -36,7 +36,7 @@ public class OkHttpUtil {
             //url
             baseUrl = (String) params.get("baseUrl");
         }else{
-            Log.e("lxy-http","缺少baseUrl");
+            Log.e("lxy-get-http","缺少baseUrl");
             return;
         }
 
@@ -45,7 +45,7 @@ public class OkHttpUtil {
             //method
             baseMethod = (String)params.get("baseMethod");
         }else{
-            Log.e("lxy-http","缺少baseMethod");
+            Log.e("lxy-get-http","缺少baseMethod");
             return;
         }
 
@@ -97,7 +97,7 @@ public class OkHttpUtil {
                 if (response.code() == 200) {
                     String jsonResult = response.body().string().trim();
 
-                    Log.e("lxy-jsonResult",jsonResult);
+                    Log.e("lxy-get-jsonResult",jsonResult);
 
                     JSONObject jsonObject = new JSONObject(jsonResult);
                     final String code = jsonObject.optString("resultCode", "");
@@ -115,9 +115,92 @@ public class OkHttpUtil {
     /**
      * post请求
      */
-    public static void postRequest(){
+    public static <T>void postRequest(Context context, HashMap params, final RequestCallBack<T> requestCallBack){
 
+        //判断参数列表是否为空
+        if (EmptyUtil.isEmpty(params)){
+            Log.e("lxy-post-http","参数Map为空");
+            return;
+        }
+        //判断baseUrl是否为空
+        if (params.containsKey("baseUrl")){
+            //url
+            baseUrl = (String) params.get("baseUrl");
+        }else{
+            Log.e("lxy-post-http","缺少baseUrl");
+            return;
+        }
 
+        //判断baseMethod是否为空
+        if (params.containsKey("baseMethod")){
+            //method
+            baseMethod = (String)params.get("baseMethod");
+        }else{
+            Log.e("lxy-post-http","缺少baseMethod");
+            return;
+        }
+
+        OkGo.<T>post(baseUrl+baseMethod).tag(baseMethod).params(params).execute(new Callback<T>() {
+
+            //请求开始
+            @Override
+            public void onStart(Request<T, ? extends Request> request) {
+                requestCallBack.onStart(request);
+            }
+            //请求成功
+            @Override
+            public void onSuccess(Response<T> response) {
+                requestCallBack.onSuccess(response);
+            }
+
+            //从缓存中读取成功
+            @Override
+            public void onCacheSuccess(Response<T> response) {
+                requestCallBack.onCacheSuccess(response);
+            }
+            //请求失败
+            @Override
+            public void onError(Response<T> response) {
+                requestCallBack.onError(response);
+            }
+
+            //请求完成
+            @Override
+            public void onFinish() {
+                requestCallBack.onFinish();
+            }
+
+            //上传进度
+            @Override
+            public void uploadProgress(Progress progress) {
+                requestCallBack.uploadProgress(progress);
+            }
+
+            //下载进度
+            @Override
+            public void downloadProgress(Progress progress) {
+                requestCallBack.downloadProgress(progress);
+            }
+            //解析数据
+            @Override
+            public T convertResponse(okhttp3.Response response) throws Throwable {
+
+                if (response.code() == 200) {
+                    String jsonResult = response.body().string().trim();
+
+                    Log.e("lxy-post-jsonResult",jsonResult);
+
+                    JSONObject jsonObject = new JSONObject(jsonResult);
+                    final String code = jsonObject.optString("resultCode", "");
+                    final String message = jsonObject.optString("resultMsg", "");
+                    if (code.equals("200") || code.equals("204") || code.equals("205")||code.equals("202")) {
+                        T t = (T) requestCallBack.parseNetworkResponse(jsonResult);
+                        return t;
+                    }
+                }
+                return null;
+            }
+        });
 
     }
 
@@ -139,4 +222,71 @@ public class OkHttpUtil {
 
 
     }
+    /**
+     * 获取openid  accessToken值用于后期操作
+     */
+    public static <T> void getThirdInfo(Context context,String path, final RequestCallBack<T> requestCallBack){
+        OkGo.<T>get(path).execute(new Callback<T>() {
+
+            //请求开始
+            @Override
+            public void onStart(Request<T, ? extends Request> request) {
+                requestCallBack.onStart(request);
+            }
+            //请求成功
+            @Override
+            public void onSuccess(Response<T> response) {
+                requestCallBack.onSuccess(response);
+            }
+
+            //从缓存中读取成功
+            @Override
+            public void onCacheSuccess(Response<T> response) {
+                requestCallBack.onCacheSuccess(response);
+            }
+            //请求失败
+            @Override
+            public void onError(Response<T> response) {
+                requestCallBack.onError(response);
+            }
+
+            //请求完成
+            @Override
+            public void onFinish() {
+                requestCallBack.onFinish();
+            }
+
+            //上传进度
+            @Override
+            public void uploadProgress(Progress progress) {
+                requestCallBack.uploadProgress(progress);
+            }
+
+            //下载进度
+            @Override
+            public void downloadProgress(Progress progress) {
+                requestCallBack.downloadProgress(progress);
+            }
+            //解析数据
+            @Override
+            public T convertResponse(okhttp3.Response response) throws Throwable {
+
+                if (response.code() == 200) {
+                    String jsonResult = response.body().string().trim();
+
+                    Log.e("lxy-get-jsonResult",jsonResult);
+
+                    JSONObject jsonObject = new JSONObject(jsonResult);
+                    final String code = jsonObject.optString("resultCode", "");
+                    final String message = jsonObject.optString("resultMsg", "");
+                    if (code.equals("200") || code.equals("204") || code.equals("205")||code.equals("202")) {
+                        T t = (T) requestCallBack.parseNetworkResponse(jsonResult);
+                        return t;
+                    }
+                }
+                return null;
+            }
+        });
+    }
+
 }
