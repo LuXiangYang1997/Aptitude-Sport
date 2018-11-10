@@ -1,6 +1,7 @@
 package com.example.bqj.aptitude_sport.ui.matchapply.view;
 
 
+import com.example.bqj.aptitude_sport.BR;
 import com.example.bqj.aptitude_sport.R;
 import com.example.bqj.aptitude_sport.base.BaseFragment;
 import com.example.bqj.aptitude_sport.databinding.MatchApplyLayoutBinding;
@@ -16,13 +17,13 @@ public class MatchApplyFragment extends BaseFragment<MatchApplyLayoutBinding,Mat
 
     @Override
     public int initVariableId() {
-        return 0;
+        return BR.matchApplyVm;
     }
 
     @Override
     public MatchApplyVm initViewModel() {
 
-        MatchApplyVm matchApplyVm=new MatchApplyVm();
+        MatchApplyVm matchApplyVm=new MatchApplyVm(this);
 
         return matchApplyVm;
     }

@@ -10,25 +10,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.example.bqj.aptitude_sport.api.Method;
-import com.example.bqj.aptitude_sport.api.OkHttpUtils;
-import com.example.bqj.aptitude_sport.api.RequestCallBack;
-import com.example.bqj.aptitude_sport.bean.MatchListBean;
 import com.example.bqj.aptitude_sport.constant.StatusVariable;
 import com.example.bqj.aptitude_sport.databinding.ActivityMainBinding;
 import com.example.bqj.aptitude_sport.ui.discover.view.DiscoverFragment;
 import com.example.bqj.aptitude_sport.ui.matchapply.view.MatchApplyFragment;
 import com.example.bqj.aptitude_sport.ui.matchgrade.view.MatchGradeFragment;
 import com.example.bqj.aptitude_sport.ui.pcenter.view.PCenterFragment;
-import com.example.bqj.aptitude_sport.util.Config;
-import com.example.bqj.aptitude_sport.util.ToastUtil;
-import com.lzy.okgo.model.Progress;
-import com.lzy.okgo.model.Response;
-import com.lzy.okgo.request.base.Request;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -63,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         homeBinding.vpHome.setAdapter(viewPagerAdapter);
 
-        ToastUtil.centerToast(this,"测试");
-
     }
 
     /**
@@ -72,37 +59,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initData() {
 
-        HashMap params=new HashMap();
-        params.put("baseMethod", Method.HOMEPAGELIST);
-        params.put("baseUrl", Config.baseUrl);
-
-        OkHttpUtils.getRequest(this, params, new RequestCallBack<MatchListBean>() {
-
-            @Override
-            public MatchListBean parseNetworkResponse(String jsonResult) {
-
-                MatchListBean matchListBean = JSON.parseObject(jsonResult, MatchListBean.class);
-
-                return matchListBean;
-            }
-
-            @Override
-            public void onSuccess(Response<MatchListBean> response) {
-
-                MatchListBean matchListBean = response.body();
-                ToastUtil.centerToast(MainActivity.this,matchListBean.getResult().getLogos().get(0).getName());
-
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-
-            }
-        });
+//        HashMap params=new HashMap();
+//        params.put("baseMethod", Method.HOMEPAGELIST);
+//        params.put("baseUrl", Config.baseUrl);
+//
+//        OkHttpUtil.getRequest(this, params, new RequestCallBack<MatchListBean>() {
+//
+//            @Override
+//            public MatchListBean parseNetworkResponse(String jsonResult) {
+//
+//                MatchListBean matchListBean = JSON.parseObject(jsonResult, MatchListBean.class);
+//
+//                return matchListBean;
+//            }
+//
+//            @Override
+//            public void onSuccess(Response<MatchListBean> response) {
+//
+//                MatchListBean matchListBean = response.body();
+//                ToastUtil.centerToast(MainActivity.this,matchListBean.getResult().getLogos().get(0).getName());
+//
+//            }
+//
+//            @Override
+//            public void onFailed(int code, String msg) {
+//
+//            }
+//        });
 
 
     }
 
+    /**
+     * 点击事件
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -182,6 +173,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
 }
 
 

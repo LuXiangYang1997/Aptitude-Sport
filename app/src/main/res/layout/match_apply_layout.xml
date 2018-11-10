@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="matchApplyVm"
+            type="com.example.bqj.aptitude_sport.ui.matchapply.vm.MatchApplyVm"/>
+
+    </data>
 
     <LinearLayout
         android:orientation="vertical"
@@ -36,6 +42,7 @@
                     />
 
                 <ImageView
+                    android:onClick="@{()->matchApplyVm.headerView()}"
                     android:layout_alignRight="@+id/img_match_apply_header"
                     android:id="@+id/iv_homepage_icon"
                     android:layout_width="@dimen/dp_25"

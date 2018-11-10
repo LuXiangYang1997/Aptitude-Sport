@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+
 import com.example.bqj.aptitude_sport.R;
 import com.example.bqj.aptitude_sport.databinding.ToolbarLayoutBinding;
+import com.example.bqj.aptitude_sport.util.EmptyUtil;
 
 
 /**
@@ -37,7 +39,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         viewModel.registerRxBus();
     }
 
-
     /**
      * 注入绑定
      */
@@ -52,25 +53,12 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             toolbarBinding = DataBindingUtil.bind(publicView);
         }
     }
+
     //刷新布局
     public void refreshLayout() {
         if (viewModel != null) {
             binding.setVariable(initVariableId(), viewModel);
         }
-    }
-
-    public void startActivity2(Class<?> view) {
-        Intent intent = new Intent(this, view);
-        startActivity(intent);
-    }
-
-    public void startActivity3(Intent intent) {
-        startActivity(intent);
-    }
-
-
-    public void finish2() {
-        finish();
     }
 
     @Override
@@ -109,16 +97,74 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
 
     }
 
+    public V getBinding() {
+        return binding;
+    }
+
+    /**
+     * 设置title
+     */
+    public void setTitle(String title) {
+        if (!EmptyUtil.isEmpty(toolbarBinding)) {
+            toolbarBinding.tvTitle.setText(title);
+        }
+    }
+
+    /**
+     * 设置左边img
+     */
+    public void setLeftImg(int imgId) {
+        if (!EmptyUtil.isEmpty(toolbarBinding)) {
+            toolbarBinding.imgLeft.setImageResource(imgId);
+        }
+    }
+
+    /**
+     * 设置右边img
+     */
+    public void setRightImg(int imgId) {
+        if (!EmptyUtil.isEmpty(toolbarBinding)) {
+            toolbarBinding.imgRight.setImageResource(imgId);
+        }
+    }
+
+    /**
+     * 设置右边text
+     */
+    public void setLeftText(String leftText) {
+        if (!EmptyUtil.isEmpty(toolbarBinding)) {
+            toolbarBinding.tvLeft.setText(leftText);
+        }
+    }
+
+    /**
+     * 设置右边text
+     */
+    public void setRightText(String rightText) {
+        if (!EmptyUtil.isEmpty(toolbarBinding)) {
+            toolbarBinding.tvRight.setText(rightText);
+        }
+    }
+
+    /**
+     * 普通返回事件
+     */
+    public void back() {
+        if (!EmptyUtil.isEmpty(toolbarBinding)) {
+            toolbarBinding.llLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
+
+
     @Override
     protected void onRestart() {
         super.onRestart();
         viewModel.onRestart();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

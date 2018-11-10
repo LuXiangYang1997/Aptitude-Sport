@@ -18,7 +18,7 @@ public class ToastUtil {
      * @param context
      * @param content 内容
      */
-    public static void normalShortTost(Context context,String content){
+    public void normalShortTost(Context context,String content){
 
         Toast.makeText(context,content,Toast.LENGTH_SHORT).show();
 
@@ -28,7 +28,7 @@ public class ToastUtil {
      * @param context
      * @param content 内容
      */
-    public static void normalLongTost(Context context,String content){
+    public void normalLongTost(Context context,String content){
 
         Toast.makeText(context,content,Toast.LENGTH_LONG).show();
 
@@ -37,7 +37,7 @@ public class ToastUtil {
      * 在中间弹出Toast
      * @param content 内容
      */
-    public static void centerToast(Context context, String content) {
+    public void centerToast(String content) {
         if (mToast == null) {
             mToast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
         } else {

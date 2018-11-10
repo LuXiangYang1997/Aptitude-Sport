@@ -10,9 +10,9 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
-public class EmptyUtils {
+public class EmptyUtil {
 
-    private EmptyUtils() {
+    private EmptyUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
