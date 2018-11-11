@@ -5,7 +5,7 @@
 
         <variable
             name="pcenterVm"
-            type="com.example.bqj.aptitude_sport.ui.pcenter.vm.PcenterVm"/>
+            type="com.huasport.smartsport.ui.pcenter.vm.PcenterVm"/>
 
 
     </data>

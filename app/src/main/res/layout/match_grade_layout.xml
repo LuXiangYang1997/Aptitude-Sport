@@ -4,7 +4,7 @@
     <data>
         <variable
             name="matchGradeVm"
-            type="com.example.bqj.aptitude_sport.ui.matchgrade.vm.MatchGradeVm"/>
+            type="com.huasport.smartsport.ui.matchgrade.vm.MatchGradeVm"/>
 
 
     </data>

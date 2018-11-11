@@ -48,6 +48,9 @@
     <string name="qq_login_failed">QQ登录授权失败</string>
     <string name="qq_login_cancel">取消QQ登录</string>
     <string name="wechat_authorizationlogin_failed">微信授权登录失败</string>
+    <string name="login_finish">退出登录页</string>
+    <string name="edit_msg">编辑资料</string>
+    <string name="setting">设置</string>
 
 
 </resources>
