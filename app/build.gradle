@@ -123,6 +123,7 @@ dependencies {
     //RxJava and RxAndroid
     implementation 'io.reactivex:rxandroid:1.1.0'
     implementation 'io.reactivex:rxjava:1.1.0'
+    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'//权限获取
 
 }
 

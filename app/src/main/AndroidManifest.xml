@@ -74,7 +74,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- tencent你的AppId -->
+                <!-- tencent AppId -->
                 <data android:scheme="tencent101496667" />
             </intent-filter>
         </activity>
@@ -108,10 +108,15 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
+        <!--绑定手机号-->
         <activity android:name=".ui.pcenter.loginbind.view.BindPhoneActivity"
             android:screenOrientation="portrait"
             />
+        <!--设置-->
         <activity android:name=".ui.pcenter.settings.view.SettingsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.settings.view.PersonalMsgActivity"
             android:screenOrientation="portrait"
             />
 

@@ -108,7 +108,7 @@ public class IntentUtil {
     /**
      * 相册获取图片
      */
-    public static void photoalbum(Activity activity, int code) {
+    public static void photo(Activity activity, int code) {
         Intent intent;
         if (Build.VERSION.SDK_INT < 19) {
             intent = new Intent(Intent.ACTION_GET_CONTENT);

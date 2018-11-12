@@ -12,12 +12,14 @@ import com.lzy.okgo.request.base.Request;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class OkHttpUtil {
 
     private static String baseMethod;
     private static String baseUrl;
+    private static String filePath = "";
 
     /**
      * get请求
@@ -49,6 +51,7 @@ public class OkHttpUtil {
             Log.e("lxy-get-http", "缺少baseMethod");
             return;
         }
+        params.put("t", String.valueOf(System.currentTimeMillis()));
 
         OkGo.<T>get(baseUrl + baseMethod).tag(baseMethod).params(params).execute(new Callback<T>() {
 
@@ -143,7 +146,7 @@ public class OkHttpUtil {
             Log.e("lxy-post-http", "缺少baseMethod");
             return;
         }
-
+        params.put("t", String.valueOf(System.currentTimeMillis()));
         OkGo.<T>post(baseUrl + baseMethod).tag(baseMethod).params(params).execute(new Callback<T>() {
 
             //请求开始
@@ -214,9 +217,93 @@ public class OkHttpUtil {
     /**
      * 上传文件
      */
-    public static void uploadFile() {
+    public static <T> void uploadFile(Context context, HashMap params, final RequestCallBack<T> requestCallBack) {
 
+        //判断参数列表是否为空
+        if (EmptyUtil.isEmpty(params)) {
+            Log.e("lxy-post-http", "参数Map为空");
+            return;
+        }
+        //判断baseUrl是否为空
+        if (params.containsKey("baseUrl")) {
+            //url
+            baseUrl = (String) params.get("baseUrl");
+        } else {
+            Log.e("lxy-post-http", "缺少baseUrl");
+            return;
+        }
 
+        //判断baseMethod是否为空
+        if (params.containsKey("baseMethod")) {
+            //method
+            baseMethod = (String) params.get("baseMethod");
+        } else {
+            Log.e("lxy-post-http", "缺少baseMethod");
+            return;
+        }
+        if (params.containsKey("file")) {
+            filePath = (String) params.get("file");
+        } else {
+            Log.e("lxy-upfile-http", "缺少file");
+            return;
+        }
+        params.put("t", String.valueOf(System.currentTimeMillis()));
+
+        OkGo.<T>post(baseUrl + baseMethod).params(params).params("file", new File(filePath)).params("file",new File(filePath).getName()).execute(new Callback<T>() {
+            @Override
+            public void onStart(Request<T, ? extends Request> request) {
+                requestCallBack.onStart(request);
+            }
+
+            @Override
+            public void onSuccess(Response<T> response) {
+                requestCallBack.onSuccess(response);
+            }
+
+            @Override
+            public void onCacheSuccess(Response<T> response) {
+
+                requestCallBack.onCacheSuccess(response);
+            }
+
+            @Override
+            public void onError(Response<T> response) {
+                requestCallBack.onError(response);
+            }
+
+            @Override
+            public void onFinish() {
+                requestCallBack.onFinish();
+            }
+
+            @Override
+            public void uploadProgress(Progress progress) {
+                requestCallBack.uploadProgress(progress);
+            }
+
+            @Override
+            public void downloadProgress(Progress progress) {
+                requestCallBack.downloadProgress(progress);
+            }
+
+            @Override
+            public T convertResponse(okhttp3.Response response) throws Throwable {
+                if (response.code() == 200) {
+                    String jsonResult = response.body().string().trim();
+
+                    Log.e("lxy-post-jsonResult", jsonResult);
+
+                    JSONObject jsonObject = new JSONObject(jsonResult);
+                    final String code = jsonObject.optString("resultCode", "");
+                    final String message = jsonObject.optString("resultMsg", "");
+                    if (code.equals("200") || code.equals("204") || code.equals("205") || code.equals("202")) {
+                        T t = (T) requestCallBack.parseNetworkResponse(jsonResult);
+                        return t;
+                    }
+                }
+                return null;
+            }
+        });
     }
 
     /**

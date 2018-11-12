@@ -65,9 +65,9 @@ public class LoginApi {
 
                                 if (registerBean.isIsBindPhone()){
                                     saveUserInfo(registerBean,resultBean.getToken());
-                                    IntentUtil.startActivity(context,BindPhoneActivity.class);
                                 }else{
                                     saveUserInfo(registerBean,resultBean.getToken());
+                                    IntentUtil.startActivity(context,BindPhoneActivity.class);
                                 }
                                 int loginChannel = MyApplication.getInstance().getLoginChannel();
                                 if (loginChannel == StatusVariable.THIRDLOGIN){

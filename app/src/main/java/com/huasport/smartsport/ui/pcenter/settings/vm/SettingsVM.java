@@ -7,13 +7,14 @@ import com.huasport.smartsport.custom.CustomDialog;
 import com.huasport.smartsport.dialog.BaseDialog;
 import com.huasport.smartsport.dialog.DialogCallBack;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
+import com.huasport.smartsport.ui.pcenter.settings.view.PersonalMsgActivity;
 import com.huasport.smartsport.ui.pcenter.settings.view.SettingsActivity;
+import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.SharedPreferencesUtil;
 
 public class SettingsVM extends BaseViewModel {
 
     private SettingsActivity settingsActivity;
-    private Intent intent;
 
     public SettingsVM(SettingsActivity settingsActivity) {
         this.settingsActivity = settingsActivity;
@@ -33,6 +34,7 @@ public class SettingsVM extends BaseViewModel {
                         );
                         Intent intent = new Intent(settingsActivity, LoginActivity.class);
                         settingsActivity.startActivity(intent);
+
                         settingsActivity.finish();
                     }
 
@@ -48,8 +50,7 @@ public class SettingsVM extends BaseViewModel {
      */
     public void editUserInfo() {
 
-//        intent = new Intent(settingsActivity, PersonalMesssageActivity.class);
-//        settingsActivity.startActivity(intent);
+        IntentUtil.startActivity(settingsActivity,PersonalMsgActivity.class);
 
     }
 

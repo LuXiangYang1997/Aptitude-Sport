@@ -51,6 +51,14 @@
     <string name="login_finish">退出登录页</string>
     <string name="edit_msg">编辑资料</string>
     <string name="setting">设置</string>
-
+    <string name="apply_msg">报名信息</string>
+    <string name="personal_msg">个人信息</string>
+    <string name="save">保存</string>
+    <string name="header">头像</string>
+    <string name="photo">相册</string>
+    <string name="take_picture">拍照</string>
+    <string name="refuse_permission">用户拒绝了该权限</string>
+    <string name="upload_success">上传成功</string>
+    <string name="save_success">保存成功</string>
 
 </resources>

@@ -29,6 +29,9 @@ public class StatusVariable {
 
     public static final String FINISHLOGIN = "finish_login_page";
 
+    public static final int CAMERACODE = 0;//拍照Code
+    public static final int PHOTOCODE = 1;//相册Code
+
 
 
 

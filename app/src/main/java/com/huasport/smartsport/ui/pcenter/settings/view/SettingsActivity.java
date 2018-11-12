@@ -9,6 +9,8 @@ import com.huasport.smartsport.ui.pcenter.settings.vm.SettingsVM;
 public class SettingsActivity extends BaseActivity<SettingsLayoutBinding, SettingsVM> {
 
 
+    private SettingsVM settingsVM;
+
     @Override
     public int initContentView() {
         return R.layout.settings_layout;
@@ -22,7 +24,7 @@ public class SettingsActivity extends BaseActivity<SettingsLayoutBinding, Settin
     @Override
     public SettingsVM initViewModel() {
 
-        SettingsVM settingsVM = new SettingsVM(this);
+        settingsVM = new SettingsVM(this);
 
         return settingsVM;
     }

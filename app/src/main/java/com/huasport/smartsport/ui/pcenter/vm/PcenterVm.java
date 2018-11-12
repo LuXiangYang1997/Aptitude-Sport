@@ -134,6 +134,5 @@ public class PcenterVm extends BaseViewModel {
     public void onResume() {
         super.onResume();
         fragment.initUserInfo();
-
     }
 }

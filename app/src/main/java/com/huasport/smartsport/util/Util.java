@@ -1,9 +1,18 @@
 package com.huasport.smartsport.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.text.TextUtils;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.WindowManager;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class Util {
 
@@ -31,6 +40,7 @@ public class Util {
 
     /**
      * 获取版本name
+     *
      * @param context
      * @return
      */
@@ -47,6 +57,68 @@ public class Util {
         return "";
     }
 
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public static void backgroundAlpha(Context context, float bgAlpha) {
+        Activity activity = (Activity) context;
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        activity.getWindow().setAttributes(lp);
+    }
 
+    /**
+     * 拍照获取图片路径
+     */
+    public static String getPathForData(Context context,Intent data){
+
+        Bundle bundle = data.getExtras();
+        // 转换图片的二进制流
+        Bitmap bitmap = (Bitmap) bundle.get("data");
+        File path = new File(context.getCacheDir() + File.separator + System.currentTimeMillis() + ".jpg");
+        String picPath = saveMyBitmap(path.getName(), bitmap);
+        return picPath;
+
+    }
+    /**
+     * 保存bitmap到SD卡
+     *
+     * @param bitName 保存的名字
+     * @param mBitmap 图片对像
+     *                return 生成压缩图片后的图片路径
+     */
+    public static String saveMyBitmap(String bitName, Bitmap mBitmap) {
+        File f = new File("/sdcard/" + bitName + ".png");
+        try {
+            f.createNewFile();
+        } catch (IOException e) {
+            System.out.println("在保存图片时出错：" + e.toString());
+        }
+        FileOutputStream fOut = null;
+        try {
+            fOut = new FileOutputStream(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+        } catch (Exception e) {
+            return "create_bitmap_error";
+        }
+        try {
+            fOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "/sdcard/" + bitName + ".png";
+    }
 
 }
