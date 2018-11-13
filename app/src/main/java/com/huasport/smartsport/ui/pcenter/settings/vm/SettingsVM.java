@@ -2,7 +2,9 @@ package com.huasport.smartsport.ui.pcenter.settings.vm;
 
 import android.content.Intent;
 
+import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.base.BaseViewModel;
+import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.CustomDialog;
 import com.huasport.smartsport.dialog.BaseDialog;
 import com.huasport.smartsport.dialog.DialogCallBack;
@@ -30,11 +32,10 @@ public class SettingsVM extends BaseViewModel {
                     @Override
                     public void submit(CustomDialog.Builder customDialog) {
                         customDialog.dismiss();//退出登录
-                        SharedPreferencesUtil.remove(settingsActivity, "UserBean"
-                        );
+                        SharedPreferencesUtil.remove(settingsActivity, "UserBean");
                         Intent intent = new Intent(settingsActivity, LoginActivity.class);
                         settingsActivity.startActivity(intent);
-
+                        settingsActivity.setResult(StatusVariable.MATCHAPPLYCODE);
                         settingsActivity.finish();
                     }
 

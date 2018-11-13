@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.ActivityMainBinding;
+import com.huasport.smartsport.rxbus.RxBus;
 import com.huasport.smartsport.ui.discover.view.DiscoverFragment;
 import com.huasport.smartsport.ui.matchapply.view.MatchApplyFragment;
 import com.huasport.smartsport.ui.matchgrade.view.MatchGradeFragment;
@@ -24,6 +25,9 @@ import com.huasport.smartsport.util.IntentUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Subscription;
+import rx.functions.Action1;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityMainBinding homeBinding;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ViewPagerAdapter viewPagerAdapter;
     private long exitTime = 0;
     private boolean loginState;
+    private Subscription subscribe;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,34 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化数据
      */
     private void initData() {
-
-//        HashMap params=new HashMap();
-//        params.put("baseMethod", Method.HOMEPAGELIST);
-//        params.put("baseUrl", Config.baseUrl);
-//
-//        OkHttpUtil.getRequest(this, params, new RequestCallBack<MatchListBean>() {
-//
-//            @Override
-//            public MatchListBean parseNetworkResponse(String jsonResult) {
-//
-//                MatchListBean matchListBean = JSON.parseObject(jsonResult, MatchListBean.class);
-//
-//                return matchListBean;
-//            }
-//
-//            @Override
-//            public void onSuccess(Response<MatchListBean> response) {
-//
-//                MatchListBean matchListBean = response.body();
-//                ToastUtil.centerToast(MainActivity.this,matchListBean.getResult().getLogos().get(0).getName());
-//
-//            }
-//
-//            @Override
-//            public void onFailed(int code, String msg) {
-//
-//            }
-//        });
 
 
     }

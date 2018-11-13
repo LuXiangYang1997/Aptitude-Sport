@@ -60,5 +60,8 @@
     <string name="refuse_permission">用户拒绝了该权限</string>
     <string name="upload_success">上传成功</string>
     <string name="save_success">保存成功</string>
+    <string name="wait_auth">申请认证</string>
+    <string name="pass">已认证</string>
+
 
 </resources>

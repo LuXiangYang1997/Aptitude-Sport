@@ -17,6 +17,7 @@ public class PCenterFragment extends BaseFragment<PcenterLayoutBinding, PcenterV
 
 
     private MyApplication myApplication = MyApplication.getInstance();
+    private PcenterVm pcenterVm;
 
     @Override
     public int initContentView() {
@@ -31,7 +32,7 @@ public class PCenterFragment extends BaseFragment<PcenterLayoutBinding, PcenterV
     @Override
     public PcenterVm initViewModel() {
 
-        PcenterVm pcenterVm = new PcenterVm(this);
+        pcenterVm = new PcenterVm(this,binding);
 
         return pcenterVm;
     }

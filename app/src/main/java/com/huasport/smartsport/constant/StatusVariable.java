@@ -32,6 +32,11 @@ public class StatusVariable {
     public static final int CAMERACODE = 0;//拍照Code
     public static final int PHOTOCODE = 1;//相册Code
 
+    public static final String WAIT_AUTH = "wait_auth";//未认证
+    public static final String WAIT_AUDIT = "wait_audit";//申请中
+    public static final String PASS = "pass";//已认证
+    public static final String REJECT = "reject";//认证失败
+
 
 
 
