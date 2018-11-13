@@ -15,8 +15,7 @@ import com.huasport.smartsport.util.EmptyUtil;
 
 
 /**
- * Created by 刘清林 on 2018/3/3.
- * 邮箱：1586864901@qq.com
+ * Created by 陆向阳 on 2018/3/3.
  */
 
 public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel> extends AppCompatActivity implements IBaseActivity {

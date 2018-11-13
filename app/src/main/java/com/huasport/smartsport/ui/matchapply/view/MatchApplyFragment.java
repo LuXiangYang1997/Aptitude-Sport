@@ -32,7 +32,7 @@ public class MatchApplyFragment extends BaseFragment<MatchApplyLayoutBinding, Ma
     @Override
     public MatchApplyVm initViewModel() {
 
-        matchApplyVm = new MatchApplyVm(this);
+        matchApplyVm = new MatchApplyVm(this,binding);
 
         return matchApplyVm;
     }
@@ -76,4 +76,6 @@ public class MatchApplyFragment extends BaseFragment<MatchApplyLayoutBinding, Ma
         }
 
     }
+
+
 }

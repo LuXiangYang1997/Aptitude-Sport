@@ -37,6 +37,9 @@ public class StatusVariable {
     public static final String PASS = "pass";//已认证
     public static final String REJECT = "reject";//认证失败
 
+    public static final String WEBURL = "webUrl";//intent跳转携带参数的key
+    public static final String TITLE = "title";//intent跳转携带参数的key
+
 
 
 

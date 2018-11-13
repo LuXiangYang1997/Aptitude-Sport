@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -54,6 +55,22 @@
             </LinearLayout>
 
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_175">
+            <cn.bingoogolapple.bgabanner.BGABanner
+                android:id="@+id/bgaBanner"
+                app:banner_pointContainerBackground="@color/color_000000"
+                app:banner_pageChangeDuration="1000"
+                app:banner_transitionEffect="defaultEffect"
+                app:banner_isNumberIndicator="false"
+                app:banner_pointAutoPlayAble="false"
+                app:banner_pointDrawable="@drawable/selector_point"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </cn.bingoogolapple.bgabanner.BGABanner>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

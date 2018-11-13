@@ -119,6 +119,9 @@
         <activity android:name=".ui.pcenter.settings.view.PersonalMsgActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.matchapply.view.BannerRuleActivity"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 
