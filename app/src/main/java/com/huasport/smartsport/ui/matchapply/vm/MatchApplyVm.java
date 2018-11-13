@@ -18,6 +18,7 @@ import com.huasport.smartsport.base.BaseViewModel;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.LoadingDialog;
 import com.huasport.smartsport.databinding.MatchApplyLayoutBinding;
+import com.huasport.smartsport.ui.matchapply.adapter.LogoAdapter;
 import com.huasport.smartsport.ui.matchapply.bean.BannerListBean;
 import com.huasport.smartsport.ui.matchapply.bean.MatchApplyListBean;
 import com.huasport.smartsport.ui.matchapply.view.BannerRuleActivity;
@@ -30,8 +31,6 @@ import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.lzy.okgo.model.Response;
-
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,10 +44,12 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
     private Counter counter;
     private ToastUtil toastUtil;
     private MatchApplyLayoutBinding binding;
+    private LogoAdapter logoAdapter = null;
 
-    public MatchApplyVm(MatchApplyFragment matchApplyFragment, MatchApplyLayoutBinding binding) {
+    public MatchApplyVm(MatchApplyFragment matchApplyFragment, MatchApplyLayoutBinding binding, LogoAdapter logoAdapter) {
         this.matchApplyFragment = matchApplyFragment;
         this.binding = binding;
+        this.logoAdapter = logoAdapter;
         init();
         initBannerData();
         initData();
@@ -178,7 +179,9 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
 
                             List<MatchApplyListBean.ResultBean.LogosBean> logos = resultBean.getLogos();
                             List<MatchApplyListBean.ResultBean.TypesBean> types = resultBean.getTypes();
-
+                            if (!EmptyUtil.isEmpty(logos)){
+                                logoAdapter.loadData(logos);
+                            }
                         }else{
                             Log.e("lxy-result-Bean","ResultBean是空的");
                         }
