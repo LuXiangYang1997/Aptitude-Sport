@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+
 import com.huasport.smartsport.constant.StatusVariable;
 
 import java.io.File;
@@ -118,6 +119,22 @@ public class IntentUtil {
         }
         activity.startActivityForResult(intent, code);
     }
+
+    /**
+     * 跳转浏览器
+     * @return
+     */
+    public static void startBrowser(Context context,String url){
+
+        Intent intent= new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(url);
+        intent.setData(content_url);
+        context.startActivity(intent);
+
+    }
+
+
 
     public static boolean hasSdcard() {
         return Environment.getExternalStorageState().equals(
