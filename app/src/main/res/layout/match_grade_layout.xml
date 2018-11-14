@@ -108,6 +108,7 @@
 
 
                 <RadioButton
+                    android:onClick="@{()->matchGradeVm.allClick()}"
                     android:id="@+id/radiobutton_all"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -115,7 +116,7 @@
                     android:button="@null"
                     android:checked="true"
                     android:gravity="center_horizontal|center_vertical"
-                    android:text="全部"
+                    android:text="@string/all"
                     android:textColor="@color/color_333333" />
 
                 <View

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MainActivity;
@@ -85,10 +86,12 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         new EdittextUtil(binding.editMatchGradeSearch,this);
         //软键盘搜索
         binding.editMatchGradeSearch.setOnKeyListener(onKeyListener);
+        //初始化radioButton状态
+        binding.radiobuttonAll.setTextColor(matchGradeFragment.getActivity().getResources().getColor(R.color.color_FF8F00));
+        binding.indicatorView.setVisibility(View.VISIBLE);
         //初始化加载框
         loadingDialog = new LoadingDialog(matchGradeFragment.getActivity(), R.style.LoadingDialog);
         loadingDialog.show();
-
     }
 
     /**
@@ -382,6 +385,31 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         }
     };
 
+    /**
+     * 全部点击事件
+     */
+    public void allClick(){
+
+
+        binding.radiobuttonAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //如果radioButton选中则去重新请求所有数据，并选中全部
+                if (binding.radiobuttonAll.isChecked()){
+                    binding.radiobuttonAll.setTextColor(matchGradeFragment.getActivity().getResources().getColor(R.color.color_FF8F00));
+                    binding.indicatorView.setVisibility(View.VISIBLE);
+                    gameCode = "all";
+                    page = 1;
+                    listData(StatusVariable.REFRESH);
+                    binding.recyclviewTab.smoothScrollToPosition(0);
+                }else{
+                    binding.radiobuttonAll.setTextColor(matchGradeFragment.getActivity().getResources().getColor(R.color.color_333333));
+                    binding.indicatorView.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {

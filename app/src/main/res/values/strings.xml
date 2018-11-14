@@ -63,5 +63,6 @@
     <string name="wait_auth">申请认证</string>
     <string name="pass">已认证</string>
     <string name="loadfinish">没有更多了...</string>
+    <string name="all">全部</string>
 
 </resources>
