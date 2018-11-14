@@ -19,14 +19,15 @@ import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.LoadingDialog;
 import com.huasport.smartsport.databinding.MatchApplyLayoutBinding;
 import com.huasport.smartsport.ui.matchapply.adapter.LogoAdapter;
+import com.huasport.smartsport.ui.matchapply.adapter.MatchApplyAdapter;
 import com.huasport.smartsport.ui.matchapply.bean.BannerListBean;
 import com.huasport.smartsport.ui.matchapply.bean.MatchApplyListBean;
 import com.huasport.smartsport.ui.matchapply.view.BannerRuleActivity;
 import com.huasport.smartsport.ui.matchapply.view.MatchApplyFragment;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
-import com.huasport.smartsport.util.Counter;
-import com.huasport.smartsport.util.CounterListener;
+import com.huasport.smartsport.util.counter.Counter;
+import com.huasport.smartsport.util.counter.CounterListener;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.ToastUtil;
@@ -44,12 +45,14 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
     private Counter counter;
     private ToastUtil toastUtil;
     private MatchApplyLayoutBinding binding;
-    private LogoAdapter logoAdapter = null;
+    private LogoAdapter logoAdapter;
+    private MatchApplyAdapter matchApplyAdapter;
 
-    public MatchApplyVm(MatchApplyFragment matchApplyFragment, MatchApplyLayoutBinding binding, LogoAdapter logoAdapter) {
+    public MatchApplyVm(MatchApplyFragment matchApplyFragment, MatchApplyLayoutBinding binding, LogoAdapter logoAdapter, MatchApplyAdapter matchApplyAdapter) {
         this.matchApplyFragment = matchApplyFragment;
         this.binding = binding;
         this.logoAdapter = logoAdapter;
+        this.matchApplyAdapter = matchApplyAdapter;
         init();
         initBannerData();
         initData();
@@ -182,6 +185,10 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
                             if (!EmptyUtil.isEmpty(logos)){
                                 logoAdapter.loadData(logos);
                             }
+                            if (!EmptyUtil.isEmpty(types)){
+                                matchApplyAdapter.loadData(types);
+                            }
+
                         }else{
                             Log.e("lxy-result-Bean","ResultBean是空的");
                         }

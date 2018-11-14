@@ -14,14 +14,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:fillViewport="true"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -64,7 +57,16 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <RelativeLayout
+                <android.support.v4.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:fillViewport="true"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_175">
                     <cn.bingoogolapple.bgabanner.BGABanner
@@ -80,7 +82,7 @@
                     </cn.bingoogolapple.bgabanner.BGABanner>
 
                 </RelativeLayout>
-                <LinearLayout
+                    <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -147,10 +149,11 @@
                     </android.support.v7.widget.RecyclerView>
 
                 </LinearLayout>
+                    </LinearLayout>
+
+                </android.support.v4.widget.NestedScrollView>
 
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
 
-    </LinearLayout>
 
 </layout>

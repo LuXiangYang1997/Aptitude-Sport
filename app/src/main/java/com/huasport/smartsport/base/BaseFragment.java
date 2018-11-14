@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.huasport.smartsport.R;
+import com.huasport.smartsport.custom.LoadingDialog;
+
 /**
- * Created by 刘清林 on 2018/3/3.
- * 邮箱：1586864901@qq.com
+ * Created by 陆向阳 on 2018/3/3.
  */
 public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends Fragment implements IBaseActivity {
     protected V binding;
@@ -23,14 +25,8 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initParam();
-    }
 
-    /*
-     * 是否支持沉浸式状态栏
-     * */
-    public boolean initStatus() {
-        return true;
+        initParam();
     }
 
     @Nullable
@@ -56,13 +52,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void initParam() {
 
-    }
-
-    //刷新布局
-    public void refreshLayout() {
-        if (viewModel != null) {
-            binding.setVariable(initVariableId(), viewModel);
-        }
     }
 
     /**

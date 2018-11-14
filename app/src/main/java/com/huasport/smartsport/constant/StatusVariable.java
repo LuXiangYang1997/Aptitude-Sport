@@ -40,6 +40,12 @@ public class StatusVariable {
     public static final String WEBURL = "webUrl";//intent跳转携带参数的key
     public static final String TITLE = "title";//intent跳转携带参数的key
 
+    public static final int REFRESH = 0;//刷新
+    public static final int LOADMORE = 1;//加载
+
+    public static final int NORMALLIST = 0;//普通列表
+    public static final int SEARCHLIST = 1;//搜索列表
+
 
 
 

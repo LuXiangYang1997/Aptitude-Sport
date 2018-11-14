@@ -1,4 +1,4 @@
-package com.huasport.smartsport.util;
+package com.huasport.smartsport.util.counter;
 
 /**
  * 计数器
@@ -25,6 +25,9 @@ public class Counter {
             }else {
                 counterListener.countEnd(false);
             }
+        }else{
+            counterListener.countEnd(true);
         }
     }
+
 }

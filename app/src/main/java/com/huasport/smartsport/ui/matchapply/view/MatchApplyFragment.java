@@ -11,6 +11,7 @@ import com.huasport.smartsport.base.BaseFragment;
 import com.huasport.smartsport.bean.UserBean;
 import com.huasport.smartsport.databinding.MatchApplyLayoutBinding;
 import com.huasport.smartsport.ui.matchapply.adapter.LogoAdapter;
+import com.huasport.smartsport.ui.matchapply.adapter.MatchApplyAdapter;
 import com.huasport.smartsport.ui.matchapply.vm.MatchApplyVm;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.GlideUtil;
@@ -21,6 +22,7 @@ public class MatchApplyFragment extends BaseFragment<MatchApplyLayoutBinding, Ma
     private MyApplication myApplication = MyApplication.getInstance();
     private MatchApplyVm matchApplyVm;
     private LogoAdapter logoAdapter;
+    private MatchApplyAdapter matchApplyAdapter;
 
     @Override
     public int initContentView() {
@@ -37,8 +39,9 @@ public class MatchApplyFragment extends BaseFragment<MatchApplyLayoutBinding, Ma
 
         logoAdapter = new LogoAdapter(this.getActivity());
 
+        matchApplyAdapter = new MatchApplyAdapter(this.getActivity());
 
-        matchApplyVm = new MatchApplyVm(this,binding,logoAdapter);
+        matchApplyVm = new MatchApplyVm(this,binding,logoAdapter,matchApplyAdapter);
 
         return matchApplyVm;
     }
@@ -54,6 +57,9 @@ public class MatchApplyFragment extends BaseFragment<MatchApplyLayoutBinding, Ma
 
         binding.recyclerViewLogo.setLayoutManager(new GridLayoutManager(getActivity(),2));
         binding.recyclerViewLogo.setAdapter(logoAdapter);
+
+        binding.recyclerviewMatch.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        binding.recyclerviewMatch.setAdapter(matchApplyAdapter);
 
     }
 
