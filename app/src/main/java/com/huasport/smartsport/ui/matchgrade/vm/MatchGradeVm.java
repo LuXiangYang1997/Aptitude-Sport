@@ -2,6 +2,7 @@ package com.huasport.smartsport.ui.matchgrade.vm;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -26,6 +27,7 @@ import com.huasport.smartsport.ui.matchgrade.bean.MatchGradeListBean;
 import com.huasport.smartsport.ui.matchgrade.bean.MatchGradeTabBean;
 import com.huasport.smartsport.ui.matchgrade.bean.MatchListSearchBean;
 import com.huasport.smartsport.ui.matchgrade.view.MatchGradeFragment;
+import com.huasport.smartsport.ui.matchgrade.view.SelectMatchProgramActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.NullStateUtil;
@@ -41,6 +43,7 @@ import com.huasport.smartsport.util.ToastUtil;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +63,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
     private String gameCode = "all";
     private RefreshLoadMore refreshLoadMore;
     private int listType = StatusVariable.NORMALLIST;//当前列表的类型 0：普通的列表 1:搜索列表
+    private List<MatchGradeTabBean.ResultBean.TypesBean> typesList;
 
 
     public MatchGradeVm(MatchGradeFragment matchGradeFragment, MatchGradeLayoutBinding binding, MatchGradeTabAdapter matchGradeTabAdapter, MatchGradeListAdapter matchGradeListAdapter){
@@ -119,7 +123,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
                     if (resultCode == StatusVariable.REQUESTSUCCESS){
                         MatchGradeTabBean.ResultBean resultBean = matchGradeTabBean.getResult();
                         if (!EmptyUtil.isEmpty(resultBean)){
-                            List<MatchGradeTabBean.ResultBean.TypesBean> typesList = resultBean.getTypes();
+                            typesList = resultBean.getTypes();
                             if (!EmptyUtil.isEmpty(typesList)){
                                 matchGradeTabAdapter.loadData(typesList);
                             }
@@ -164,8 +168,6 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
      * @param loadtype
      */
     public void listData(final int loadtype){
-
-        loadingDialog.show();
 
         listType = StatusVariable.NORMALLIST;
 
@@ -411,8 +413,9 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
                 binding.recyclviewTab.smoothScrollToPosition(position);
                 gameCode = typesBean.getGameCode();
                 page = 1;
-                listData(StatusVariable.REFRESH);
-                clearTab(position);
+                loadingDialog.show();//显示加载框
+                listData(StatusVariable.REFRESH);//加载数据
+                clearTab(position);//清除tab状态
                 //如果全部是选中状态则不选中
                 if (binding.radiobuttonAll.isChecked()){
                     binding.radiobuttonAll.setChecked(false);
@@ -432,6 +435,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
                     gameCode = "all";
                     clearAllTab();
                     page = 1;
+                    loadingDialog.show();
                     listData(StatusVariable.REFRESH);
                     binding.recyclviewTab.smoothScrollToPosition(0);
                 }else{
@@ -443,21 +447,18 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
 
     }
 
-
-
-
     /**
-     * 全部点击事件
+     * 查看全部赛事点击事件
      */
-    public void allClick(){
+    public void lookallMatch(){
 
-//        binding.radiobuttonAll.setChecked(true);
-//        page = 1;
-//        gameCode = "all";
-//        listData(StatusVariable.REFRESH);
+        Intent intent = new Intent(matchGradeFragment.getActivity(), SelectMatchProgramActivity.class);
+        intent.putExtra("typesList", (Serializable) typesList);
+        matchGradeFragment.startActivityForResult(intent, StatusVariable.INTENTCODE);
 
 
     }
+
 
     /**
      * 清除所有tab的选中状态
@@ -487,6 +488,27 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         }
 
     }
+
+    /**
+     * 返回传处理逻辑
+     *
+     * @param typesList
+     */
+    private void selectList(List<MatchGradeTabBean.ResultBean.TypesBean> typesList) {
+
+        //for循环所有title数据
+        for (int i = 0; i < typesList.size(); i++) {
+            if (typesList.get(i).isCheck()) {
+                gameCode = typesList.get(i).getGameCode();//更新code
+                page = 1;//第一页
+                loadingDialog.show();
+                listData(StatusVariable.REFRESH);//重新请求下方列表数据
+                binding.recyclviewTab.smoothScrollToPosition(i);//定位到下标位置
+            }
+        }
+
+    }
+
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -519,7 +541,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         if (listType == StatusVariable.NORMALLIST){
             listData(loadtype);
         }else{
-            searchListData("",loadtype);
+            searchListData(binding.editMatchGradeSearch.getText().toString().trim(),loadtype);
         }
 
     }
@@ -547,6 +569,21 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == StatusVariable.MATCHGRADECODE) {
+            if (data != null) {
+                binding.radiobuttonAll.setChecked(false);
+                typesList = (List<MatchGradeTabBean.ResultBean.TypesBean>) data.getSerializableExtra("typesList");
+                matchGradeTabAdapter.loadData(typesList);
+                selectList(typesList);
+            }
+        }
+
+
+    }
 
     @Override
     public void onResume() {

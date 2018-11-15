@@ -122,6 +122,9 @@
         <activity android:name=".ui.matchapply.view.BannerRuleActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.matchgrade.view.SelectMatchProgramActivity"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 

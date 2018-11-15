@@ -171,14 +171,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!EmptyUtil.isEmpty(resultCode)){
             if (resultCode==StatusVariable.MATCHAPPLYCODE){
                 tabState(StatusVariable.MATCHAPPLY);
-            }else if (resultCode==StatusVariable.MATCHAPPLYCODE){
-                tabState(StatusVariable.MATCHAPPLY);
+                viewPagerAdapter.getItem(StatusVariable.MATCHAPPLYCODE).onActivityResult(requestCode,resultCode,data);
             }else if (resultCode==StatusVariable.MATCHGRADECODE){
                 tabState(StatusVariable.MATCHSCORE);
+                viewPagerAdapter.getItem(StatusVariable.MATCHGRADECODE).onActivityResult(requestCode,resultCode,data);
             }else if (resultCode==StatusVariable.DISCOVERCODE){
                 tabState(StatusVariable.DISCOVER);
+                viewPagerAdapter.getItem(StatusVariable.DISCOVER).onActivityResult(requestCode,resultCode,data);
             }else if (resultCode==StatusVariable.PCENTERCODE){
                 tabState(StatusVariable.PERSONALCENTE);
+                viewPagerAdapter.getItem(StatusVariable.PCENTERCODE).onActivityResult(requestCode,resultCode,data);
             }
         }
     }
