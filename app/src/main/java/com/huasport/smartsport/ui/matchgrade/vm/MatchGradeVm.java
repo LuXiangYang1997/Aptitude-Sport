@@ -67,10 +67,13 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         this.matchGradeTabAdapter = matchGradeTabAdapter;
         this.matchGradeListAdapter = matchGradeListAdapter;
         this.binding = binding;
-        init();
+        init();//初始化
+        click();//点击事件
         topList();
         listData(StatusVariable.REFRESH);
     }
+
+
 
     /**
      * 初始化
@@ -92,6 +95,9 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         //初始化加载框
         loadingDialog = new LoadingDialog(matchGradeFragment.getActivity(), R.style.LoadingDialog);
         loadingDialog.show();
+
+        //设置radioButton默认选中
+        binding.radiobuttonAll.setChecked(true);
     }
 
     /**
@@ -158,6 +164,8 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
      * @param loadtype
      */
     public void listData(final int loadtype){
+
+        loadingDialog.show();
 
         listType = StatusVariable.NORMALLIST;
 
@@ -234,6 +242,10 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
      * 搜索
      */
     private void searchListData(String editStr, final int loadType) {
+
+        //设置radioButton为不选中
+        binding.radiobuttonAll.setChecked(false);
+
         //把状态改为搜索状态
         listType = StatusVariable.SEARCHLIST;
 
@@ -386,10 +398,29 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
     };
 
     /**
-     * 全部点击事件
+     * 列表点击事件
      */
-    public void allClick(){
+    private void click() {
 
+
+        matchGradeTabAdapter.setItemClick(new MatchGradeTabAdapter.ItemClick() {
+            @Override
+            public void itemClick(MatchGradeTabBean.ResultBean.TypesBean typesBean, int position) {
+                //设置当前点击的item为选中状态
+                typesBean.setCheck(true);
+                binding.recyclviewTab.smoothScrollToPosition(position);
+                gameCode = typesBean.getGameCode();
+                page = 1;
+                listData(StatusVariable.REFRESH);
+                clearTab(position);
+                //如果全部是选中状态则不选中
+                if (binding.radiobuttonAll.isChecked()){
+                    binding.radiobuttonAll.setChecked(false);
+                }
+                //刷新适配器
+                matchGradeTabAdapter.notifyDataSetChanged();
+            }
+        });
 
         binding.radiobuttonAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -399,6 +430,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
                     binding.radiobuttonAll.setTextColor(matchGradeFragment.getActivity().getResources().getColor(R.color.color_FF8F00));
                     binding.indicatorView.setVisibility(View.VISIBLE);
                     gameCode = "all";
+                    clearAllTab();
                     page = 1;
                     listData(StatusVariable.REFRESH);
                     binding.recyclviewTab.smoothScrollToPosition(0);
@@ -408,6 +440,51 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
                 }
             }
         });
+
+    }
+
+
+
+
+    /**
+     * 全部点击事件
+     */
+    public void allClick(){
+
+//        binding.radiobuttonAll.setChecked(true);
+//        page = 1;
+//        gameCode = "all";
+//        listData(StatusVariable.REFRESH);
+
+
+    }
+
+    /**
+     * 清除所有tab的选中状态
+     *
+     */
+    private void clearAllTab() {
+
+        for (int i = 0; i < matchGradeTabAdapter.mList.size(); i++) {
+
+            matchGradeTabAdapter.mList.get(i).setCheck(false);
+
+        }
+        matchGradeTabAdapter.notifyDataSetChanged();
+
+    }
+
+    /**
+     * 清除选中状态
+     * @param position
+     */
+    private void clearTab(int position) {
+
+        for (int i = 0; i < matchGradeTabAdapter.mList.size(); i++) {
+            if (position != i) {
+                matchGradeTabAdapter.mList.get(i).setCheck(false);
+            }
+        }
 
     }
 

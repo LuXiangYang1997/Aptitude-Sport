@@ -2,6 +2,7 @@ package com.huasport.smartsport.ui.matchgrade.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,25 +76,24 @@ public class MatchGradeListAdapter extends BaseAdapter<MatchGradeListBean.Result
             String eTime = DateUtil.timeToDate(endTime);
             binding.tvTime.setText(eTime);
         }
-
-//        baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!mList.get(position).isSelect()) {
-//                    mList.get(position).setSelect(true);
-//                    tag = position;
-//                    binding.imgArrow.setImageResource(R.mipmap.icon_up);
-//                    binding.llList.setVisibility(View.VISIBLE);
-////                    initData(mList.get(position).getMatchCode(), mList.get(position).getMatchName());
-//                } else {
-//                    mList.get(position).setSelect(false);
-//                    tag = -1;
-//                    binding.llList.setVisibility(View.GONE);
-//                    binding.imgArrow.setImageResource(R.mipmap.icon_down);
-//                }
-//                notifyDataSetChanged();
-//            }
-//        });
+        //修改箭头状态
+        baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mList.get(position).isSelect()) {
+                    mList.get(position).setSelect(true);
+                    tag = position;
+                    binding.imgArrow.setImageResource(R.mipmap.icon_arrowup);
+                    binding.llList.setVisibility(View.VISIBLE);
+                } else {
+                    mList.get(position).setSelect(false);
+                    tag = -1;
+                    binding.llList.setVisibility(View.GONE);
+                    binding.imgArrow.setImageResource(R.mipmap.icon_arrowdown);
+                }
+                notifyDataSetChanged();
+            }
+        });
         if (tag == position) {
 //            matchEventAdapter = new MatchEventAdapter(activity);
 //            binding.eventMatchRecyclerview.setLayoutManager(new LinearLayoutManager(activity));
@@ -147,4 +147,5 @@ public class MatchGradeListAdapter extends BaseAdapter<MatchGradeListBean.Result
 //
 //
 //    }
+
 }
