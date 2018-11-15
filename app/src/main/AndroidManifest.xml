@@ -125,6 +125,9 @@
         <activity android:name=".ui.matchgrade.view.SelectMatchProgramActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.matchgrade.view.MatchGradeRankingsActivity"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 

@@ -2,7 +2,6 @@ package com.huasport.smartsport.ui.matchgrade.view;
 
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.huasport.smartsport.R;
@@ -16,6 +15,9 @@ import com.huasport.smartsport.ui.matchgrade.bean.MatchGradeTabBean;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 选择项目
+ */
 public class SelectMatchProgramActivity extends BaseActivity<SelectMatchprogramLayoutBinding,BaseViewModel>{
 
     @Override

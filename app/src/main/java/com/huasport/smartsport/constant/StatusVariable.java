@@ -46,7 +46,9 @@ public class StatusVariable {
     public static final int NORMALLIST = 0;//普通列表
     public static final int SEARCHLIST = 1;//搜索列表
 
-
+    public static final int MATCHFIRST = 1;
+    public static final int MATCHSECOND = 2;
+    public static final int MATCHTHIRD = 3;
 
 
 

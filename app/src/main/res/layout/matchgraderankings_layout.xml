@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        
+        <variable
+            name="matchGradeRankVm"
+            type="com.huasport.smartsport.ui.matchgrade.vm.MatchGradeRankingVM"/>
+        
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_FF8F00"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            >
+
+                <LinearLayout
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:id="@+id/ll_left"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@mipmap/icon_back" />
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:id="@+id/tv_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/back"
+                        android:textColor="@color/color_FFFFFF"
+                        android:textSize="@dimen/sp_14"
+                        android:visibility="visible" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_matchtitle"
+                        android:layout_width="@dimen/dp_220"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center_horizontal"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/color_FFFFFF"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_eventTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_matchtitle"
+                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:text=""
+                        android:textColor="@color/color_FFFFFF"
+                        android:textSize="@dimen/sp_10" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:background="@color/color_FF8F00">
+
+                <TextView
+                    android:id="@+id/tv_front"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:drawableLeft="@mipmap/icon_left"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:text="@string/front"
+                    android:textColor="@color/color_FFFFFF"
+                    android:textSize="@dimen/sp_13"
+                    android:visibility="visible" />
+
+
+                <TextView
+                    android:id="@+id/tv_behind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:drawableRight="@mipmap/icon_righta"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center_vertical"
+                    android:text="@string/behind"
+                    android:textColor="@color/color_FFFFFF"
+                    android:textSize="@dimen/sp_13"
+                    android:visibility="visible" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/nulldata"
+            layout="@layout/nulldata_layout"
+            android:visibility="gone" />
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            app:srlEnableLoadMoreWhenContentNotFull="true"
+            app:srlEnableNestedScrolling="true"
+            app:srlDisableContentWhenLoading="true"
+            app:srlDisableContentWhenRefresh="true"
+            app:srlEnableLoadMore="true"
+            app:srlEnableOverScrollDrag="true"
+            app:srlEnableRefresh="true">
+
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/recyclerView_rank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
+
+            <com.huasport.smartsport.custom.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_20"
+                app:srlDrawableArrow="@mipmap/icon_defaultheader_yes"
+                app:srlDrawableArrowSize="@dimen/dp_20" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

@@ -77,8 +77,6 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
         listData(StatusVariable.REFRESH);
     }
 
-
-
     /**
      * 初始化
      */
@@ -392,7 +390,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
                 String text = binding.editMatchGradeSearch.getText().toString().trim();
                 page = 1;
                 searchListData(text, StatusVariable.REFRESH);//搜索
-
+                clearAllTab();
                 return true;
             }
             return false;
@@ -458,7 +456,6 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
 
 
     }
-
 
     /**
      * 清除所有tab的选中状态

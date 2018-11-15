@@ -7,6 +7,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.WindowManager;
 
 import java.io.File;
@@ -121,4 +124,19 @@ public class Util {
         return "/sdcard/" + bitName + ".png";
     }
 
+    /**
+     * 设置textView中某个字符颜色
+     *
+     * @param text          字符串
+     * @param colorResourse 颜色
+     * @param start         开始
+     * @param end           结束
+     * @return
+     */
+    public static SpannableStringBuilder setSpan(String text, int colorResourse, int start, int end) {
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(colorResourse);
+        spannableStringBuilder.setSpan(foregroundColorSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableStringBuilder;
+    }
 }
