@@ -7,6 +7,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.huasport.smartsport.util.LogUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +64,7 @@ public abstract class BasePageAdapter<T> extends PagerAdapter {
 
     //加载数据
     public void loadData(List data) {
-        Log.e("DATA",data.size()+"");
+        LogUtil.e(data.size()+"");
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();

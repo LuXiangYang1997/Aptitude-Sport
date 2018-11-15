@@ -15,6 +15,7 @@ import com.alipay.sdk.app.PayTask;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.bean.PayResult;
 import com.huasport.smartsport.util.ImageUtil;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.wxapi.callback.AlipayCallBack;
 import com.huasport.smartsport.wxapi.callback.ISinaWbCallBack;
@@ -140,7 +141,7 @@ public class ThirdPart {
     //微信登录
     public void wxLogin() {
         if (mWXApi == null) {
-            Log.e("lwd", "wxLogin init");
+            LogUtil.e( "wxLogin init");
             initWX();
         }
         final SendAuth.Req req = new SendAuth.Req();
@@ -178,7 +179,7 @@ public class ThirdPart {
     public void wxPay(final String appId, final String partnerId, final String prepayId, final String nonceStr,
                       final String timeStamp, final String sign) {
         if (mWXApi == null) {
-            Log.e("lwd", "wxPay init");
+            LogUtil.e("wxPay init");
             initWX();
         }
         Observable.create(new ObservableOnSubscribe<String>() {
@@ -206,7 +207,7 @@ public class ThirdPart {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        Log.e("lwd", "wxPay s:" + s);
+                        LogUtil.e("wxPay s:" + s);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -232,7 +233,7 @@ public class ThirdPart {
             return;
         }
         if (mWXApi == null) {
-            Log.e("lwd", "wxPay init");
+            LogUtil.e( "wxPay init");
             initWX();
         }
         Bitmap bitmap = getBitMBitmap(imgUrl);
@@ -241,7 +242,7 @@ public class ThirdPart {
         WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
         wxMediaMessage.title = title;
         wxMediaMessage.description = description;
-        Log.e("lwd", "WXShare description:" + description);
+        LogUtil.e("WXShare description:" + description);
         Bitmap thunmpBmp = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
         bitmap.recycle();
         wxMediaMessage.thumbData = ImageUtil.bmpToByteArray(thunmpBmp, true);
@@ -275,7 +276,7 @@ public class ThirdPart {
             return;
         }
         if (mWXApi == null) {
-            Log.e("lwd", "wxPay init");
+            LogUtil.e("wxPay init");
             initWX();
         }
         WXWebpageObject wxWebpageObject = new WXWebpageObject();
@@ -283,7 +284,7 @@ public class ThirdPart {
         WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
         wxMediaMessage.title = title;
         wxMediaMessage.description = description;
-        Log.e("lwd", "WXShare description:" + description);
+        LogUtil.e("WXShare description:" + description);
         Bitmap thunmpBmp = Bitmap.createScaledBitmap(bitmap, 80, 80, true);
         wxMediaMessage.thumbData = ImageUtil.bmpToByteArray(thunmpBmp, true);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -333,25 +334,25 @@ public class ThirdPart {
      */
     public void sinaWbLogin(final ISinaWbCallBack iSinaWbCallBack) {
         if (mSsoHandler == null) {
-            Log.e("lwd", "sinaWbLogin init");
+            LogUtil.e("sinaWbLogin init");
             initSinaWb();
         }
         mSsoHandler.authorizeClientSso(new WbAuthListener() {
             @Override
             public void onSuccess(Oauth2AccessToken oauth2AccessToken) {
-                Log.e("lwd", "loginSinaWb onSuccess");
+                LogUtil.e("loginSinaWb onSuccess");
                 iSinaWbCallBack.onSuccess(oauth2AccessToken);
             }
 
             @Override
             public void cancel() {
-                Log.e("lwd", "loginSinaWb cancel");
+                LogUtil.e("loginSinaWb cancel");
                 iSinaWbCallBack.cancel();
             }
 
             @Override
             public void onFailure(WbConnectErrorMessage wbConnectErrorMessage) {
-                Log.e("lwd", "loginSinaWb onFailure");
+                LogUtil.e("loginSinaWb onFailure");
                 iSinaWbCallBack.onFailure(wbConnectErrorMessage);
             }
         });

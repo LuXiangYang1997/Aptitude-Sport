@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.huasport.smartsport.util.EmptyUtil;
+import com.huasport.smartsport.util.LogUtil;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
@@ -31,7 +32,7 @@ public class OkHttpUtil {
     public static <T> void getRequest(Context context, HashMap params, final RequestCallBack<T> requestCallBack) {
         //判断参数列表是否为空
         if (EmptyUtil.isEmpty(params)) {
-            Log.e("lxy-get-http", "参数Map为空");
+            LogUtil.e( "参数Map为空");
             return;
         }
         //判断baseUrl是否为空
@@ -39,7 +40,7 @@ public class OkHttpUtil {
             //url
             baseUrl = (String) params.get("baseUrl");
         } else {
-            Log.e("lxy-get-http", "缺少baseUrl");
+            LogUtil.e("缺少baseUrl");
             return;
         }
 
@@ -48,7 +49,7 @@ public class OkHttpUtil {
             //method
             baseMethod = (String) params.get("baseMethod");
         } else {
-            Log.e("lxy-get-http", "缺少baseMethod");
+            LogUtil.e( "缺少baseMethod");
             return;
         }
         params.put("t", String.valueOf(System.currentTimeMillis()));
@@ -104,7 +105,7 @@ public class OkHttpUtil {
                 if (response.code() == 200) {
                     String jsonResult = response.body().string().trim();
 
-                    Log.e("lxy-get-jsonResult", jsonResult);
+                    LogUtil.e(jsonResult);
 
                     JSONObject jsonObject = new JSONObject(jsonResult);
                     final String code = jsonObject.optString("resultCode", "");
@@ -126,7 +127,7 @@ public class OkHttpUtil {
 
         //判断参数列表是否为空
         if (EmptyUtil.isEmpty(params)) {
-            Log.e("lxy-post-http", "参数Map为空");
+            LogUtil.e("参数Map为空");
             return;
         }
         //判断baseUrl是否为空
@@ -134,7 +135,7 @@ public class OkHttpUtil {
             //url
             baseUrl = (String) params.get("baseUrl");
         } else {
-            Log.e("lxy-post-http", "缺少baseUrl");
+            LogUtil.e("缺少baseUrl");
             return;
         }
 
@@ -143,7 +144,7 @@ public class OkHttpUtil {
             //method
             baseMethod = (String) params.get("baseMethod");
         } else {
-            Log.e("lxy-post-http", "缺少baseMethod");
+            LogUtil.e("缺少baseMethod");
             return;
         }
         params.put("t", String.valueOf(System.currentTimeMillis()));
@@ -198,7 +199,7 @@ public class OkHttpUtil {
                 if (response.code() == 200) {
                     String jsonResult = response.body().string().trim();
 
-                    Log.e("lxy-post-jsonResult", jsonResult);
+                    LogUtil.e(jsonResult);
 
                     JSONObject jsonObject = new JSONObject(jsonResult);
                     final String code = jsonObject.optString("resultCode", "");
@@ -221,7 +222,7 @@ public class OkHttpUtil {
 
         //判断参数列表是否为空
         if (EmptyUtil.isEmpty(params)) {
-            Log.e("lxy-post-http", "参数Map为空");
+            LogUtil.e("参数Map为空");
             return;
         }
         //判断baseUrl是否为空
@@ -229,7 +230,7 @@ public class OkHttpUtil {
             //url
             baseUrl = (String) params.get("baseUrl");
         } else {
-            Log.e("lxy-post-http", "缺少baseUrl");
+            LogUtil.e("缺少baseUrl");
             return;
         }
 
@@ -238,13 +239,13 @@ public class OkHttpUtil {
             //method
             baseMethod = (String) params.get("baseMethod");
         } else {
-            Log.e("lxy-post-http", "缺少baseMethod");
+            LogUtil.e("缺少baseMethod");
             return;
         }
         if (params.containsKey("file")) {
             filePath = (String) params.get("file");
         } else {
-            Log.e("lxy-upfile-http", "缺少file");
+            LogUtil.e("缺少file");
             return;
         }
         params.put("t", String.valueOf(System.currentTimeMillis()));
@@ -291,7 +292,7 @@ public class OkHttpUtil {
                 if (response.code() == 200) {
                     String jsonResult = response.body().string().trim();
 
-                    Log.e("lxy-post-jsonResult", jsonResult);
+                    LogUtil.e(jsonResult);
 
                     JSONObject jsonObject = new JSONObject(jsonResult);
                     final String code = jsonObject.optString("resultCode", "");

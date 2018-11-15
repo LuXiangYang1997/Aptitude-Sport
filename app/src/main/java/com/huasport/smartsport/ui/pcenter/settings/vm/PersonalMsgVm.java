@@ -27,6 +27,7 @@ import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.GetPathFromUriUtil;
 import com.huasport.smartsport.util.GlideUtil;
 import com.huasport.smartsport.util.IntentUtil;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.PopWindowUtil;
 import com.huasport.smartsport.util.SelectPicCallBack;
 import com.huasport.smartsport.util.SharedPreferencesUtil;
@@ -229,14 +230,14 @@ public class PersonalMsgVm extends BaseViewModel {
                             headerUrl = resultBean.getUrl();
                             saveModifyUserInfo();
                         } else {
-                            Log.e("lxy-upload-url", "缺少上传返回的url");
+                            LogUtil.e("缺少上传返回的url");
                         }
                         toastUtil.centerToast(personalMsgActivity.getResources().getString(R.string.upload_success));
                     } else {
                         toastUtil.centerToast(uploadResultBean.getResultMsg());
                     }
                 } else {
-                    Log.e("lxy-upload-bean", "bean是空的");
+                    LogUtil.e("bean是空的");
                 }
             }
 
@@ -293,7 +294,7 @@ public class PersonalMsgVm extends BaseViewModel {
                     }
                     toastUtil.centerToast(personalMsgActivity.getResources().getString(R.string.save_success));
                 } else {
-                    Log.e("lxy-upload-bean", "bean是空的");
+                    LogUtil.e("bean是空的");
                 }
             }
 

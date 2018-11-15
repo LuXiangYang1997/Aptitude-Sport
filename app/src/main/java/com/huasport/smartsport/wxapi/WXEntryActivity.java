@@ -16,6 +16,7 @@ import com.huasport.smartsport.bean.WeChatMsgBean;
 import com.huasport.smartsport.ui.pcenter.loginbind.api.LoginApi;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.Util;
 import com.lzy.okgo.model.Response;
@@ -73,10 +74,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      */
     @Override
     public void onResp(BaseResp resp) {
-        Log.e("lwd", "WXEntryActivity resp:" + resp.errCode);
+        LogUtil.e("WXEntryActivity resp:" + resp.errCode);
         String tip = "";
         if (resp.getType() == ThirdPart.RETURN_MSG_TYPE_SHARE) {//微信分享
-            Log.e("lwd", "WXEntryActivity share");
+            LogUtil.e("WXEntryActivity share");
             switch (resp.errCode) {
                 //发送成功
                 case BaseResp.ErrCode.ERR_OK:
@@ -102,11 +103,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 case BaseResp.ErrCode.ERR_OK:
                     SendAuth.Resp sendResp = (SendAuth.Resp) resp;
                     if (sendResp != null) {
-                        Log.e("lwd", "WXEntryActivity sendResp not null");
+                        LogUtil.e("WXEntryActivity sendResp not null");
                         String code = sendResp.code;
                         getAccess_token(WXEntryActivity.this, code);
                     }
-                    Log.e("lwd", "WXEntryActivity sendResp null");
+                    LogUtil.e("WXEntryActivity sendResp null");
                     break;
                 //发送取消
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -128,7 +129,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
         if (!TextUtils.isEmpty(tip)) {
 //            ToastUtils.toast(this, tip);
-            Log.e("lwd", "WXEntryActivity toast:" + tip);
+            LogUtil.e("WXEntryActivity toast:" + tip);
         }
     }
 
@@ -139,7 +140,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      * @param code            请求码
      */
     private void getAccess_token(final WXEntryActivity wxEntryActivity, String code) {
-        Log.e("lwd", "WXEntryActivity getAccess_token");
+        LogUtil.e("WXEntryActivity getAccess_token");
         String path = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
                 + ThirdPart.WX_APPID
                 + "&secret="
@@ -192,7 +193,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
      * @param openid
      */
     private void getUserMsg(final WXEntryActivity wxEntryActivity, final String access_token, final String openid) {
-        Log.e("lwd", "WXEntryActivity getUserMsg");
+        LogUtil.e("WXEntryActivity getUserMsg");
         String path = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid;
         OkHttpUtil.getThirdInfo(this, path, new RequestCallBack<WXLoginBean>() {
             @Override

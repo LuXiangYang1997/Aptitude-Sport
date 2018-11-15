@@ -97,15 +97,15 @@ public class ImageUtil {
         Log.d(TAG, "readFromFile : offset = " + offset + " len = " + len + " offset + len = " + (offset + len));
 
         if(offset <0){
-            Log.e(TAG, "readFromFile invalid offset:" + offset);
+            LogUtil.e("readFromFile invalid offset:" + offset);
             return null;
         }
         if(len <=0 ){
-            Log.e(TAG, "readFromFile invalid len:" + len);
+            LogUtil.e( "readFromFile invalid len:" + len);
             return null;
         }
         if(offset + len > (int) file.length()){
-            Log.e(TAG, "readFromFile invalid file len:" + file.length());
+            LogUtil.e( "readFromFile invalid file len:" + file.length());
             return null;
         }
 
@@ -118,7 +118,7 @@ public class ImageUtil {
             in.close();
 
         } catch (Exception e) {
-            Log.e(TAG, "readFromFile : errMsg = " + e.getMessage());
+            LogUtil.e("readFromFile : errMsg = " + e.getMessage());
             e.printStackTrace();
         }
         return b;
@@ -173,7 +173,7 @@ public class ImageUtil {
             Log.i(TAG, "bitmap required size=" + newWidth + "x" + newHeight + ", orig=" + options.outWidth + "x" + options.outHeight + ", sample=" + options.inSampleSize);
             Bitmap bm = BitmapFactory.decodeFile(path, options);
             if (bm == null) {
-                Log.e(TAG, "bitmap decode failed");
+                LogUtil.e("bitmap decode failed");
                 return null;
             }
 
@@ -192,12 +192,12 @@ public class ImageUtil {
 
                 bm.recycle();
                 bm = cropped;
-                Log.i(TAG, "bitmap croped size=" + bm.getWidth() + "x" + bm.getHeight());
+                LogUtil.i("bitmap croped size=" + bm.getWidth() + "x" + bm.getHeight());
             }
             return bm;
 
         } catch (final OutOfMemoryError e) {
-            Log.e(TAG, "decode bitmap failed: " + e.getMessage());
+            LogUtil.e("decode bitmap failed: " + e.getMessage());
             options = null;
         }
 

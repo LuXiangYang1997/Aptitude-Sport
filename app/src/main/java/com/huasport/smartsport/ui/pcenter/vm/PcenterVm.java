@@ -21,6 +21,7 @@ import com.huasport.smartsport.ui.pcenter.view.PCenterFragment;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.lzy.okgo.model.Response;
 
@@ -203,7 +204,7 @@ public class PcenterVm extends BaseViewModel {
                             }
 
                         }else{
-                            Log.e("lxy-certstatus-bean","UserCertStatusBeam是空的");
+                            LogUtil.e("UserCertStatusBeam是空的");
                         }
 
                     }
@@ -269,7 +270,7 @@ public class PcenterVm extends BaseViewModel {
                                 }
                             }
                         }else{
-                            Log.e("lxy-userInfo-bean","UserCenterInfoBean是空的");
+                            LogUtil.e("UserCenterInfoBean是空的");
 
                         }
                     }

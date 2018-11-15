@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.huasport.smartsport.constant.StatusVariable;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -28,7 +29,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("lwd", "WXPayEntryActivity onCreate");
+        LogUtil.e( "WXPayEntryActivity onCreate");
         api = WXAPIFactory.createWXAPI(this, ThirdPart.WX_APPID);
         api.handleIntent(getIntent(), this);
         toastUtil = new ToastUtil(this);
@@ -49,7 +50,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
-        Log.e("lwd", "WXPayEntryActivity baseResp.errCode:" + baseResp.errCode);
+        LogUtil.e("WXPayEntryActivity baseResp.errCode:" + baseResp.errCode);
         String tip = "";
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             switch (baseResp.errCode) {

@@ -30,6 +30,7 @@ import com.huasport.smartsport.ui.matchgrade.view.MatchGradeFragment;
 import com.huasport.smartsport.ui.matchgrade.view.SelectMatchProgramActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.NullStateUtil;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
@@ -126,7 +127,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
                                 matchGradeTabAdapter.loadData(typesList);
                             }
                         }else{
-                            Log.e("lxy-types-Bean","resultBean是空的");
+                            LogUtil.e("resultBean是空的");
                         }
 
                     }else{
@@ -205,7 +206,7 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
 
                             }
                         }else{
-                            Log.e("lxy-types-Bean","resultBean是空的");
+                            LogUtil.e("resultBean是空的");
                         }
                         page++;
                     }

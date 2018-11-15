@@ -26,6 +26,7 @@ import com.huasport.smartsport.ui.matchapply.view.BannerRuleActivity;
 import com.huasport.smartsport.ui.matchapply.view.MatchApplyFragment;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
 import com.huasport.smartsport.util.EmptyUtil;
@@ -128,11 +129,11 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
                              binding.bgaBanner.setData(bannerlist,null);
                             }
                         }else{
-                            Log.e("lxy-banner-bean","ResultBean是空的");
+                            LogUtil.e("ResultBean是空的");
                         }
                     }
                 }else{
-                    Log.e("lxy-banner-bean","BannerListBean是空的");
+                    LogUtil.e("BannerListBean是空的");
                 }
 
             }
@@ -190,11 +191,11 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
                             }
 
                         }else{
-                            Log.e("lxy-result-Bean","ResultBean是空的");
+                            LogUtil.e("ResultBean是空的");
                         }
                     }
                 }else{
-                    Log.e("lxy-matchList-Bean","MatchListBean是空的");
+                    LogUtil.e("MatchListBean是空的");
                 }
 
 
