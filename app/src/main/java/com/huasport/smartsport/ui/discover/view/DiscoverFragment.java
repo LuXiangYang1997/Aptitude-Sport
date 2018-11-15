@@ -21,7 +21,7 @@ public class DiscoverFragment extends BaseFragment<DiscoverLayoutBinding,Discove
     @Override
     public DiscoverVm initViewModel() {
 
-        DiscoverVm discoverVm=new DiscoverVm();
+        DiscoverVm discoverVm=new DiscoverVm(this.getActivity());
 
         return discoverVm;
     }

@@ -1,8 +1,6 @@
 package com.huasport.smartsport.api;
 
 import android.content.Context;
-import android.util.Log;
-
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.LogUtil;
 import com.lzy.okgo.OkGo;
@@ -10,9 +8,7 @@ import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
-
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.HashMap;
 
