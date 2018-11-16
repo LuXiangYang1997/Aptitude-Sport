@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><!--推荐layout-->
+<com.lijiankun24.shadowlayout.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:shadowColor="#20000000"
+    app:shadowDx="0dp"
+    app:shadowDy="0dp"
+    app:shadowRadius="3dp"
+    app:shadowSide="all">
+
+    <LinearLayout
+        android:id="@+id/ll_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recommend_card_bg"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclervie_recommand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_15"
+            ></android.support.v7.widget.RecyclerView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:background="@color/color_E2E2E2" />
+
+        <TextView
+            android:id="@+id/tv_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_15"
+            android:gravity="center_horizontal"
+            android:text="@string/look_recommand"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12" />
+
+
+    </LinearLayout>
+
+</com.lijiankun24.shadowlayout.ShadowLayout>
+

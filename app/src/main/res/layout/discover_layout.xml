@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data></data>
+    <data>
+
+        <variable
+            name="discoverVm"
+            type="com.huasport.smartsport.ui.discover.vm.DiscoverVm"/>
+
+    </data>
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -63,6 +71,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:onClick="@{()->discoverVm.release()}"
                     android:id="@+id/tv_discover_release"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,7 +84,166 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:background="@color/color_FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:orientation="horizontal"
+            android:weightSum="4">
 
+            <LinearLayout
+                android:id="@+id/ll_all"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_all"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/discover_all"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <View
+                    android:id="@+id/tab_all"
+                    android:layout_width="50dp"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/color_FF8F00"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_follow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_follow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/follow"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <View
+                    android:id="@+id/tab_follow"
+                    android:layout_width="50dp"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/color_FF8F00"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_dynamic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/dynamic"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <View
+                    android:id="@+id/tab_dynamic"
+                    android:layout_width="50dp"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/color_FF8F00"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_article"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/article"
+                    android:textColor="#333333"
+                    android:textSize="13sp" />
+
+                <View
+                    android:id="@+id/tab_article"
+                    android:layout_width="50dp"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/color_FF8F00"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <include layout="@layout/nulldata_layout"
+            android:id="@+id/nulldata"
+            android:visibility="gone" />
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:layout_marginTop="@dimen/dp_5"
+            app:srlDisableContentWhenLoading="true"
+            app:srlDisableContentWhenRefresh="true"
+            app:srlEnableLoadMore="true"
+            app:srlEnableLoadMoreWhenContentNotFull="true"
+            app:srlEnableNestedScrolling="true"
+            app:srlEnableOverScrollDrag="true"
+            app:srlEnableRefresh="true">
+
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/xrecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+            <com.huasport.smartsport.custom.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_20"
+                app:srlDrawableArrow="@mipmap/icon_defaultheader_yes"
+                app:srlDrawableArrowSize="@dimen/dp_20" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
     </LinearLayout>

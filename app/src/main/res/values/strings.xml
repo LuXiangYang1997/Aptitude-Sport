@@ -67,5 +67,16 @@
     <string name="select_program">选择项目</string>
     <string name="front">前一场</string>
     <string name="behind">后一场</string>
-
+    <string name="article">文章</string>
+    <string name="dynamic">动态</string>
+    <string name="look_recommand">查看更多推荐</string>
+    <string name="cancel">取消</string>
+    <string name="friendquan">朋友圈</string>
+    <string name="wechat_friends">微信好友</string>
+    <string name="discover_all">全部</string>
+    <string name="follow">关注</string>
+    <string name="success_zan">点赞成功</string>
+    <string name="cancel_zan">取消点赞成功</string>
+    <string name="deleate">删除</string>
+    <string name="tourist">游客</string>
 </resources>

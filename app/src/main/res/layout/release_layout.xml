@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/dp_7"
+        android:layout_height="@dimen/dp_5"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/dp_10"
+        android:src="@mipmap/icon_arrowtop" />
+
+    <LinearLayout
+        android:id="@+id/ll_tip"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_82"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/release_card_bg"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/dynamic"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_15" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_15"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:background="@color/color_E2E2E2" />
+
+        <TextView
+            android:id="@+id/tv_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/article"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_15" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

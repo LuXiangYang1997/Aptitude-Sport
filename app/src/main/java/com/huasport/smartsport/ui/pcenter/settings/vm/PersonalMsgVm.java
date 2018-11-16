@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.PopupWindow;
 
 import com.alibaba.fastjson.JSON;
@@ -28,8 +27,8 @@ import com.huasport.smartsport.util.GetPathFromUriUtil;
 import com.huasport.smartsport.util.GlideUtil;
 import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.LogUtil;
-import com.huasport.smartsport.util.PopWindowUtil;
-import com.huasport.smartsport.util.SelectPicCallBack;
+import com.huasport.smartsport.util.popwindow.PopWindowUtil;
+import com.huasport.smartsport.util.popwindow.SelectPicCallBack;
 import com.huasport.smartsport.util.SharedPreferencesUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.Util;

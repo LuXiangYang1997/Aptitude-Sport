@@ -131,6 +131,11 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.5-alpha-0'
 
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
+    implementation 'com.lijiankun24:shadowlayout:1.0.0'//阴影框架
+
+    implementation 'org.jsoup:jsoup:1.10.2'//jsoup html工具
+
+
 
 }
 

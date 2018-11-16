@@ -12,6 +12,12 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.WindowManager;
 
+import com.huasport.smartsport.constant.StatusVariable;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -139,4 +145,73 @@ public class Util {
         spannableStringBuilder.setSpan(foregroundColorSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableStringBuilder;
     }
+
+    /**
+     * 去除换行符
+     *
+     * @param str
+     * @return
+     */
+    public static String reMoveLast(String str) {
+
+        int a = 0;
+        String removeStr = "";
+        String producestring = str.replaceAll(" ", "");
+        for (int i = producestring.length() - 1; i >= 0; i--) {
+            char c = str.charAt(i);
+            String s = String.valueOf(c);
+            if (s.equals("\n")||s.equals("<br>")||s.equals("<p>")||s.equals("</p>")||s.equals("<ol>")||s.equals("</ol>")||s.equals("<li>")
+                    ||s.equals("<em>")||s.equals("</em>")||s.equals("<div>")||s.equals("</div>")||s.equals("<b>")||s.equals("</b>")||s.equals("<i>")||s.equals("</i>")
+                    ||s.equals("<span>")||s.equals("</span>")||s.equals("<strong>")||s.equals("</strong>")||s.equals("&amp;")||s.equals("&lt;")||s.equals("&gt;")
+                    ||s.equals("&nbsp;")) {
+                a++;
+            } else {
+                String substring = producestring.substring(0, producestring.length() - a);
+                removeStr = substring;
+                break;
+
+            }
+        }
+        if (!EmptyUtil.isEmpty(removeStr)) {
+            return removeStr;
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * 获取html纯文本
+     */
+    public static String getHtmlContent(String htmlStr) {
+
+        String txtcontent = Jsoup.parse(htmlStr).text();
+        return txtcontent;
+
+    }
+
+    /**
+     * 图片自动适应 过宽缩到100%,正常的不放大
+     */
+    public static String getFinalContent(String htmltext) {
+        return StatusVariable.SHEAD + htmltext + "</body></html>";
+    }
+
+    /**
+     * 将html文本内容中包含img标签的图片，宽度变为屏幕宽度，高度根据宽度比例自适应
+     **/
+    public static String getAPPNewContent(String htmltext) {
+        try {
+            org.jsoup.nodes.Document doc = Jsoup.parse(htmltext);
+            Elements elements = doc.getElementsByTag("img");
+            for (Element element : elements) {
+
+                element.attr("vspace", "10");
+            }
+
+            return doc.toString();
+        } catch (Exception e) {
+            return htmltext;
+        }
+    }
+
 }

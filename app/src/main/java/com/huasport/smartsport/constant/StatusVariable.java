@@ -50,7 +50,25 @@ public class StatusVariable {
     public static final int MATCHSECOND = 2;
     public static final int MATCHTHIRD = 3;
 
+    public static final int DYNAMIC = 0;//动态
+    public static final int ARTICLE = 1;//文章
 
+    public static final int SHARE = 0;//分享
+    public static final int COMMENT = 1;//评论
+    public static final int FAVOUR = 3;//赞
+
+    public static final String YMD = "yyyy-MM-dd HH:mm";//年月日时分秒
+    public static final String HM = "HH:mm";//时分
+
+    public static final String SPLENDIDSTATIC = "1";//是精品
+
+    public static final String NOAUTH = "0";//未认证
+    public static final String YESAUTH = "1";//已认证
+
+    public static final String SHEAD = "<html><head><meta name=\"viewport\" content=\"width=device-width, " +
+            "initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes\" />" +
+            "<style>img{display:block;max-width:100% !important;height:auto !important;}</style>"
+            + "<style>body{max-width:100% !important;}</style>" + "</head><body>";
 
 
 
