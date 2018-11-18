@@ -20,6 +20,7 @@ public class StatusVariable {
     public static final int DISCOVERCODE = 2;//发现Code 用于返回到发现页面
     public static final int PCENTERCODE = 3;//个人中心Code 用于返回到个人中心页面
     public static final int NORMALCODE = 4;//普通Code 用于不做任何操作直接返回
+    public static final int RELEASE = 1000;//普通Code 用于不做任何操作直接返回
 
     public static final String PAYSUCCESS = "paysuccess";//支付成功
     public static final String PAYFAILED = "payfailed";//支付失败

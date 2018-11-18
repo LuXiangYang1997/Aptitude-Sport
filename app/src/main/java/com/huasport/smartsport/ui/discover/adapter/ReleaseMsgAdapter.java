@@ -61,7 +61,7 @@ public class ReleaseMsgAdapter extends BaseAdapter<ReleaseBean, BaseViewHolder> 
 
         if (EmptyUtil.isEmpty(mList.get(position).getTypes())) {
 
-            Glide.with(dynamicActivity).load(mList.get(position).getImgbyte()).into(binding.imgDynamic);
+            Glide.with(dynamicActivity).load(mList.get(position).getPath()).into(binding.imgDynamic);
         } else {
 
             binding.imgDynamic.setImageResource(R.mipmap.icon_dynamicimgadd);

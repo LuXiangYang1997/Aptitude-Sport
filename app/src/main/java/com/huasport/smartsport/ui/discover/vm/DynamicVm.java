@@ -109,12 +109,12 @@ public class DynamicVm extends BaseViewModel {
         dynamicBean = (DynamicDataBean) SharedPreferencesUtil.getBean(dynamicactivity, "dynamicBean");
         if (EmptyUtil.isNotEmpty(dynamicBean)) {
             binding.edittextRelease.setText(dynamicBean.getContent());
-            List<byte[]> dyImg = dynamicBean.getDyImg();
+            List<String> dyImg = dynamicBean.getDyImg();
             if (dyImg.size() <= 9 && dyImg.size() >= 1) {
 
                 for (int i = 0; i < dyImg.size(); i++) {
                     releaseBean = new ReleaseBean();
-                    releaseBean.setImgbyte(dyImg.get(i));
+                    releaseBean.setPath(dyImg.get(i));
                     releaseBeanList.add(releaseBean);
                 }
                 if (dyImg.size() < 9) {
@@ -209,9 +209,7 @@ public class DynamicVm extends BaseViewModel {
                         releaseBeanList.remove(releaseMsgAdapter.mList.get(position));
                     }
                     releaseMsgAdapter.loadData(releaseBeanList);
-
                 }
-
             }
         });
 
@@ -239,7 +237,7 @@ public class DynamicVm extends BaseViewModel {
         if (releaseBeanList.size() > 0) {
             for (int i = 0; i < releaseBeanList.size(); i++) {
                 if (EmptyUtil.isEmpty(releaseBeanList.get(i).getTypes())) {
-                    list.add(releaseBeanList.get(i).getImgbyte());
+                    list.add(releaseBeanList.get(i).getPath());
                 }
             }
 
@@ -291,6 +289,7 @@ public class DynamicVm extends BaseViewModel {
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         SharedPreferencesUtil.setParam(dynamicactivity, "ActivityState", true);
                         SharedPreferencesUtil.remove(dynamicactivity, "dynamicBean");
+                        dynamicactivity.setResult(1000);
                         dynamicactivity.finish();
                     } else {
                         toastUtil.centerToast(resultBean.getResultMsg());
@@ -461,6 +460,7 @@ public class DynamicVm extends BaseViewModel {
                 }
             });
         } else {
+            dynamicactivity.setResult(StatusVariable.DISCOVERCODE);
             dynamicactivity.finish();
         }
     }
@@ -470,12 +470,12 @@ public class DynamicVm extends BaseViewModel {
      */
     private void Save() {
         DynamicDataBean dynamicDataBean = new DynamicDataBean();
-        List<byte[]> imgbytelist = new ArrayList<>();
+        List<String> imgbytelist = new ArrayList<>();
         if (releaseBeanList.size() > 0) {
             try {
                 for (int i = 0; i < releaseBeanList.size(); i++) {
                     if (EmptyUtil.isEmpty(releaseBeanList.get(i).getTypes())) {
-                        imgbytelist.add(releaseBeanList.get(i).getImgbyte());
+                        imgbytelist.add(releaseBeanList.get(i).getPath());
                     }
                 }
             } catch (Exception e) {
@@ -498,9 +498,6 @@ public class DynamicVm extends BaseViewModel {
 
         HashMap params = new HashMap();
         if (EmptyUtil.isEmpty(releaseBeanList.get(count).getTypes())) {
-            if (!EmptyUtil.isEmpty(releaseBeanList.get(count).getImgbyte())) {
-                file = Util.bytesToImageFile(releaseBeanList.get(count).getImgbyte());
-            }
 
             params.put("baseUrl", Config.baseUrl2);
             params.put("file", releaseBeanList.get(count).getPath());
@@ -623,14 +620,14 @@ public class DynamicVm extends BaseViewModel {
 
         if (!EmptyUtil.isEmpty(path)) {
             try {
-                bytes = Util.readStream(path);
+                bytes = Util.getBytes(path);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             ReleaseBean releaseBean = new ReleaseBean();
             releaseBean.setPath(path);
-            releaseBean.setImgbyte(bytes);
+//            releaseBean.setImgbyte(bytes);
 
             if (pos != -1) {
                 releaseBeanList.add(pos, releaseBean);

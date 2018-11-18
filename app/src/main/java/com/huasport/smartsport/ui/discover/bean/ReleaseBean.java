@@ -2,7 +2,6 @@ package com.huasport.smartsport.ui.discover.bean;
 
 public class ReleaseBean {
 
-    private byte[] imgbyte;
     private String types;
     private String path;
 
@@ -22,12 +21,5 @@ public class ReleaseBean {
         this.types = types;
     }
 
-    public byte[] getImgbyte() {
-        return imgbyte;
-    }
-
-    public void setImgbyte(byte[] imgbyte) {
-        this.imgbyte = imgbyte;
-    }
 
 }

@@ -9,6 +9,7 @@ import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.SharedPreferencesUtil;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.HttpHeaders;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -33,8 +34,11 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
 
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.put("Accept", "application/json;charset=UTF-8");
+
         //初始化
-        OkGo.getInstance().init(this);
+        OkGo.getInstance().init(this).addCommonHeaders(httpHeaders);
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);      //全局的读取超时时间

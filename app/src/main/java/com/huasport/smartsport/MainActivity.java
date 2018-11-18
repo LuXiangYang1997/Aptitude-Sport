@@ -177,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }else if (resultCode==StatusVariable.PCENTERCODE){
                 tabState(StatusVariable.PERSONALCENTE);
                 viewPagerAdapter.getItem(StatusVariable.PCENTERCODE).onActivityResult(requestCode,resultCode,data);
+            }else if (resultCode == StatusVariable.RELEASE){
+                viewPagerAdapter.getItem(StatusVariable.DISCOVERCODE).onActivityResult(requestCode,resultCode,data);
             }
         }
     }

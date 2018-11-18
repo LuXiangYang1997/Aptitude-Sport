@@ -447,6 +447,7 @@ public class ArticleVm extends BaseViewModel {
                 if (!EmptyUtil.isEmpty(resultBean)) {
                     int resultCode = resultBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
+                        articleActivity.setResult(1000);
                         articleActivity.finish();
                     } else {
                         toastUtil.centerToast(resultBean.getResultMsg());
@@ -634,7 +635,7 @@ public class ArticleVm extends BaseViewModel {
         } else {
             if (EmptyUtil.isEmpty(editDataList.get(0).getImagePath()) && EmptyUtil.isEmpty(editDataList.get(0).getInputStr())) {
                 SharedPreferencesUtil.remove(articleActivity, "articleContent");
-                articleActivity.setResult(-1);
+                articleActivity.setResult(StatusVariable.DISCOVERCODE);
                 articleActivity.finish();
             } else {
                 tipDialog();
