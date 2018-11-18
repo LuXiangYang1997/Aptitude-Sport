@@ -10,17 +10,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.huasport.smartsport.R;
-
 import com.huasport.smartsport.base.BaseAdapter;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.ui.discover.bean.CommentFavourBean;
 import com.huasport.smartsport.ui.discover.view.ArticleDetailActivity;
+import com.huasport.smartsport.ui.discover.view.ReleaseActivity;
+import com.huasport.smartsport.ui.discover.view.ReplyActivity;
 import com.huasport.smartsport.util.DateUtil;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.GlideUtil;
 import com.huasport.smartsport.util.Util;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -150,9 +151,9 @@ public class ArticleDetailAdapter extends BaseAdapter<CommentFavourBean.ResultBe
                 @Override
                 public void onClick(View v) {
 
-//                    intent = new Intent(articleDetailActivity, ReleaseActivity.class);
-//                    intent.putExtra("registerId", mList.get(position).getRegisterId());
-//                    articleDetailActivity.startActivityForResult(intent, 0);
+                    intent = new Intent(articleDetailActivity, ReleaseActivity.class);
+                    intent.putExtra("registerId", mList.get(position).getRegisterId());
+                    articleDetailActivity.startActivity(intent);
 
                 }
             });
@@ -277,11 +278,11 @@ public class ArticleDetailAdapter extends BaseAdapter<CommentFavourBean.ResultBe
                     @Override
                     public void onClick(View v) {
 //
-//                        Intent intent = new Intent(articleDetailActivity, ReplyActivity.class);
-//                        intent.putExtra("replyBean", (Serializable) mList.get(position));
-//                        intent.putExtra("dynamicId", articleDetailActivity.dyId.get());
-//                        intent.putExtra("isOneSelf", articleDetailActivity.isOneSelf.get());
-//                        articleDetailActivity.startActivityForResult(intent, 0);
+                        Intent intent = new Intent(articleDetailActivity, ReplyActivity.class);
+                        intent.putExtra("replyBean", (Serializable) mList.get(position));
+                        intent.putExtra("dynamicId", articleDetailActivity.dyId.get());
+                        intent.putExtra("isOneSelf", articleDetailActivity.isOneSelf.get());
+                        articleDetailActivity.startActivityForResult(intent, 0);
                     }
                 });
                 //添加第一个TextView

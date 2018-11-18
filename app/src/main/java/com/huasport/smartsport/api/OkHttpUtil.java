@@ -1,6 +1,7 @@
 package com.huasport.smartsport.api;
 
 import android.content.Context;
+
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.LogUtil;
 import com.lzy.okgo.OkGo;
@@ -8,7 +9,9 @@ import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+
 import org.json.JSONObject;
+
 import java.io.File;
 import java.util.HashMap;
 
@@ -17,6 +20,8 @@ public class OkHttpUtil {
     private static String baseMethod;
     private static String baseUrl;
     private static String filePath = "";
+    private static String token;
+    private static String url = "";
 
     /**
      * get请求
@@ -28,7 +33,7 @@ public class OkHttpUtil {
     public static <T> void getRequest(Context context, HashMap params, final RequestCallBack<T> requestCallBack) {
         //判断参数列表是否为空
         if (EmptyUtil.isEmpty(params)) {
-            LogUtil.e( "参数Map为空");
+            LogUtil.e("参数Map为空");
             return;
         }
         //判断baseUrl是否为空
@@ -45,7 +50,7 @@ public class OkHttpUtil {
             //method
             baseMethod = (String) params.get("baseMethod");
         } else {
-            LogUtil.e( "缺少baseMethod");
+            LogUtil.e("缺少baseMethod");
             return;
         }
         params.put("t", String.valueOf(System.currentTimeMillis()));
@@ -245,8 +250,14 @@ public class OkHttpUtil {
             return;
         }
         params.put("t", String.valueOf(System.currentTimeMillis()));
-
-        OkGo.<T>post(baseUrl + baseMethod).params(params).params("file", new File(filePath)).params("file",new File(filePath).getName()).execute(new Callback<T>() {
+        if (!params.containsKey("token")) {
+            token = "";
+            url = baseUrl + baseMethod;
+        } else {
+            token = (String) params.get("token");
+            url = baseUrl + baseMethod + "?token=" + token;
+        }
+        OkGo.<T>post(url).params("file", new File(filePath)).params(params).params("file", new File(filePath).getName()).execute(new Callback<T>() {
             @Override
             public void onStart(Request<T, ? extends Request> request) {
                 requestCallBack.onStart(request);
@@ -372,5 +383,4 @@ public class OkHttpUtil {
             }
         });
     }
-
 }

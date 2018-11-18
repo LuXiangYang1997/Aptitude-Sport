@@ -10,10 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseAdapter;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.ui.discover.bean.SocialBean;
+import com.huasport.smartsport.ui.discover.view.ArticleDetailActivity;
+import com.huasport.smartsport.ui.discover.view.DynamicDetailActivity;
+import com.huasport.smartsport.ui.discover.view.ReleaseActivity;
 import com.huasport.smartsport.util.DateUtil;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.GlideUtil;
@@ -28,7 +32,6 @@ public class SocialAdapter extends BaseAdapter<SocialBean.ResultBean.DataBean, R
     private DynamicViewHolder dynamicViewHolder;
     private ArticleViewHolder articleViewHolder;
     private Intent intent;
-
 
 
     public SocialAdapter(FragmentActivity activity) {
@@ -308,10 +311,9 @@ public class SocialAdapter extends BaseAdapter<SocialBean.ResultBean.DataBean, R
             dynamicViewHolder.rl_dynamicDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    activity.refreshStatus.set("refresh");
-//                    Intent intent = new Intent(activity, DynamicDetailActivity.class);
-//                    intent.putExtra("dynamicId", mList.get(position).getId());
-//                    activity.startActivityForResult(intent, 0);
+                    Intent intent = new Intent(activity, DynamicDetailActivity.class);
+                    intent.putExtra("dynamicId", mList.get(position).getId());
+                    activity.startActivity(intent);
 
                 }
             });
@@ -319,11 +321,10 @@ public class SocialAdapter extends BaseAdapter<SocialBean.ResultBean.DataBean, R
             dynamicViewHolder.headerImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    activity.refreshStatus.set("refresh");
-//                    intent = new Intent(activity, ReleaseActivity.class);
-//                    intent.putExtra("registerId", mList.get(position).getRegisterID());
-//                    activity.startActivityForResult(intent, 0);
 
+                    intent = new Intent(activity, ReleaseActivity.class);
+                    intent.putExtra("registerId", mList.get(position).getRegisterID());
+                    activity.startActivity(intent);
 
                 }
             });
@@ -343,7 +344,7 @@ public class SocialAdapter extends BaseAdapter<SocialBean.ResultBean.DataBean, R
             //文章部分内容
             if (!EmptyUtil.isEmpty(mList.get(position).getTitle())) {
 
-                    articleViewHolder.tv_article_content.setText(Util.getHtmlContent((String) mList.get(position).getTitle()));
+                articleViewHolder.tv_article_content.setText(Util.getHtmlContent((String) mList.get(position).getTitle()));
 
 
             }
@@ -370,10 +371,10 @@ public class SocialAdapter extends BaseAdapter<SocialBean.ResultBean.DataBean, R
             articleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    activity.refreshStatus.set("refresh");
-//                    Intent intent = new Intent(activity, ArticleDetailActivity.class);
-//                    intent.putExtra("dynamicId", mList.get(position).getId());
-//                    activity.startActivityForResult(intent, 0);
+
+                    Intent intent = new Intent(activity, ArticleDetailActivity.class);
+                    intent.putExtra("dynamicId", mList.get(position).getId());
+                    activity.startActivity(intent);
                 }
             });
         }

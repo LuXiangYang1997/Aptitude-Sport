@@ -47,6 +47,9 @@ public class DiscoverFragment extends BaseFragment<DiscoverLayoutBinding,Discove
     public void initViewObservable() {
         super.initViewObservable();
 
+        binding.xrecyclerView.setLoadingMoreEnabled(false);
+        binding.xrecyclerView.setPullRefreshEnabled(false);
+
         binding.xrecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.xrecyclerView.setAdapter(socialAdapter);
 

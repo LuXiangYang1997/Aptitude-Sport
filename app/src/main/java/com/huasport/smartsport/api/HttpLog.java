@@ -1,7 +1,6 @@
 package com.huasport.smartsport.api;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.bean.ResultBean;
@@ -10,6 +9,7 @@ import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.Util;
+
 import java.util.HashMap;
 public class HttpLog {
 

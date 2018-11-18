@@ -253,6 +253,8 @@ public class LoginVm extends BaseViewModel {
 
             if (!loginState) {
                 IntentUtil.finishPage(loginActivity, StatusVariable.MATCHAPPLYCODE);
+            }else{
+                loginActivity.finish();
             }
 
         }

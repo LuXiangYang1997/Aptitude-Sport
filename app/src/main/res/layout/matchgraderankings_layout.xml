@@ -154,7 +154,7 @@
             app:srlEnableOverScrollDrag="true"
             app:srlEnableRefresh="true">
 
-            <com.jcodecraeer.xrecyclerview.XRecyclerView
+            <com.zhouyou.recyclerview.XRecyclerView
                 android:id="@+id/recyclerView_rank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

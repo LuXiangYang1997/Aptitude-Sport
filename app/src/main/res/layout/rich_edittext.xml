@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.huasport.smartsport.custom.DeletableEditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@null"
+    android:cursorVisible="true"
+    android:textColor="#333333"
+    android:textColorHint="#CCCCCC"
+    android:textSize="@dimen/sp_16" />

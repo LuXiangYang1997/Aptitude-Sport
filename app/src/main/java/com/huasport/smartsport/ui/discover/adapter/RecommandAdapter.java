@@ -6,11 +6,14 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseAdapter;
 import com.huasport.smartsport.base.BaseViewHolder;
 import com.huasport.smartsport.databinding.RecommendItemlayoutBinding;
 import com.huasport.smartsport.ui.discover.bean.RecommandBean;
+import com.huasport.smartsport.ui.discover.view.ArticleDetailActivity;
+import com.huasport.smartsport.ui.discover.view.DynamicDetailActivity;
 import com.huasport.smartsport.util.EmptyUtil;
 
 
@@ -68,22 +71,15 @@ public class RecommandAdapter extends BaseAdapter<RecommandBean.ResultBean.DataB
             public void onClick(View v) {
                 if (!EmptyUtil.isEmpty(mList.get(position).getType())) {
                     if (mList.get(position).getType().equals("article")) {
-//                        intent = new Intent(activity.getActivity(), ArticleDetailActivity.class);
-//                        intent.putExtra("dynamicId", mList.get(position).getId());
-
-                    } else{
-
-//                        activity.refreshStatus.set("refresh");
-//                        intent = new Intent(activity.getActivity(), DynamicDetailActivity.class);
-//                        intent.putExtra("dynamicId", mList.get(position).getId());
+                        intent = new Intent(activity, ArticleDetailActivity.class);
+                        intent.putExtra("dynamicId", mList.get(position).getId());
+                    } else {
+                        intent = new Intent(activity, DynamicDetailActivity.class);
+                        intent.putExtra("dynamicId", mList.get(position).getId());
                     }
-//                    activity.startActivityForResult(intent, 0);
+                    activity.startActivity(intent);
                 }
-
-
             }
         });
-
-
     }
 }

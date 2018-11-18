@@ -106,13 +106,13 @@
                         android:layout_height="@dimen/dp_40">
 
                         <ImageView
-                            android:id="@+id/articleheaderImg"
+                            android:id="@+id/img_header"
                             android:layout_width="@dimen/dp_40"
                             android:layout_height="@dimen/dp_40"
                             android:src="@mipmap/icon_defaultheader_yes" />
 
                         <ImageView
-                            android:id="@+id/articleimg_v"
+                            android:id="@+id/img_v"
                             android:layout_width="@dimen/dp_16"
                             android:layout_height="@dimen/dp_16"
                             android:layout_alignParentRight="true"
@@ -131,7 +131,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/articlename"
+                            android:id="@+id/tv_articleName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
@@ -148,7 +148,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/tv_articlesifttime"
+                                android:id="@+id/tv_articletime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
@@ -171,7 +171,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_articleattention"
+                        android:id="@+id/tv_follow"
                         android:layout_width="@dimen/dp_50"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/dp_10"
@@ -194,7 +194,7 @@
                     android:layout_marginRight="@dimen/dp_15">
 
                     <WebView
-                        android:id="@+id/article_webView"
+                        android:id="@+id/web_webView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dp_10"
@@ -316,12 +316,12 @@
 
             </android.support.design.widget.CoordinatorLayout>
 
-            <com.huasport.smartsport.customview.ClassicsFooter
+            <com.huasport.smartsport.custom.ClassicsFooter
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/dimen_value_dp20"
-                app:srlDrawableArrow="@mipmap/icon_header_yes"
-                app:srlDrawableArrowSize="@dimen/dimen_value_dp20" />
+                android:paddingLeft="@dimen/dp_20"
+                app:srlDrawableArrow="@mipmap/icon_defaultheader_yes"
+                app:srlDrawableArrowSize="@dimen/dp_20" />
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

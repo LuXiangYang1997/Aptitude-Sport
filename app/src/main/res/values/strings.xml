@@ -79,4 +79,21 @@
     <string name="cancel_zan">取消点赞成功</string>
     <string name="deleate">删除</string>
     <string name="tourist">游客</string>
+    <string name="command_nulltip">请填写评论内容</string>
+    <string name="command_success">评论成功</string>
+    <string name="delete_success">删除成功</string>
+    <string name="delete_failed">删除失败</string>
+    <string name="zan_null">暂无点赞</string>
+    <string name="command_null">暂无评论</string>
+    <string name="forbid_command">抱歉您无法评论本条评论</string>
+    <string name="my_release">我的发布</string>
+    <string name="data_null">暂无数据</string>
+    <string name="write_command">写评论...</string>
+    <string name="tourist_reply">游客回复：</string>
+    <string name="author_reply">作者回复：</string>
+    <string name="commandtip">请填写评论内容</string>
+    <string name="command">评论</string>
+    <string name="recommand">推荐</string>
+    <string name="save_failed">保存失败</string>
+
 </resources>

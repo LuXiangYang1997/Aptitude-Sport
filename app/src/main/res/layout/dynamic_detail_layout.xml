@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="dynamicDetailVm"
+            type="com.huasport.smartsport.ui.discover.vm.DynamicDetailVm" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_FFFFFF"
+        android:orientation="vertical">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            app:srlDisableContentWhenLoading="true"
+            app:srlDisableContentWhenRefresh="true"
+            app:srlEnableLoadMore="true"
+            app:srlEnableLoadMoreWhenContentNotFull="true"
+            app:srlEnableOverScrollDrag="true"
+            app:srlEnableRefresh="false">
+
+         <android.support.design.widget.CoordinatorLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+             <android.support.design.widget.AppBarLayout
+                     android:id="@+id/app_bar"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     app:elevation="0dp">
+                 <android.support.design.widget.CollapsingToolbarLayout
+                         android:id="@+id/toolbar_layout"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:fitsSystemWindows="true"
+                         app:layout_scrollFlags="scroll">
+                         <LinearLayout
+                             android:orientation="vertical"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content">
+                            <View
+                                android:layout_width="match_parent"
+                                android:background="@color/color_EFEFF4"
+                                android:layout_height="@dimen/dp_10"/>
+                             <RelativeLayout
+                                 app:layout_collapseMode="pin"
+                                 app:layout_scrollFlags="exitUntilCollapsed|enterAlways|enterAlwaysCollapsed"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+                                 android:background="@color/color_FFFFFF">
+
+                                 <ImageView
+                                     android:id="@+id/img_sift"
+                                     android:layout_width="wrap_content"
+                                     android:layout_height="wrap_content"
+                                     android:src="@mipmap/icon_sift"
+                                     android:visibility="gone" />
+
+                                 <LinearLayout
+                                     android:layout_width="match_parent"
+                                     android:layout_height="wrap_content"
+                                     android:layout_marginTop="@dimen/dp_15"
+                                     android:orientation="vertical">
+
+
+                                     <LinearLayout
+                                         android:id="@+id/ll_siftuserMsg"
+                                         android:layout_width="match_parent"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginLeft="@dimen/dp_15"
+                                         android:layout_marginRight="@dimen/dp_15"
+                                         android:orientation="horizontal">
+
+                                         <RelativeLayout
+                                             android:layout_width="@dimen/dp_40"
+                                             android:layout_height="@dimen/dp_40">
+
+                                             <ImageView
+                                                 android:id="@+id/img_header"
+                                                 android:layout_width="@dimen/dp_40"
+                                                 android:layout_height="@dimen/dp_40"
+                                                 android:src="@mipmap/icon_defaultheader_yes" />
+
+                                             <ImageView
+                                                 android:id="@+id/img_v"
+                                                 android:layout_width="@dimen/dp_16"
+                                                 android:layout_height="@dimen/dp_16"
+                                                 android:layout_alignParentRight="true"
+                                                 android:layout_alignParentBottom="true"
+                                                 android:src="@mipmap/icon_v"
+                                                 android:visibility="gone" />
+
+                                         </RelativeLayout>
+
+                                         <LinearLayout
+                                             android:layout_width="wrap_content"
+                                             android:layout_height="wrap_content"
+                                             android:layout_marginLeft="@dimen/dp_10"
+                                             android:layout_marginRight="@dimen/dp_10"
+                                             android:layout_weight="1"
+                                             android:orientation="vertical">
+
+                                             <TextView
+                                                 android:id="@+id/tv_name"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:ellipsize="end"
+                                                 android:singleLine="true"
+                                                 android:text=""
+                                                 android:textColor="@color/color_333333"
+                                                 android:textSize="@dimen/sp_13" />
+
+                                             <LinearLayout
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="wrap_content"
+                                                 android:layout_marginTop="@dimen/dp_3"
+                                                 android:orientation="horizontal">
+
+                                                 <TextView
+                                                     android:id="@+id/tv_time"
+                                                     android:layout_width="wrap_content"
+                                                     android:layout_height="wrap_content"
+                                                     android:singleLine="true"
+                                                     android:text=""
+                                                     android:textColor="@color/color_999999"
+                                                     android:textSize="@dimen/sp_12" />
+
+                                                 <TextView
+                                                     android:id="@+id/tv_produce"
+                                                     android:layout_width="wrap_content"
+                                                     android:layout_height="wrap_content"
+                                                     android:layout_marginLeft="@dimen/dp_10"
+                                                     android:ellipsize="end"
+                                                     android:singleLine="true"
+                                                     android:textColor="@color/color_999999"
+                                                     android:textSize="@dimen/sp_12" />
+                                             </LinearLayout>
+
+
+                                         </LinearLayout>
+
+                                         <TextView
+                                             android:id="@+id/tv_attention"
+                                             android:layout_width="@dimen/dp_50"
+                                             android:layout_height="wrap_content"
+                                             android:layout_marginRight="@dimen/dp_10"
+                                             android:background="@drawable/attentionbg_no"
+                                             android:gravity="center_horizontal"
+                                             android:padding="@dimen/dp_4"
+                                             android:text="关注"
+                                             android:textColor="@color/color_FF8F00"
+                                             android:textSize="@dimen/sp_13"
+                                             android:visibility="visible" />
+
+                                     </LinearLayout>
+
+                                     <LinearLayout
+                                         android:layout_width="match_parent"
+                                         android:layout_height="wrap_content"
+                                         android:layout_below="@+id/ll_siftuserMsg"
+                                         android:layout_marginLeft="@dimen/dp_15"
+                                         android:layout_marginTop="@dimen/dp_5"
+                                         android:layout_marginBottom="@dimen/dp_5"
+                                         android:layout_marginRight="@dimen/dp_15">
+
+                                         <TextView
+                                             android:id="@+id/tv_detail"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:textColor="@color/color_333333"
+                                             android:textSize="@dimen/sp_14" />
+
+
+                                     </LinearLayout>
+
+                                     <android.support.v7.widget.RecyclerView
+                                         android:id="@+id/imgRecyclerView"
+                                         android:layout_width="match_parent"
+                                         android:layout_height="wrap_content"
+                                         android:layout_marginLeft="@dimen/dp_15"
+                                         android:layout_marginTop="@dimen/dp_10"
+                                         android:layout_marginRight="@dimen/dp_15"
+                                         android:layout_marginBottom="@dimen/dp_10"></android.support.v7.widget.RecyclerView>
+
+                                 </LinearLayout>
+
+                             </RelativeLayout>
+                             <View
+                                 android:layout_alignParentBottom="true"
+                                 android:layout_width="match_parent"
+                                 android:background="@color/color_EFEFF4"
+                                 android:layout_height="@dimen/dp_10"/>
+
+                         </LinearLayout>
+
+                     </android.support.design.widget.CollapsingToolbarLayout>
+
+                 <LinearLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="vertical"
+                         app:layout_collapseMode="pin"
+                         app:layout_scrollFlags="exitUntilCollapsed|enterAlways|enterAlwaysCollapsed">
+
+                         <LinearLayout
+                             android:layout_width="match_parent"
+                             android:layout_height="@dimen/dp_50"
+                             android:background="@color/color_FFFFFF"
+                             android:orientation="horizontal"
+                             android:weightSum="2">
+
+                             <LinearLayout
+                                 android:id="@+id/ll_command"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="1"
+                                 android:orientation="vertical">
+
+                                 <TextView
+                                     android:id="@+id/tv_command"
+                                     android:layout_width="match_parent"
+                                     android:layout_height="match_parent"
+                                     android:layout_weight="1"
+                                     android:gravity="center_horizontal|center_vertical"
+                                     android:text="评论"
+                                     android:textColor="@color/color_FF8F00"
+                                     android:textSize="13sp" />
+
+                                 <View
+                                     android:id="@+id/tab_command"
+                                     android:layout_width="@dimen/dp_75"
+                                     android:layout_height="2dp"
+                                     android:layout_alignParentBottom="true"
+                                     android:layout_centerHorizontal="true"
+                                     android:layout_gravity="center_horizontal"
+                                     android:background="@color/color_FF8F00"
+                                     android:visibility="visible" />
+
+
+                             </LinearLayout>
+
+                             <LinearLayout
+
+                                 android:id="@+id/ll_favour"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="match_parent"
+                                 android:layout_weight="1"
+                                 android:orientation="vertical">
+
+                                 <TextView
+                                     android:id="@+id/tv_favour"
+                                     android:layout_width="match_parent"
+                                     android:layout_height="match_parent"
+                                     android:layout_weight="1"
+                                     android:gravity="center_horizontal|center_vertical"
+                                     android:text="点赞"
+                                     android:textColor="#333333"
+                                     android:textSize="13sp" />
+
+                                 <View
+                                     android:id="@+id/tab_favour"
+                                     android:layout_width="@dimen/dp_75"
+                                     android:layout_height="2dp"
+                                     android:layout_alignParentBottom="true"
+                                     android:layout_centerHorizontal="true"
+                                     android:layout_gravity="center_horizontal"
+                                     android:background="@color/color_FF8F00"
+                                     android:visibility="gone" />
+
+
+                             </LinearLayout>
+
+
+                         </LinearLayout>
+                         <View
+                             android:layout_width="match_parent"
+                             android:background="@color/color_EFEFF4"
+                             android:layout_height="@dimen/dp_1"/>
+                     </LinearLayout>
+
+             </android.support.design.widget.AppBarLayout>
+
+
+                <android.support.v7.widget.RecyclerView
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:id="@+id/dynamicDteailRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+         </android.support.design.widget.CoordinatorLayout>
+
+            <com.huasport.smartsport.custom.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/dp_20"
+                app:srlDrawableArrow="@mipmap/icon_defaultheader_yes"
+                app:srlDrawableArrowSize="@dimen/dp_20" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <View
+            android:id="@+id/lineView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/color_E2E2E2" />
+
+        <LinearLayout
+            android:id="@+id/ll_commentlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_weight="1"
+                android:background="@drawable/comment_edittext_bg"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/social_icon_search"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_15"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:onClick="@{()->dynamicDetailVm.commentClick()}"
+                    android:src="@mipmap/icon_dynamiccomment" />
+
+                <TextView
+                    android:id="@+id/tv_social_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_25"
+                    android:layout_marginTop="@dimen/dp_9"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_9"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center_vertical"
+                    android:onClick="@{()->dynamicDetailVm.commentClick()}"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:text="写评论..."
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_13" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:gravity="center_horizontal|center"
+                android:onClick="@{()->dynamicDetailVm.pariseClick()}">
+
+                <ImageView
+                    android:id="@+id/img_dynamiczan"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@mipmap/icon_grayzan" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginRight="@dimen/dp_15"
+                android:gravity="center_horizontal|center"
+                android:onClick="@{()->dynamicDetailVm.shareClick()}">
+
+                <ImageView
+                    android:id="@+id/img_dynamicshare"
+                    android:layout_width="@dimen/dp_15"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@mipmap/icon_siftshare" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

@@ -7,10 +7,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.huasport.smartsport.constant.StatusVariable;
 
@@ -18,12 +23,19 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class Util {
+
+    private static String s;
+    private static File file;
 
     /**
      * 判断手机号是否符合规范
@@ -212,6 +224,169 @@ public class Util {
         } catch (Exception e) {
             return htmltext;
         }
+    }
+
+    /**
+     * 打开关闭软键盘
+     */
+    public static void softBoard(final Context context) {
+
+        Handler handler =
+                new Handler();
+
+        handler.postDelayed(new Runnable() {
+
+            @Override
+
+            public void run() {
+
+                InputMethodManager imm = (InputMethodManager) context
+
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (imm.isActive()) {
+
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
+
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+
+                }
+
+            }
+
+        }, 0);
+
+    }
+
+    /**
+     * 隐藏软键盘(只适用于Activity，不适用于Fragment)
+     */
+    public static void hideSoftKeyboard(Context context) {
+        Activity activity = (Activity) context;
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * 拼接ID
+     * @param list
+     * @return
+     */
+    public static String strbuilder(List<String> list) {
+
+        StringBuilder str = new StringBuilder();
+        //将多个作品ID进行拼接，来实现多选删除
+        for (int i = 0; i < list.size(); i++) {
+            if (i == list.size() - 1) {
+                str.append(list.get(i));
+            } else {
+                str.append(list.get(i));
+                str.append(",");
+            }
+            Log.e("String", str.toString());
+            s = str.toString();
+        }
+        return s;
+    }
+
+    /**
+     * 照片转byte二进制 * @param imagepath 需要转byte的照片路径 * @return 已经转成的byte * @throws Exception
+     */
+    public static byte[] readStream(String imagepath) throws Exception {
+        FileInputStream fs = new FileInputStream(imagepath);
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while (-1 != (len = fs.read(buffer))) {
+            outStream.write(buffer, 0, len);
+        }
+        outStream.close();
+        fs.close();
+        return outStream.toByteArray();
+    }
+
+    /**
+     * 获得指定文件的byte数组
+     */
+    public static byte[] getBytes(String filePath){
+        byte[] buffer = null;
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
+
+    /**
+     * 字节流转成file文件
+     *
+     * @param bytes
+     * @return
+     */
+    public static File bytesToImageFile(byte[] bytes) {
+        try {
+            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+System.currentTimeMillis()+".jpeg");
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bytes, 0, bytes.length);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    /**
+     * 根据byte数组，生成文件
+     */
+    public static File getFile(byte[] bfile, String filePath,String fileName) {
+        BufferedOutputStream bos = null;
+        FileOutputStream fos = null;
+        File file = null;
+        try {
+            File dir = new File(filePath);
+            if(!dir.exists()&&dir.isDirectory()){//判断文件目录是否存在
+                dir.mkdirs();
+            }
+            file = new File(filePath+"//"+fileName+".jpg");
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            bos.write(bfile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return file;
     }
 
 }

@@ -3,14 +3,13 @@ package com.huasport.smartsport.ui.matchgrade.view;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.huasport.smartsport.BR;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseActivity;
 import com.huasport.smartsport.databinding.MatchgraderankingsLayoutBinding;
 import com.huasport.smartsport.ui.matchgrade.adapter.MatchGradeRankingsListAdapter;
 import com.huasport.smartsport.ui.matchgrade.vm.MatchGradeRankingVM;
 
-public class MatchGradeRankingsActivity extends BaseActivity<MatchgraderankingsLayoutBinding, MatchGradeRankingVM> {
+public class MatchGradeRankingsActivity extends BaseActivity<MatchgraderankingsLayoutBinding,MatchGradeRankingVM> {
 
 
     private MatchGradeRankingVM matchGradeRankingVM;
@@ -23,7 +22,7 @@ public class MatchGradeRankingsActivity extends BaseActivity<MatchgraderankingsL
 
     @Override
     public int initVariableId() {
-        return BR.matchGradeRankVm;
+        return 0;
     }
 
     @Override

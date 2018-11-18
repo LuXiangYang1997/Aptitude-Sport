@@ -128,6 +128,30 @@
         <activity android:name=".ui.matchgrade.view.MatchGradeRankingsActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.discover.view.ArticleDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.discover.view.DynamicDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.discover.view.ReleaseActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.discover.view.RecommandActvity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.discover.view.ReplyActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.discover.view.LightSocialSearchActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.discover.view.ArticleActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.discover.view.DynamicActivity"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 

@@ -32,7 +32,6 @@ public class LoginActivity extends BaseActivity<LoginLayoutBinding, LoginVm> imp
     @Override
     public void initViewObservable() {
         super.initViewObservable();
-
         setTitle(getResources().getString(R.string.login_str));
         toolbarBinding.llLeft.setOnClickListener(this);
 

@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -24,8 +23,13 @@ import com.huasport.smartsport.databinding.DiscoverLayoutBinding;
 import com.huasport.smartsport.ui.discover.adapter.RecommandAdapter;
 import com.huasport.smartsport.ui.discover.adapter.SocialAdapter;
 import com.huasport.smartsport.ui.discover.bean.CommandPraiseBean;
+import com.huasport.smartsport.ui.discover.bean.PicBean;
 import com.huasport.smartsport.ui.discover.bean.RecommandBean;
 import com.huasport.smartsport.ui.discover.bean.SocialBean;
+import com.huasport.smartsport.ui.discover.view.ArticleActivity;
+import com.huasport.smartsport.ui.discover.view.DynamicActivity;
+import com.huasport.smartsport.ui.discover.view.LightSocialSearchActivity;
+import com.huasport.smartsport.ui.discover.view.RecommandActvity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
@@ -42,12 +46,11 @@ import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMore;
 import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMoreListener;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DiscoverVm extends BaseViewModel implements CounterListener ,RefreshLoadMoreListener,View.OnClickListener{
+public class DiscoverVm extends BaseViewModel implements CounterListener, RefreshLoadMoreListener, View.OnClickListener {
 
     private MyApplication application = MyApplication.getInstance();
     private List<SocialBean.ResultBean.DataBean> dataList = new ArrayList();
@@ -77,7 +80,6 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
     private DiscoverLayoutBinding binding;
     private String token;
     private int recommandTotalPage = 0;
-
     private String loadtype = "all";
     private String timestamp = "";
     private TextView tv_recommand;
@@ -99,21 +101,22 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
         initClick();
     }
 
-
-
+    /**
+     * 初始化
+     */
     private void init() {
         //初始化Toast
         toastUtil = new ToastUtil(activity);
         //初始化加载框
         loadingDialog = new LoadingDialog(activity, R.style.LoadingDialog);
         //初始化Counter
-        counter = new Counter(this,2);
+        counter = new Counter(this, 2);
         //初始化加载刷新
-        new RefreshLoadMore(binding.smartRefreshlayout,this);
+        new RefreshLoadMore(binding.smartRefreshlayout, this);
         //获取token
         UserBean userBean = application.getUserBean();
 
-        if (!EmptyUtil.isEmpty(userBean)){
+        if (!EmptyUtil.isEmpty(userBean)) {
 
             token = userBean.getToken();
 
@@ -135,13 +138,12 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
         recyclerViewRecommand.setLayoutManager(new LinearLayoutManager(activity));
         recyclerViewRecommand.setAdapter(recommandAdapter);
 
-
     }
 
     /**
      * 初始化推荐数据
      */
-    private void initRecommandData(){
+    private void initRecommandData() {
 
         HashMap params = new HashMap();
         params.put("token", token);
@@ -155,20 +157,20 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
             @Override
             public void onSuccess(Response<RecommandBean> response) {
                 RecommandBean recommandBean = response.body();
-                if (!EmptyUtil.isEmpty(recommandBean)){
+                if (!EmptyUtil.isEmpty(recommandBean)) {
                     int resultCode = recommandBean.getResultCode();
-                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                    if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         RecommandBean.ResultBean resultBean = recommandBean.getResult();
-                        if (!EmptyUtil.isEmpty(resultBean)){
+                        if (!EmptyUtil.isEmpty(resultBean)) {
                             recommandTotalPage = resultBean.getTotalPage();
                             List<RecommandBean.ResultBean.DataBean> data = resultBean.getData();
-                            if (!EmptyUtil.isEmpty(data)){
+                            if (!EmptyUtil.isEmpty(data)) {
                                 recommandAdapter.loadData(data);
                                 commanddataList.clear();
                                 commanddataList.addAll(data);
                                 binding.xrecyclerView.addHeaderView(recommandView);
-                            }else{
-//                                binding.xrecyclerViewDiscover.removeView(recommandView);
+                            } else {
+                                binding.xrecyclerView.removeHeaderView(recommandView);
                             }
                         }
                     }
@@ -185,7 +187,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
 
             @Override
             public void onFailed(int code, String msg) {
-                if (!EmptyUtil.isEmpty(msg)){
+                if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
             }
@@ -196,7 +198,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
     /**
      * 初始化列表数据
      */
-    private void initListData(final int loadStatus){
+    private void initListData(final int loadStatus) {
 
         HashMap params = new HashMap();
         params.put("token", token);
@@ -211,54 +213,54 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
             @Override
             public void onSuccess(Response<SocialBean> response) {
                 SocialBean socialBean = response.body();
-                if (!EmptyUtil.isEmpty(socialBean)){
+                if (!EmptyUtil.isEmpty(socialBean)) {
                     int resultCode = socialBean.getResultCode();
-                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                    if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         SocialBean.ResultBean resultBean = socialBean.getResult();
-                        if (!EmptyUtil.isEmpty(resultBean)){
+                        if (!EmptyUtil.isEmpty(resultBean)) {
                             totalPage = resultBean.getTotalPage();
                             timestamp = resultBean.getTimestamp();
 
-                            if (totalPage == 0){
-                                NullStateUtil.setNullState(binding.nulldata,true);
-                            }else{
-                                NullStateUtil.setNullState(binding.nulldata,false);
+                            if (totalPage == 0) {
+                                NullStateUtil.setNullState(binding.nulldata, true);
+                            } else {
+                                NullStateUtil.setNullState(binding.nulldata, false);
                             }
 
                             List<SocialBean.ResultBean.DataBean> data = resultBean.getData();
-                            if (!EmptyUtil.isEmpty(data)){
+                            if (!EmptyUtil.isEmpty(data)) {
 
-                                if (loadStatus == StatusVariable.REFRESH){
+                                if (loadStatus == StatusVariable.REFRESH) {
                                     dataList.clear();
                                     dataList.addAll(data);
                                     socialAdapter.loadData(data);
                                     binding.smartRefreshlayout.finishRefresh();
-                                }else{
+                                } else {
                                     dataList.addAll(data);
                                     socialAdapter.loadMoreData(data);
                                     binding.smartRefreshlayout.finishLoadMore();
                                 }
 
-                                if (loadtype.equals("all")){
+                                if (loadtype.equals("all")) {
                                     allPage = page;
                                     allTimeStamp = timestamp;
                                     allTotalPage = totalPage;
                                     allDataList.addAll(dataList);
-                                }else if (loadtype.equals("follow")){
+                                } else if (loadtype.equals("follow")) {
                                     followPage = page;
                                     followTimeStamp = timestamp;
                                     followTotalPage = totalPage;
                                     followDataList.addAll(dataList);
-                                }else if (loadtype.equals("dynamic")){
-                                   dynamicPage = page;
-                                   dynamicTimeStamp = timestamp;
-                                   dynamicTotalPage = totalPage;
-                                   dynamicDataList.addAll(dataList);
-                                }else if (loadtype.equals("article")){
-                                   articlePage = page;
-                                   articleTimeStamp = timestamp;
-                                   articleTotalPage = totalPage;
-                                   articleDataList.addAll(dataList);
+                                } else if (loadtype.equals("dynamic")) {
+                                    dynamicPage = page;
+                                    dynamicTimeStamp = timestamp;
+                                    dynamicTotalPage = totalPage;
+                                    dynamicDataList.addAll(dataList);
+                                } else if (loadtype.equals("article")) {
+                                    articlePage = page;
+                                    articleTimeStamp = timestamp;
+                                    articleTotalPage = totalPage;
+                                    articleDataList.addAll(dataList);
                                 }
                             }
 
@@ -278,7 +280,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
 
             @Override
             public void onFailed(int code, String msg) {
-                if (!EmptyUtil.isEmpty(msg)){
+                if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
             }
@@ -288,7 +290,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
     /**
      * 点赞
      */
-    private void dianLike(String id, final int position){
+    private void dianLike(String id, final int position) {
 
         HashMap params = new HashMap();
         params.put("token", token);
@@ -300,30 +302,32 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
             @Override
             public void onSuccess(Response<CommandPraiseBean> response) {
                 CommandPraiseBean commandPraiseBean = response.body();
-                if (!EmptyUtil.isEmpty(commandPraiseBean)){
-                    String resultMsg = commandPraiseBean.getResultMsg();
-                    if (resultMsg .equals(activity.getResources().getString(R.string.success_zan))){
+                if (!EmptyUtil.isEmpty(commandPraiseBean)) {
+                    int resultCode = commandPraiseBean.getResultCode();
+                    if (resultCode == StatusVariable.REQUESTSUCCESS) {
+                        String resultMsg = commandPraiseBean.getResultMsg();
+                        if (resultMsg.equals(activity.getResources().getString(R.string.success_zan))) {
 
-                        if (!EmptyUtil.isEmpty(dataList.get(position))){
-                            dataList.get(position).setIsLike("1");
-                            dataList.get(position).setLikesCount(dataList.get(position).getLikesCount() + 1);
-                            socialAdapter.loadData(dataList);
-                        }
-
-                    }else if (resultMsg.equals(activity.getResources().getString(R.string.cancel_zan))){
-
-                        if (!EmptyUtil.isEmpty(dataList.get(position))) {
-                            dataList.get(position).setIsLike("0");
-                            if (dataList.get(position).getLikesCount() != 0) {
-                                dataList.get(position).setLikesCount(dataList.get(position).getLikesCount() - 1);
+                            if (!EmptyUtil.isEmpty(dataList.get(position))) {
+                                dataList.get(position).setIsLike("1");
+                                dataList.get(position).setLikesCount(dataList.get(position).getLikesCount() + 1);
+                                socialAdapter.loadData(dataList);
                             }
-                            socialAdapter.loadData(dataList);
-                        }
 
+                        } else if (resultMsg.equals(activity.getResources().getString(R.string.cancel_zan))) {
+
+                            if (!EmptyUtil.isEmpty(dataList.get(position))) {
+                                dataList.get(position).setIsLike("0");
+                                if (dataList.get(position).getLikesCount() != 0) {
+                                    dataList.get(position).setLikesCount(dataList.get(position).getLikesCount() - 1);
+                                }
+                                socialAdapter.loadData(dataList);
+                            }
+                        }
+                        toastUtil.centerToast(resultMsg);
                     }
 
                 }
-
             }
 
             @Override
@@ -336,22 +340,19 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
 
             @Override
             public void onFailed(int code, String msg) {
-                if (!EmptyUtil.isEmpty(msg)){
+                if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
             }
         });
-
-
-
     }
 
     /**
-     *
      * 分享
+     *
      * @param dataBean
      */
-    private void share(final SocialBean.ResultBean.DataBean dataBean, final int position){
+    private void share(final SocialBean.ResultBean.DataBean dataBean, final int position) {
 
         final String nickName = application.getUserBean().getNickName();
 
@@ -359,11 +360,12 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
             @Override
             public void wechatQuanShare(PopupWindow popupWindow) {
 
-                shareUtil.shareFriendsQuan(dataBean.getShareURl(),"",R.mipmap.icon_share,nickName);
+                shareUtil.shareFriendsQuan(dataBean.getShareURl(), "", R.mipmap.icon_share, nickName);
                 HttpLog.shareHttp(activity, token, dataBean.getId(), new ShareStatusCallback() {
                     @Override
                     public void shareSuccess() {
-
+                        dataList.get(position).setShareCount(dataList.get(position).getShareCount() + 1);
+                        socialAdapter.loadData(dataList);
                     }
 
                     @Override
@@ -371,12 +373,12 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
 
                     }
                 });
-         }
+            }
 
             @Override
             public void weChatFriendsShare(PopupWindow popupWindow) {
 
-                shareUtil.shareFriends(dataBean.getShareURl(),dataBean.getContent(),R.mipmap.icon_share,nickName);
+                shareUtil.shareFriends(dataBean.getShareURl(), dataBean.getContent(), R.mipmap.icon_share, nickName);
                 HttpLog.shareHttp(activity, token, dataBean.getId(), new ShareStatusCallback() {
                     @Override
                     public void shareSuccess() {
@@ -393,21 +395,23 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
         });
 
     }
-    
+
     /**
      * 发布点击事件
      */
-    public void release(){
+    public void release() {
 
         PopWindowUtil.releaseClick(activity, binding.tvDiscoverRelease, new ReleaseCallBack() {
             @Override
             public void dynamic(PopupWindow popupWindow) {
-                    popupWindow.dismiss();
+                IntentUtil.startActivity(activity,DynamicActivity.class);
+                popupWindow.dismiss();
             }
 
             @Override
             public void article(PopupWindow popupWindow) {
-                    popupWindow.dismiss();
+                IntentUtil.startActivity(activity,ArticleActivity.class);
+                popupWindow.dismiss();
             }
         });
 
@@ -428,7 +432,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
         tv_recommand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                IntentUtil.startActivity(activity, RecommandActvity.class);
             }
         });
 
@@ -436,30 +440,56 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
             @Override
             public void commentclick(int type, SocialBean.ResultBean.DataBean dataBean, int position) {
                 boolean login = isLogin();
-                if (login){
-                    if (type == StatusVariable.SHARE){
-
-                        share(dataBean,position);
-
-                    }else if (type == StatusVariable.FAVOUR){
-
-                        dianLike(dataBean.getId(),position);
-
+                if (login) {
+                    if (type == StatusVariable.SHARE) {
+                        share(dataBean, position);
+                    } else if (type == StatusVariable.FAVOUR) {
+                        dianLike(dataBean.getId(), position);
                     }
-                }else{
-
+                } else {
                     IntentUtil.startActivity(activity, LoginActivity.class);
 
                 }
             }
         });
 
+        //查看大图
+        socialAdapter.setLookImgClick(new SocialAdapter.LookImgClick() {
+            @Override
+            public void lookimgClick(List<SocialBean.ResultBean.DataBean.PicsBean> picsBeansList, int position) {
 
-        
+                List<PicBean> picBeansList = new ArrayList<>();
+
+                for (int i = 0; i < picsBeansList.size(); i++) {
+                    PicBean picBean = new PicBean();
+                    picBean.setHeight(picsBeansList.get(i).getHeight());
+                    picBean.setSort(picsBeansList.get(i).getSort());
+                    picBean.setWidth(picsBeansList.get(i).getWidth());
+                    picBean.setId(picsBeansList.get(i).getId());
+                    picBean.setUrl(picsBeansList.get(i).getUrl());
+                    picBeansList.add(picBean);
+                }
+                PopWindowUtil.lookBigImg(activity, picBeansList, position);
+
+
+            }
+        });
+
+
+    }
+
+    /**
+     * 搜索
+     */
+    public void search(){
+
+        IntentUtil.startActivity(activity,LightSocialSearchActivity.class);
+
     }
 
     /**
      * 顶部Tab切换
+     *
      * @param v
      */
     @Override
@@ -529,60 +559,66 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
      */
     public void tabData(int position) {
 
-        if(position == 0){
+        if (position == 0) {
             loadtype = "all";
-            if (commanddataList.size()>0){
+            if (commanddataList.size() > 0) {
+                if (binding.xrecyclerView.getHeadersCount() <= 0) {
+                    binding.xrecyclerView.addHeaderView(recommandView);
+                }
                 recommandAdapter.loadData(commanddataList);
-            }else{
+            } else {
                 page = 1;
                 initRecommandData();
             }
-            if (allDataList.size()>0){
+            if (allDataList.size() > 0) {
                 page = allPage;
                 timestamp = allTimeStamp;
                 totalPage = allTotalPage;
                 socialAdapter.loadData(allDataList);
-            }else{
-                page =1;
+            } else {
+                page = 1;
                 timestamp = "";
                 totalPage = 0;
                 initListData(StatusVariable.REFRESH);
             }
-        }else if (position == 1){
+        } else if (position == 1) {
+            binding.xrecyclerView.removeHeaderView(recommandView);
             loadtype = "follow";
-            if (followDataList.size()>0){
+            if (followDataList.size() > 0) {
                 page = followPage;
                 timestamp = followTimeStamp;
                 totalPage = followTotalPage;
                 socialAdapter.loadData(followDataList);
-            }else{
-                page =1;
+            } else {
+                page = 1;
                 timestamp = "";
                 totalPage = 0;
                 initListData(StatusVariable.REFRESH);
             }
-        }else if (position == 2){
+        } else if (position == 2) {
+            binding.xrecyclerView.removeHeaderView(recommandView);
             loadtype = "dynamic";
-            if (dynamicDataList.size()>0){
+            if (dynamicDataList.size() > 0) {
                 page = dynamicPage;
                 timestamp = dynamicTimeStamp;
                 totalPage = dynamicTotalPage;
                 socialAdapter.loadData(dynamicDataList);
-            }else{
-                page =1;
+            } else {
+                page = 1;
                 timestamp = "";
                 totalPage = 0;
                 initListData(StatusVariable.REFRESH);
             }
-        }else if (position == 3){
+        } else if (position == 3) {
+            binding.xrecyclerView.removeHeaderView(recommandView);
             loadtype = "article";
-            if (articleDataList.size()>0){
+            if (articleDataList.size() > 0) {
                 page = articlePage;
                 timestamp = articleTimeStamp;
                 totalPage = articleTotalPage;
                 socialAdapter.loadData(articleDataList);
-            }else{
-                page =1;
+            } else {
+                page = 1;
                 timestamp = "";
                 totalPage = 0;
                 initListData(StatusVariable.REFRESH);
@@ -590,42 +626,55 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
         }
     }
 
-//    /**
-//     * 刷新推荐卡片数据
-//     */
-//    public void refreCommand() {
-//
-//        if (recommandTotalPage > 0) {
-//            binding.xrecyclerViewDiscover.removeView(recommandView);
-//        } else {
-//            if (binding.socialRecyclerView.getHeadersCount() > 0) {
-//                binding.socialRecyclerView.removeAllViews();
-//            }
-//        }
-//    }
+    /**
+     * 刷新推荐卡片数据
+     */
+    public void refreCommand() {
+
+        if (recommandTotalPage > 0) {
+            binding.xrecyclerView.removeHeaderView(recommandView);
+        } else {
+            if (binding.xrecyclerView.getHeadersCount() > 0) {
+                binding.xrecyclerView.removeAllViews();
+            }
+        }
+        initRecommandData();
+    }
 
     @Override
     public void countEnd(boolean isEnd) {
-        if (!EmptyUtil.isEmpty(loadingDialog)){
+        if (!EmptyUtil.isEmpty(loadingDialog)) {
             loadingDialog.dismiss();
         }
     }
 
+    /**
+     * 刷新
+     * @param refreshLayout
+     * @param type
+     */
     @Override
     public void refresh(RefreshLayout refreshLayout, int type) {
         page = 1;
         timestamp = "";
+        if (loadtype.equals("all")){
+            refreCommand();
+        }
         initListData(type);
-
     }
 
+    /**
+     * 加载
+     * @param refreshLayout
+     * @param type
+     */
     @Override
     public void loadMore(RefreshLayout refreshLayout, int type) {
 
-        if (page <= totalPage){
+        if (page <= totalPage) {
             binding.smartRefreshlayout.setNoMoreData(false);
             initListData(type);
-        }else{
+        } else {
             binding.smartRefreshlayout.finishLoadMoreWithNoMoreData();
             binding.smartRefreshlayout.setNoMoreData(true);
         }
@@ -634,20 +683,21 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
 
     /**
      * 是否登录
+     *
      * @return
      */
-    private boolean isLogin(){
+    private boolean isLogin() {
 
         UserBean userBean = application.getUserBean();
-        if (!EmptyUtil.isEmpty(userBean)){
+        if (!EmptyUtil.isEmpty(userBean)) {
 
             String token = userBean.getToken();
-            if (!EmptyUtil.isEmpty(token)){
+            if (!EmptyUtil.isEmpty(token)) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -656,9 +706,9 @@ public class DiscoverVm extends BaseViewModel implements CounterListener ,Refres
     public void onResume() {
         super.onResume();
         UserBean userBean = application.getUserBean();
-        if (!EmptyUtil.isEmpty(userBean)){
+        if (!EmptyUtil.isEmpty(userBean)) {
             token = userBean.getToken();
         }
-
     }
+
 }

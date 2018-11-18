@@ -53,6 +53,7 @@
                         android:src="@mipmap/icon_search" />
 
                     <TextView
+                        android:onClick="@{()->discoverVm.search()}"
                         android:id="@+id/tv_discover_search"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_25"
@@ -230,11 +231,11 @@
             app:srlEnableOverScrollDrag="true"
             app:srlEnableRefresh="true">
 
-            <com.jcodecraeer.xrecyclerview.XRecyclerView
+            <com.zhouyou.recyclerview.XRecyclerView
                 android:id="@+id/xrecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </com.jcodecraeer.xrecyclerview.XRecyclerView>
+            </com.zhouyou.recyclerview.XRecyclerView>
 
             <com.huasport.smartsport.custom.ClassicsFooter
                 android:layout_width="match_parent"

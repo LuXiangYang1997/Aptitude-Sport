@@ -52,6 +52,7 @@ public class StatusVariable {
 
     public static final int DYNAMIC = 0;//动态
     public static final int ARTICLE = 1;//文章
+    public static final int USER = 2;//用户
 
     public static final int SHARE = 0;//分享
     public static final int COMMENT = 1;//评论
@@ -70,9 +71,14 @@ public class StatusVariable {
             "<style>img{display:block;max-width:100% !important;height:auto !important;}</style>"
             + "<style>body{max-width:100% !important;}</style>" + "</head><body>";
 
+    public static final String UNFOLLOW = "unfollow";//未关注
 
+    public static final String DYNAMICSTR = "dynamic";
+    public static final String ARTICLESTR = "article";
+    public static final String USERSTR = "user";
 
-
+    public static final int NORMAL = 0;//普通事件
+    public static final int DELIMG = 1;//删除图片
 
 
 
