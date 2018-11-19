@@ -95,5 +95,20 @@
     <string name="command">评论</string>
     <string name="recommand">推荐</string>
     <string name="save_failed">保存失败</string>
+    <string name="select_match">选择赛事</string>
+    <string name="match_introduce">赛事介绍</string>
+    <string name="match_intro">赛事简介</string>
+    <string name="zhaikai">展开</string>
+    <string name="match_name">比赛名称</string>
+    <string name="match_time">比赛时间</string>
+    <string name="match_award">比赛奖项</string>
+    <string name="share_str">分享至</string>
+    <string name="qq_kongjian">QQ空间</string>
+    <string name="qq_friend">QQ好友</string>
+    <string name="sina_weibo">新浪微博</string>
+    <string name="select_group">选择分组</string>
+    <string name="apply_fee">报名费</string>
+    <string name="shengyu_count">剩余名额</string>
+    <string name="select_match_group">选择比赛分组</string>
 
 </resources>

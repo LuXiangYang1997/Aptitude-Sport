@@ -152,6 +152,15 @@
         <activity android:name=".ui.discover.view.DynamicActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.matchapply.view.MatchListActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.MatchIntroduceActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.CompetitionListActivity"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 

@@ -578,40 +578,6 @@ public class DynamicDetailVm extends BaseViewModel implements View.OnClickListen
             }
         });
 
-//        OkhttpUtils.postRequest(articleDetailActivity, params, new BaseHttpCallBack<CommandPraiseBean>(articleDetailActivity, true) {
-//            @Override
-//            public CommandPraiseBean parseNetworkResponse(String jsonResult) throws Exception {
-//
-//                CommandPraiseBean commandPraiseBean = JSON.parseObject(jsonResult, CommandPraiseBean.class);
-//
-//                return commandPraiseBean;
-//            }
-//
-//            @Override
-//            public void onSuccess(CommandPraiseBean commandPraiseBean, Call call, Response response) {
-//                if (!EmptyUtil.isEmpty(commandPraiseBean)) {
-//                    if (commandPraiseBean.getResultCode() == StatusVariable.REQUESTSUCCESS) {
-//                        clearData();
-//                        refreshFavour();
-//                        if (commandPraiseBean.getResultMsg().equals("点赞成功")) {
-//                            binding.imgDynamiczan.setImageResource(R.mipmap.icon_siftprise_select);
-//                        } else if (commandPraiseBean.getResultMsg().equals("取消点赞成功")) {
-//                            binding.imgDynamiczan.setImageResource(R.mipmap.icon_siftpraise);
-//                        }
-//                        SharedPreferencesUtils.setParam(articleDetailActivity, "ActivityState", true);
-//                        ToastUtils.toast(articleDetailActivity, commandPraiseBean.getResultMsg());
-//                    } else {
-//                        ToastUtils.toast(articleDetailActivity, commandPraiseBean.getResultMsg());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailed(String code, String msg) {
-//                ToastUtils.toast(articleDetailActivity, msg);
-//            }
-//        });
-
     }
 
     /**

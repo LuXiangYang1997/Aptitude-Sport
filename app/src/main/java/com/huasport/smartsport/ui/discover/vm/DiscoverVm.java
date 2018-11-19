@@ -1,6 +1,5 @@
 package com.huasport.smartsport.ui.discover.vm;
 
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -48,7 +46,6 @@ import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMore;
 import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMoreListener;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -113,7 +110,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
         //初始化加载框
         loadingDialog = new LoadingDialog(activity, R.style.LoadingDialog);
         //初始化Counter
-        counter = new Counter(this, 2);
+        counter = new Counter(this, 1);
         //初始化加载刷新
         new RefreshLoadMore(binding.smartRefreshlayout, this);
         //获取token
@@ -126,6 +123,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
         }
         //初始化分享
         shareUtil = new ShareUtil(activity);
+        //弹出加载框
+        loadingDialog.show();
     }
 
     /**
@@ -137,7 +136,9 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
         tv_recommand = recommandView.findViewById(R.id.tv_recommend);
         recyclerViewRecommand = recommandView.findViewById(R.id.recyclervie_recommand);
+
         binding.xrecyclerView.addHeaderView(recommandView);
+
         recyclerViewRecommand.setLayoutManager(new LinearLayoutManager(activity));
         recyclerViewRecommand.setAdapter(recommandAdapter);
 
@@ -172,9 +173,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                                 commanddataList.clear();
                                 commanddataList.addAll(data);
                             } else {
-                                if (binding.xrecyclerView.getHeadersCount() > 0){
-                                    binding.xrecyclerView.removeHeaderView(recommandView);
-                                }
+                                binding.xrecyclerView.removeHeaderView(recommandView);
                             }
                         }
                     }
@@ -194,6 +193,11 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
             }
         });
 
@@ -270,14 +274,6 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
                         }
                         page++;
-                    }else{
-
-                        if (loadtype.equals("follow")) {
-                            if (socialBean.getResultMsg().equals("用户未登录")) {
-                               IntentUtil.startActivity(activity,LoginActivity.class);
-                            }
-                        }
-
                     }
                 }
             }
@@ -295,6 +291,12 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
             }
         });
     }
@@ -416,13 +418,13 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
         PopWindowUtil.releaseClick(activity, binding.tvDiscoverRelease, new ReleaseCallBack() {
             @Override
             public void dynamic(PopupWindow popupWindow) {
-                IntentUtil.startActivityForResult(activity,DynamicActivity.class);
+                IntentUtil.startActivity(activity,DynamicActivity.class);
                 popupWindow.dismiss();
             }
 
             @Override
             public void article(PopupWindow popupWindow) {
-                IntentUtil.startActivityForResult(activity,ArticleActivity.class);
+                IntentUtil.startActivity(activity,ArticleActivity.class);
                 popupWindow.dismiss();
             }
         });
@@ -519,10 +521,15 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 tabData(0);
                 break;
             case R.id.ll_follow:
-                if (EmptyUtil.isEmpty(token)) {
-                    IntentUtil.startActivity(activity,LoginActivity.class);
-                    return;
-                }
+
+//                boolean login = LoginUtil.isLogin(activity);
+//                if (!login) {
+//                    MyApplication.getInstance().setTimeOut(false);
+//                    SharedPreferencesUtils.setParam(activity, "loginstate", true);
+//                    intent = new Intent(activity, LoginActivity.class);
+//                    activity.startActivityForResult(intent, 0);
+//                    return;
+//                }
                 binding.tvAll.setTextColor(activity.getResources().getColor(R.color.color_333333));
                 binding.tabAll.setVisibility(View.GONE);
                 binding.tvFollow.setTextColor(activity.getResources().getColor(R.color.color_FF8F00));
@@ -566,6 +573,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
      */
     public void tabData(int position) {
 
+
         if (position == 0) {
             loadtype = "all";
             if (commanddataList.size() > 0) {
@@ -578,7 +586,6 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 initRecommandData();
             }
             if (allDataList.size() > 0) {
-                NullStateUtil.setNullState(binding.nulldata,false);
                 page = allPage;
                 timestamp = allTimeStamp;
                 totalPage = allTotalPage;
@@ -587,13 +594,14 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         } else if (position == 1) {
             binding.xrecyclerView.removeHeaderView(recommandView);
             loadtype = "follow";
             if (followDataList.size() > 0) {
-                NullStateUtil.setNullState(binding.nulldata,false);
                 page = followPage;
                 timestamp = followTimeStamp;
                 totalPage = followTotalPage;
@@ -602,13 +610,14 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         } else if (position == 2) {
             binding.xrecyclerView.removeHeaderView(recommandView);
             loadtype = "dynamic";
             if (dynamicDataList.size() > 0) {
-                NullStateUtil.setNullState(binding.nulldata,false);
                 page = dynamicPage;
                 timestamp = dynamicTimeStamp;
                 totalPage = dynamicTotalPage;
@@ -617,13 +626,14 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         } else if (position == 3) {
             binding.xrecyclerView.removeHeaderView(recommandView);
             loadtype = "article";
             if (articleDataList.size() > 0) {
-                NullStateUtil.setNullState(binding.nulldata,false);
                 page = articlePage;
                 timestamp = articleTimeStamp;
                 totalPage = articleTotalPage;
@@ -632,6 +642,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         }
@@ -641,7 +653,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
      * 刷新推荐卡片数据
      */
     public void refreCommand() {
-        if (binding.xrecyclerView.getHeadersCount() == 0){
+
+        if (binding.xrecyclerView.getHeadersCount() == 0) {
             binding.xrecyclerView.addHeaderView(recommandView);
         }
         initRecommandData();
@@ -649,8 +662,10 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
     @Override
     public void countEnd(boolean isEnd) {
-        if (!EmptyUtil.isEmpty(loadingDialog)) {
-            loadingDialog.dismiss();
+        if (isEnd){
+            if(!EmptyUtil.isEmpty(loadingDialog)){
+                loadingDialog.dismiss();
+            }
         }
     }
 
@@ -705,27 +720,6 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
             }
         } else {
             return false;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1000){
-
-            binding.tvAll.setTextColor(activity.getResources().getColor(R.color.color_FF8F00));
-            binding.tabAll.setVisibility(View.VISIBLE);
-            binding.tvFollow.setTextColor(activity.getResources().getColor(R.color.color_333333));
-            binding.tabFollow.setVisibility(View.GONE);
-            binding.tvDynamic.setTextColor(activity.getResources().getColor(R.color.color_333333));
-            binding.tabDynamic.setVisibility(View.GONE);
-            binding.tvArticle.setTextColor(activity.getResources().getColor(R.color.color_333333));
-            binding.tabArticle.setVisibility(View.GONE);
-            allDataList.clear();dataList.clear();followDataList.clear();articleDataList.clear();dynamicDataList.clear();
-            page = 1; allPage = 1; followPage =1; articlePage = 1;dynamicPage= 1;
-            followTimeStamp = ""; dynamicTimeStamp = "";articleTimeStamp = ""; allTimeStamp = ""; timestamp = "";
-            allTotalPage = 0; followTotalPage = 0; dynamicTotalPage = 0; articleTotalPage = 0; totalPage = 0;
-            tabData(0);
         }
     }
 

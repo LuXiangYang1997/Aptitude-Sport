@@ -19,9 +19,11 @@ import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.ChildViewPager;
 import com.huasport.smartsport.ui.discover.adapter.DynamicBigImageAdapter;
 import com.huasport.smartsport.ui.discover.bean.PicBean;
+import com.huasport.smartsport.ui.matchapply.bean.MatchsBean;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.SoftKeyBoardListener;
 import com.huasport.smartsport.util.Util;
+import com.huasport.smartsport.wxapi.ThirdPart;
 
 import java.util.List;
 
@@ -361,5 +363,69 @@ public class PopWindowUtil {
         });
 
     }
+
+    /**
+     * 全部分享
+     * @param context
+     * @param normalShareCallBack
+     */
+    public static void allShare(final Context context, final NormalShareCallBack normalShareCallBack){
+        View shareView = LayoutInflater.from(context).inflate(R.layout.share_layout, null, false);
+                final PopupWindow sharePop = new PopupWindow(shareView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                sharePop.setContentView(shareView);
+                sharePop.showAtLocation(shareView, Gravity.BOTTOM, 0, 0);
+                sharePop.setOutsideTouchable(false);
+                Util.backgroundAlpha(context, 0.5f);
+                //微博分享
+                shareView.findViewById(R.id.weibo_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalShareCallBack.weiBoShare(sharePop);
+                    }
+                });
+                //微信好友分享
+                shareView.findViewById(R.id.wechat_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalShareCallBack.wechatFriendsShare(sharePop);
+                    }
+                });
+                //微信朋友圈分享
+                shareView.findViewById(R.id.pengyouquan_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalShareCallBack.wechatQuanShare(sharePop);
+                    }
+                });
+                //qq朋友分享
+                shareView.findViewById(R.id.qFriend_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalShareCallBack.qqFriendsShare(sharePop);
+                    }
+                });
+
+                //qq空间分享
+                shareView.findViewById(R.id.qSpase_layout).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalShareCallBack.qqSpaceShare(sharePop);
+                    }
+                });
+                shareView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sharePop.dismiss();
+                    }
+                });
+
+                sharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        Util.backgroundAlpha(context, 1f);
+                    }
+                });
+    }
+
 
 }

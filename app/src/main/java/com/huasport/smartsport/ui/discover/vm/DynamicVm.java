@@ -209,7 +209,9 @@ public class DynamicVm extends BaseViewModel {
                         releaseBeanList.remove(releaseMsgAdapter.mList.get(position));
                     }
                     releaseMsgAdapter.loadData(releaseBeanList);
+
                 }
+
             }
         });
 
@@ -237,7 +239,7 @@ public class DynamicVm extends BaseViewModel {
         if (releaseBeanList.size() > 0) {
             for (int i = 0; i < releaseBeanList.size(); i++) {
                 if (EmptyUtil.isEmpty(releaseBeanList.get(i).getTypes())) {
-                    list.add(releaseBeanList.get(i).getPath());
+                    list.add(releaseBeanList.get(i).getImgbyte());
                 }
             }
 
@@ -289,7 +291,6 @@ public class DynamicVm extends BaseViewModel {
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         SharedPreferencesUtil.setParam(dynamicactivity, "ActivityState", true);
                         SharedPreferencesUtil.remove(dynamicactivity, "dynamicBean");
-                        dynamicactivity.setResult(1000);
                         dynamicactivity.finish();
                     } else {
                         toastUtil.centerToast(resultBean.getResultMsg());
@@ -313,44 +314,6 @@ public class DynamicVm extends BaseViewModel {
                 }
             }
         });
-
-
-//        OkhttpUtils.postRequest(dynamicactivity, params, new BaseHttpCallBack<ReleaseDynamicResultBean>(dynamicactivity, true) {
-//            @Override
-//            public ReleaseDynamicResultBean parseNetworkResponse(String jsonResult) throws Exception {
-//
-//                ReleaseDynamicResultBean releaseDynamicResultBean = JSON.parseObject(jsonResult, ReleaseDynamicResultBean.class);
-//
-//                return releaseDynamicResultBean;
-//            }
-//
-//            @Override
-//            public void onSuccess(ReleaseDynamicResultBean releaseDynamicResultBean, Call call, Response response) {
-//                if (!EmptyUtil.isEmpty(releaseDynamicResultBean)) {
-//                    if (releaseDynamicResultBean.getResultCode() == StatusVariable.SUCCESS) {
-//                        SharedPreferencesUtils.setParam(dynamicactivity, "ActivityState", true);
-//                        SharedPreferencesUtils.remove(dynamicactivity, "dynamicBean");
-//                        dynamicactivity.setResult(1001);
-//                        dynamicactivity.finish2();
-//                    } else {
-//                        ToastUtils.toast(dynamicactivity, releaseDynamicResultBean.getResultMsg());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onAfter(ReleaseDynamicResultBean releaseDynamicResultBean, Exception e) {
-//                super.onAfter(releaseDynamicResultBean, e);
-//            }
-//
-//            @Override
-//            public void onFailed(String code, String msg) {
-//                ToastUtils.toast(dynamicactivity, msg);
-//            }
-//
-//        });
-
-
     }
 
     /**
@@ -389,35 +352,6 @@ public class DynamicVm extends BaseViewModel {
                 popupWindow.dismiss();
             }
         });
-
-//        PhotoSelectUtil.showPop(dynamicactivity, true, new PopWindowCallBack() {
-//            //相册
-//            @Override
-//            public void photoAlbum(final PopupWindow popupWindow) {
-//                BaseRxPermission.Permission(dynamicactivity, Manifest.permission.READ_EXTERNAL_STORAGE, new BasePermissionCallback() {
-//                    @Override
-//                    public void grand(boolean grand) {
-//                        if (grand) {
-//                            getPhoto(StatusVariable.PHOTOALBUM);
-//                            popupWindow.dismiss();
-//                        }
-//                    }
-//                });
-//            }
-//
-//            //相机
-//            @Override
-//            public void camera(final PopupWindow popupWindow) {
-//                BaseRxPermission.Permission(dynamicactivity, Manifest.permission.READ_EXTERNAL_STORAGE, new BasePermissionCallback() {
-//                    @Override
-//                    public void grand(boolean grand) {
-//                        if (grand) {
-//                            getPhoto(StatusVariable.CAMERACODE);
-//                            popupWindow.dismiss();
-//                        }
-//                    }
-//                });
-
     }
 
     /**
@@ -460,7 +394,6 @@ public class DynamicVm extends BaseViewModel {
                 }
             });
         } else {
-            dynamicactivity.setResult(StatusVariable.DISCOVERCODE);
             dynamicactivity.finish();
         }
     }
@@ -498,6 +431,9 @@ public class DynamicVm extends BaseViewModel {
 
         HashMap params = new HashMap();
         if (EmptyUtil.isEmpty(releaseBeanList.get(count).getTypes())) {
+//            if (!EmptyUtil.isEmpty(releaseBeanList.get(count).getPath())) {
+//                file = Util.bytesToImageFile(releaseBeanList.get(count).getImgbyte());
+//            }
 
             params.put("baseUrl", Config.baseUrl2);
             params.put("file", releaseBeanList.get(count).getPath());
@@ -620,14 +556,14 @@ public class DynamicVm extends BaseViewModel {
 
         if (!EmptyUtil.isEmpty(path)) {
             try {
-                bytes = Util.getBytes(path);
+                bytes = Util.readStream(path);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             ReleaseBean releaseBean = new ReleaseBean();
             releaseBean.setPath(path);
-//            releaseBean.setImgbyte(bytes);
+            releaseBean.setImgbyte(bytes);
 
             if (pos != -1) {
                 releaseBeanList.add(pos, releaseBean);

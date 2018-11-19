@@ -3,6 +3,7 @@ package com.huasport.smartsport;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.huasport.smartsport.bean.LocationBean;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.ActivityMainBinding;
 import com.huasport.smartsport.ui.discover.view.DiscoverFragment;
@@ -19,18 +21,21 @@ import com.huasport.smartsport.ui.matchgrade.view.MatchGradeFragment;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.ui.pcenter.view.PCenterFragment;
 import com.huasport.smartsport.util.EmptyUtil;
+import com.huasport.smartsport.util.ILocationCallBack;
 import com.huasport.smartsport.util.IntentUtil;
+import com.huasport.smartsport.util.LocationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ILocationCallBack {
 
     private ActivityMainBinding homeBinding;
     private int type = 0;
     private ViewPagerAdapter viewPagerAdapter;
     private long exitTime = 0;
     private boolean loginState;
+    private LocationUtils locationUtils;
 
 
     @Override
@@ -39,13 +44,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         homeBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         init();
         initData();
+        getLocation();
     }
+
+
 
 
     /**
      * 初始化
      */
     private void init() {
+
+        locationUtils = new LocationUtils(this,this);
 
         List<Fragment> fragmentList = new ArrayList<>();
 
@@ -64,6 +74,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化数据
      */
     private void initData() {
+
+
+    }
+
+    /**
+     * 获取经纬度
+     */
+    private void getLocation() {
+
+
+
 
 
     }
@@ -191,7 +212,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * 获取经纬度
+     * @param location
+     */
+    @Override
+    public void getLocation(Location location) {
 
+        LocationBean locationBean = new LocationBean();
+        locationBean.setLatitude(location.getLatitude());
+        locationBean.setLongitude(location.getLongitude());
+        MyApplication.getInstance().setLocationBean(locationBean);
+    }
 }
 
 

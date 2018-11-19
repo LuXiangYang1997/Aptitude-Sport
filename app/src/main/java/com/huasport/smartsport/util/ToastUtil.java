@@ -2,7 +2,12 @@ package com.huasport.smartsport.util;
 
 import android.content.Context;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.huasport.smartsport.R;
 
 public class ToastUtil {
 
@@ -11,6 +16,7 @@ public class ToastUtil {
 
     public ToastUtil(Context context) {
         this.context=context;
+        mToast = new Toast(context);
     }
 
     /**
@@ -47,5 +53,22 @@ public class ToastUtil {
         mToast.setGravity(Gravity.CENTER, 0, 0);
         mToast.show();
     }
+
+    /**
+     * 自定义Toast
+     * @param
+     * @param msg
+     */
+    public void showTopSnackBar(String msg) {
+
+        View toastView = LayoutInflater.from(context).inflate(R.layout.toast_layout, null);
+        TextView msgText = toastView.findViewById(R.id.tv_msg);
+        msgText.setText(msg);
+        mToast.setView(toastView);
+        mToast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 120);
+        mToast.show();
+
+    }
+
 
 }
