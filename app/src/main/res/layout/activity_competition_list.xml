@@ -22,7 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srlEnableAutoLoadMore="true"
+            android:focusable="true"
+            android:layout_marginTop="@dimen/dp_5"
+            app:srlDisableContentWhenLoading="true"
+            app:srlDisableContentWhenRefresh="true"
+            app:srlEnableLoadMore="true"
+            app:srlEnableLoadMoreWhenContentNotFull="true"
+            app:srlEnableNestedScrolling="true"
+            app:srlEnableOverScrollDrag="true"
             app:srlEnableRefresh="true">
 
 

@@ -115,7 +115,6 @@ public class CompetitionListVM extends BaseViewModel implements CounterListener,
         matchName = intent.getStringExtra("MatchName");
         matchStartTime = intent.getStringExtra("MatchStartTime");
         matchEndTime = intent.getStringExtra("matchEndTime");
-
         //获取Code
         gameCode = competitionListActivity.getIntent().getStringExtra("gameCode");
         //初始化Toast
