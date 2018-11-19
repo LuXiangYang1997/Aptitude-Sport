@@ -47,7 +47,7 @@ public class CompetitionListActivity extends BaseActivity<ActivityCompetitionLis
         super.initViewObservable();
 
         setTitle(getResources().getString(R.string.select_match_group));
-
+        toolbarBinding.llLeft.setOnClickListener(this);
         //组头recylerView
         binding.selectSiteRecycler.setLayoutManager(new LinearLayoutManager(this));
         binding.selectSiteRecycler.addItemDecoration(new SpacesItemDecoration(space));//设置间距

@@ -35,6 +35,7 @@
     <color name="color_00CED1">#00CED1</color>
     <color name="color_80C0C0C0">#80C0C0C0</color>
     <color name="color_ECECEC">#ECECEC</color>
-
+    <color name="color_3F3F3F">#3F3F3F</color>
+    <color name="color_FFCA00">#FFCA00</color>
 
 </resources>

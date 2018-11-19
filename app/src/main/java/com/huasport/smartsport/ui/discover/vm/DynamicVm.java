@@ -239,7 +239,7 @@ public class DynamicVm extends BaseViewModel {
         if (releaseBeanList.size() > 0) {
             for (int i = 0; i < releaseBeanList.size(); i++) {
                 if (EmptyUtil.isEmpty(releaseBeanList.get(i).getTypes())) {
-                    list.add(releaseBeanList.get(i).getImgbyte());
+                    list.add(releaseBeanList.get(i).getPath());
                 }
             }
 
@@ -563,7 +563,7 @@ public class DynamicVm extends BaseViewModel {
 
             ReleaseBean releaseBean = new ReleaseBean();
             releaseBean.setPath(path);
-            releaseBean.setImgbyte(bytes);
+//            releaseBean.setImgbyte(bytes);
 
             if (pos != -1) {
                 releaseBeanList.add(pos, releaseBean);

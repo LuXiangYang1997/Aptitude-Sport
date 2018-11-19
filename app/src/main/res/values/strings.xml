@@ -110,5 +110,6 @@
     <string name="apply_fee">报名费</string>
     <string name="shengyu_count">剩余名额</string>
     <string name="select_match_group">选择比赛分组</string>
+    <string name="sure_pay">确认支付</string>
 
 </resources>

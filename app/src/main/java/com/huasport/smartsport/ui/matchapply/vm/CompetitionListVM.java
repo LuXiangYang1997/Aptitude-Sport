@@ -6,13 +6,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -35,6 +35,7 @@ import com.huasport.smartsport.ui.matchapply.bean.CompetitionListBean;
 import com.huasport.smartsport.ui.matchapply.bean.GroupEventsBean;
 import com.huasport.smartsport.ui.matchapply.bean.OrderBean;
 import com.huasport.smartsport.ui.matchapply.view.CompetitionListActivity;
+import com.huasport.smartsport.ui.matchapply.view.FillRegistrationFormActivity;
 import com.huasport.smartsport.ui.matchapply.view.MatchIntroduceActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
@@ -375,9 +376,7 @@ public class CompetitionListVM extends BaseViewModel implements CounterListener,
      * 下一步
      */
     public void nextStep() {
-        binding.statusText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
                 matchList.clear();
                 List<String> itemCodelist = competitionListAdapter.getItemCodelist();//存储itemCode
                 List<String> itemTypeList = competitionListAdapter.getItemTypeList();//存储报名类型的集合
@@ -412,10 +411,6 @@ public class CompetitionListVM extends BaseViewModel implements CounterListener,
                     toastUtil.showTopSnackBar("请选择比赛项");
                 }
             }
-        });
-
-    }
-
 
     /**
      * 创建订单
@@ -458,17 +453,16 @@ public class CompetitionListVM extends BaseViewModel implements CounterListener,
 //                        competitionListActivity.startActivity(intent);
                         //个人报名
                     } else if (matchState.get().equals("personal")) {
-//                        Intent orderintent = new Intent(competitionListActivity, FillRegistrationFormActivity.class);
-//                        orderintent.putExtra("orderCode", orderBean.getResult().getOrderCode());
-//                        orderintent.putExtra("matchCode", matchCode);
-//                        orderintent.putExtra("matchName", matchName);
-//                        orderintent.putExtra("matchStartTime", matchStartTime);
-//                        orderintent.putExtra("matchEndTime", matchEndTime);
-//                        orderintent.putExtra("matchimg", matchimg);
-//                        orderintent.putExtra("matchstatus", "normal_apply");//正常流程
-//                        orderintent.putExtra("eventList", (Serializable) matchList);
-//                        competitionListActivity.startActivity(orderintent);
-//                        matchList.clear();
+                        Intent orderintent = new Intent(competitionListActivity, FillRegistrationFormActivity.class);
+                        orderintent.putExtra("orderCode", orderBean.getResult().getOrderCode());
+                        orderintent.putExtra("matchCode", matchCode);
+                        orderintent.putExtra("matchName", matchName);
+                        orderintent.putExtra("matchStartTime", matchStartTime);
+                        orderintent.putExtra("matchEndTime", matchEndTime);
+                        orderintent.putExtra("matchstatus", "normal_apply");//正常流程
+                        orderintent.putExtra("eventList", (Serializable) matchList);
+                        competitionListActivity.startActivity(orderintent);
+                        matchList.clear();
 
                     } else {
                         toastUtil.showTopSnackBar(orderBean.getResultMsg());
@@ -509,83 +503,6 @@ public class CompetitionListVM extends BaseViewModel implements CounterListener,
                 }
             }
         });
-
-
-//        OkhttpUtils.postRequest(competitionListActivity, createorder, new BaseHttpCallBack<OrderBean>(competitionListActivity, true) {
-//
-//
-//            @Override
-//            public OrderBean parseNetworkResponse(String jsonResult) throws Exception {
-//                OrderBean orderBean = JSON.parseObject(jsonResult, OrderBean.class);
-//                return orderBean;
-//            }
-//
-//            @Override
-//            public void onSuccess(OrderBean orderBean, Call call, Response response) {
-//
-//                if (orderBean != null) {
-//                    if (orderBean.getResultCode() == StatusVariable.NO_LOGIN) {//未登录
-//                        competitionListActivity.startActivity2(LoginActivity.class);
-//                        return;
-//                    }
-//
-//                    if (orderBean.getResultCode() == StatusVariable.NOBIND) {
-//
-//                        BaseDialog.show(competitionListActivity, "提示", "您还未绑定手机号", "去绑定", "取消", false, false, 0, new DialogCallBack() {
-//                            @Override
-//                            public void submit(CustomDialog.Builder customDialog) {
-//                                customDialog.dismiss();//退出登录
-//                                competitionListActivity.startActivity2(BindActivity.class);
-//                            }
-//
-//                            @Override
-//                            public void cancel(CustomDialog.Builder customDialog) {
-//                                customDialog.dismiss();
-//                            }
-//                        });
-//                        return;
-//                    }
-//                    //团队报名
-//                    if (matchState.get().equals("group")) {
-//                        Intent intent = new Intent(competitionListActivity, GroupApplyActivity.class);
-//                        intent.putExtra("orderCode", orderBean.getResult().getOrderCode());
-//                        intent.putExtra("matchCode", matchCode);
-//                        intent.putExtra("matchName", matchName);
-//                        intent.putExtra("matchStartTime", matchStartTime);
-//                        intent.putExtra("matchEndTime", matchEndTime);
-//                        intent.putExtra("groupLimit", competitionListAdapter.limit.get());
-//                        intent.putExtra("type", "normal_apply");
-//                        competitionListActivity.startActivity(intent);
-//                        //个人报名
-//                    } else if (matchState.get().equals("personal")) {
-//                        Intent orderintent = new Intent(competitionListActivity, FillRegistrationFormActivity.class);
-//                        orderintent.putExtra("orderCode", orderBean.getResult().getOrderCode());
-//                        orderintent.putExtra("matchCode", matchCode);
-//                        orderintent.putExtra("matchName", matchName);
-//                        orderintent.putExtra("matchStartTime", matchStartTime);
-//                        orderintent.putExtra("matchEndTime", matchEndTime);
-//                        orderintent.putExtra("matchimg", matchimg);
-//                        orderintent.putExtra("matchstatus", "normal_apply");//正常流程
-//                        orderintent.putExtra("eventList", (Serializable) matchList);
-//                        competitionListActivity.startActivity(orderintent);
-//                        matchList.clear();
-//
-//                    } else {
-//                        TopSnackbarUtils.showTopSnackBar(competitionListActivity, orderBean.getResultMsg());
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailed(String code, String msg) {
-//                if (code.equals("204")) {
-//                    competitionListActivity.startActivity2(LoginActivity.class);
-//
-//                }
-//            }
-//        });
-
     }
 
     /**
@@ -692,6 +609,7 @@ public class CompetitionListVM extends BaseViewModel implements CounterListener,
     @Override
     public void refresh(RefreshLayout refreshLayout, int type) {
         page = 1;
+        competitionListAdapter.expandPosition = -1;
         binding.smartRefreshlayout.setNoMoreData(false);
         locationData(type);
     }

@@ -95,4 +95,41 @@ public class StatusVariable {
     public static final int SUCCESS = 200;//请求成功
     public static final int NOBIND = 205;//未绑定手机号
 
+    public static final int MSG_TYPE_SEX = 1;//性别
+    public static final int MSG_TYPE_BTN = 2;//选择框
+    public static final int MSG_TYPE_PHONENUM = 3;//手机号
+    public static final int MSG_TYPE_NORMAL = 4;//Edittext输入框
+    public static final int MSG_TYPE_HEAD = 5;//头像
+
+    public static final String BOY = "m";//男
+    public static final String GIRL = "f";//女
+
+    public static final int BIRDTHCLICK = 1;//生日
+    public static final int CERTIFICATE = 2;//证件
+    public static final int CODEGET = 3;
+
+    public static final String IDCARD = "1";//身份证
+    public static final String PASSCARD = "2";//护照
+    public static final String CERTIFICATECARD = "4";//军官证
+
+    public static final String GENDERBOY = "1";//男
+    public static final String GENDERGIRL = "2";//女
+
+    public static final int FRONT_CODE = 1;//intent回传值正面身份证
+    public static final int CONTRARY_CODE = 2;//反面身份证
+
+    public static final String WECHAT = "weChat";//微信支付
+    public static final String ALIPAY = "aliPay";//支付宝支付
+
+    public static final String WAIT_PAY = "WAIT_PAY";//待支付
+    public static final String WAIT_COMPLETE = "WAIT_COMPLETE";//待完善
+    public static final String ORDERSUCCESS = "SUCCESS";//成功
+    public static final String SHIPPEDSTRS = "SHIPPED";//已发货
+    public static final String COMPLETED = "COMPLETED";//已完成
+
+    public static final String WAITPAY = "wait_pay";
+    public static final String SUCCESSAPPLY = "success";
+    public static final String SHIPPED = "shipped";
+    public static final String COMOLETED = "completed";
+
 }

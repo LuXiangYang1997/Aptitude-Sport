@@ -39,7 +39,7 @@ import java.util.List;
 public class CompetitionListAdapter extends BaseAdapter<CompetitionListBean.ResultBean.SitesBean, BaseViewHolder> {
 
     private CompetitionListActivity competitionListActivity;
-    private int expandPosition = -1;//记录点击的position
+    public int expandPosition = -1;//记录点击的position
     private List<GroupEventsBean.ResultBean.GroupsBean.EventsBean> events = new ArrayList<>();
     private List<String> itemCodelist = new ArrayList();//存储ItemCode
     private List<String> itemTypeList = new ArrayList<>();//存储ItemType
@@ -105,16 +105,16 @@ public class CompetitionListAdapter extends BaseAdapter<CompetitionListBean.Resu
         if(!EmptyUtil.isEmpty(fieldAddress)){
             headeritemBinding.tvFiledAddress.setText(fieldAddress);
         }
-
-
         // 判断显示逻辑
         if (position == expandPosition) {
-
             EventsAdapter eventsAdapter = new EventsAdapter(competitionListActivity, this);
             headeritemBinding.groupItemRecyclerView.setLayoutManager(new LinearLayoutManager(competitionListActivity));
             headeritemBinding.groupItemRecyclerView.setAdapter(eventsAdapter);
-            eventsAdapter.loadData(mList.get(position).getEventsBeanArrayList());
-
+            if (!EmptyUtil.isEmpty(mList.get(position).getEventsBeanArrayList())){
+                if (mList.get(position).getEventsBeanArrayList().size() > 0){
+                    eventsAdapter.loadData(mList.get(position).getEventsBeanArrayList());
+                }
+            }
             //清除选中集合
             siteCode.clear();
 

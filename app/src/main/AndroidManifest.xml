@@ -161,6 +161,18 @@
         <activity android:name=".ui.matchapply.view.CompetitionListActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.matchapply.view.FillRegistrationFormActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.ProtocolActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.PayMentOrderActivty"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.ConfirmPayMentActivity"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 
