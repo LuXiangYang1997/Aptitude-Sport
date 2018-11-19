@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.huasport.smartsport.bean.LocationBean;
 import com.huasport.smartsport.bean.UserBean;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.util.EmptyUtil;
@@ -27,7 +28,7 @@ public class MyApplication extends Application {
     private static MyApplication instance;
     private boolean clickState = false;//点击事件状态
     private int loginChannel = StatusVariable.SMSLOGIN;
-
+    public LocationBean locationBean = new LocationBean();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -129,5 +130,13 @@ public class MyApplication extends Application {
      */
     public void setLoginChannel(int loginChannel) {
         this.loginChannel = loginChannel;
+    }
+
+    public LocationBean getLocationBean() {
+        return locationBean;
+    }
+
+    public void setLocationBean(LocationBean locationBean) {
+        this.locationBean = locationBean;
     }
 }

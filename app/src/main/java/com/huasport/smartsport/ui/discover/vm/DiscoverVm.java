@@ -110,7 +110,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
         //初始化加载框
         loadingDialog = new LoadingDialog(activity, R.style.LoadingDialog);
         //初始化Counter
-        counter = new Counter(this, 2);
+        counter = new Counter(this, 1);
         //初始化加载刷新
         new RefreshLoadMore(binding.smartRefreshlayout, this);
         //获取token
@@ -123,6 +123,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
         }
         //初始化分享
         shareUtil = new ShareUtil(activity);
+        //弹出加载框
+        loadingDialog.show();
     }
 
     /**
@@ -134,6 +136,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
         tv_recommand = recommandView.findViewById(R.id.tv_recommend);
         recyclerViewRecommand = recommandView.findViewById(R.id.recyclervie_recommand);
+
+        binding.xrecyclerView.addHeaderView(recommandView);
 
         recyclerViewRecommand.setLayoutManager(new LinearLayoutManager(activity));
         recyclerViewRecommand.setAdapter(recommandAdapter);
@@ -168,7 +172,6 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                                 recommandAdapter.loadData(data);
                                 commanddataList.clear();
                                 commanddataList.addAll(data);
-                                binding.xrecyclerView.addHeaderView(recommandView);
                             } else {
                                 binding.xrecyclerView.removeHeaderView(recommandView);
                             }
@@ -190,6 +193,11 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
             }
         });
 
@@ -283,6 +291,12 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
             }
         });
     }
@@ -559,6 +573,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
      */
     public void tabData(int position) {
 
+
         if (position == 0) {
             loadtype = "all";
             if (commanddataList.size() > 0) {
@@ -579,6 +594,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         } else if (position == 1) {
@@ -593,6 +610,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         } else if (position == 2) {
@@ -607,6 +626,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         } else if (position == 3) {
@@ -621,6 +642,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 page = 1;
                 timestamp = "";
                 totalPage = 0;
+                loadingDialog.show();
+                counter.setCount(1);
                 initListData(StatusVariable.REFRESH);
             }
         }
@@ -631,20 +654,18 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
      */
     public void refreCommand() {
 
-        if (recommandTotalPage > 0) {
-            binding.xrecyclerView.removeHeaderView(recommandView);
-        } else {
-            if (binding.xrecyclerView.getHeadersCount() > 0) {
-                binding.xrecyclerView.removeAllViews();
-            }
+        if (binding.xrecyclerView.getHeadersCount() == 0) {
+            binding.xrecyclerView.addHeaderView(recommandView);
         }
         initRecommandData();
     }
 
     @Override
     public void countEnd(boolean isEnd) {
-        if (!EmptyUtil.isEmpty(loadingDialog)) {
-            loadingDialog.dismiss();
+        if (isEnd){
+            if(!EmptyUtil.isEmpty(loadingDialog)){
+                loadingDialog.dismiss();
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.huasport.smartsport.ui.matchapply.adapter;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import com.huasport.smartsport.base.BaseAdapter;
 import com.huasport.smartsport.base.BaseViewHolder;
 import com.huasport.smartsport.databinding.MatchapplyItemLayoutBinding;
 import com.huasport.smartsport.ui.matchapply.bean.MatchApplyListBean;
+import com.huasport.smartsport.ui.matchapply.view.MatchListActivity;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.GlideUtil;
 
@@ -34,7 +36,7 @@ public class MatchApplyAdapter extends BaseAdapter<MatchApplyListBean.ResultBean
     }
 
     @Override
-    public void onBindVH(BaseViewHolder baseViewHolder, int position) {
+    public void onBindVH(BaseViewHolder baseViewHolder, final int position) {
 
         binding = (MatchapplyItemLayoutBinding) baseViewHolder.getBinding();
 
@@ -49,7 +51,9 @@ public class MatchApplyAdapter extends BaseAdapter<MatchApplyListBean.ResultBean
             @Override
             public void onClick(View v) {
 
-
+                Intent intent = new Intent(activity, MatchListActivity.class);
+                intent.putExtra("gameCode", mList.get(position).getGameCode());
+                activity.startActivity(intent);
 
             }
         });

@@ -42,4 +42,9 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="customtablayouttextSize">
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>

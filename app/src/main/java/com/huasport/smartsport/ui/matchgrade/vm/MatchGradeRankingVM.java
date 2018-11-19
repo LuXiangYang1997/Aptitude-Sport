@@ -438,7 +438,9 @@ public class MatchGradeRankingVM extends BaseViewModel implements RefreshLoadMor
     @Override
     public void countEnd(boolean isEnd) {
         if (isEnd){
-            loadingDialog.dismiss();
+            if(!EmptyUtil.isEmpty(loadingDialog)){
+                loadingDialog.dismiss();
+            }
         }
     }
 

@@ -12,6 +12,7 @@ import com.huasport.smartsport.api.RequestCallBack;
 import com.huasport.smartsport.base.BaseViewModel;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.PcenterLayoutBinding;
+import com.huasport.smartsport.ui.discover.view.ReleaseActivity;
 import com.huasport.smartsport.ui.pcenter.bean.UserCenterInfo;
 import com.huasport.smartsport.ui.pcenter.bean.UserCertStatusBean;
 import com.huasport.smartsport.ui.pcenter.settings.bean.UserInfoBean;
@@ -23,11 +24,13 @@ import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.ToastUtil;
+import com.huasport.smartsport.util.counter.Counter;
+import com.huasport.smartsport.util.counter.CounterListener;
 import com.lzy.okgo.model.Response;
 
 import java.util.HashMap;
 
-public class PcenterVm extends BaseViewModel {
+public class PcenterVm extends BaseViewModel implements CounterListener {
 
     private PCenterFragment fragment;
     private String token = "";
@@ -47,6 +50,8 @@ public class PcenterVm extends BaseViewModel {
     private void init() {
         //初始化Toast
         toastUtil = new ToastUtil(fragment.getActivity());
+        //初始化Counter
+        Counter counter = new Counter(this,2);
 
     }
 
@@ -92,6 +97,7 @@ public class PcenterVm extends BaseViewModel {
      */
     public void release() {
 
+        IntentUtil.startActivity(fragment.getActivity(), ReleaseActivity.class);
 
     }
 
@@ -330,5 +336,10 @@ public class PcenterVm extends BaseViewModel {
         getUserInfo();
     }
 
+
+    @Override
+    public void countEnd(boolean isEnd) {
+
+    }
 
 }

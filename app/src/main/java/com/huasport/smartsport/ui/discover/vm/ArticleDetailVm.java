@@ -1,5 +1,6 @@
 package com.huasport.smartsport.ui.discover.vm;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -22,6 +23,7 @@ import com.huasport.smartsport.ui.discover.bean.ArticleDetailBean;
 import com.huasport.smartsport.ui.discover.bean.CommentFavourBean;
 import com.huasport.smartsport.ui.discover.bean.FavourBean;
 import com.huasport.smartsport.ui.discover.view.ArticleDetailActivity;
+import com.huasport.smartsport.ui.discover.view.ReleaseActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.DateUtil;
@@ -69,6 +71,7 @@ public class ArticleDetailVm extends BaseViewModel implements View.OnClickListen
     private String registerID = "";
     private String replyId = "";
     private UserBean userBean;
+    private Intent intent;
 
     public ArticleDetailVm(ArticleDetailActivity articleDetailActivity, ArticleDetailAdapter articleDetailAdapter) {
         this.articleDetailActivity = articleDetailActivity;
@@ -787,10 +790,6 @@ public class ArticleDetailVm extends BaseViewModel implements View.OnClickListen
                     showCommentEdit("reView");
                 }
             }
-//                else {
-//                    SharedPreferencesUtils.setParam(articleDetailActivity, "loginstate", true);
-//                    articleDetailActivity.startActivity2(LoginActivity.class);
-//                }
         });
 
         //关注
@@ -810,9 +809,9 @@ public class ArticleDetailVm extends BaseViewModel implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 if (!EmptyUtil.isEmpty(dataBean)) {
-//                    intent = new Intent(articleDetailActivity, ReleaseActivity.class);
-//                    intent.putExtra("registerId", data.getRegisterID());
-//                    articleDetailActivity.startActivityForResult(intent, 0);
+                    intent = new Intent(articleDetailActivity, ReleaseActivity.class);
+                    intent.putExtra("registerId", dataBean.getRegisterID());
+                    articleDetailActivity.startActivity(intent);
                 }
             }
         });

@@ -109,12 +109,12 @@ public class DynamicVm extends BaseViewModel {
         dynamicBean = (DynamicDataBean) SharedPreferencesUtil.getBean(dynamicactivity, "dynamicBean");
         if (EmptyUtil.isNotEmpty(dynamicBean)) {
             binding.edittextRelease.setText(dynamicBean.getContent());
-            List<byte[]> dyImg = dynamicBean.getDyImg();
+            List<String> dyImg = dynamicBean.getDyImg();
             if (dyImg.size() <= 9 && dyImg.size() >= 1) {
 
                 for (int i = 0; i < dyImg.size(); i++) {
                     releaseBean = new ReleaseBean();
-                    releaseBean.setImgbyte(dyImg.get(i));
+                    releaseBean.setPath(dyImg.get(i));
                     releaseBeanList.add(releaseBean);
                 }
                 if (dyImg.size() < 9) {
@@ -314,44 +314,6 @@ public class DynamicVm extends BaseViewModel {
                 }
             }
         });
-
-
-//        OkhttpUtils.postRequest(dynamicactivity, params, new BaseHttpCallBack<ReleaseDynamicResultBean>(dynamicactivity, true) {
-//            @Override
-//            public ReleaseDynamicResultBean parseNetworkResponse(String jsonResult) throws Exception {
-//
-//                ReleaseDynamicResultBean releaseDynamicResultBean = JSON.parseObject(jsonResult, ReleaseDynamicResultBean.class);
-//
-//                return releaseDynamicResultBean;
-//            }
-//
-//            @Override
-//            public void onSuccess(ReleaseDynamicResultBean releaseDynamicResultBean, Call call, Response response) {
-//                if (!EmptyUtil.isEmpty(releaseDynamicResultBean)) {
-//                    if (releaseDynamicResultBean.getResultCode() == StatusVariable.SUCCESS) {
-//                        SharedPreferencesUtils.setParam(dynamicactivity, "ActivityState", true);
-//                        SharedPreferencesUtils.remove(dynamicactivity, "dynamicBean");
-//                        dynamicactivity.setResult(1001);
-//                        dynamicactivity.finish2();
-//                    } else {
-//                        ToastUtils.toast(dynamicactivity, releaseDynamicResultBean.getResultMsg());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onAfter(ReleaseDynamicResultBean releaseDynamicResultBean, Exception e) {
-//                super.onAfter(releaseDynamicResultBean, e);
-//            }
-//
-//            @Override
-//            public void onFailed(String code, String msg) {
-//                ToastUtils.toast(dynamicactivity, msg);
-//            }
-//
-//        });
-
-
     }
 
     /**
@@ -390,35 +352,6 @@ public class DynamicVm extends BaseViewModel {
                 popupWindow.dismiss();
             }
         });
-
-//        PhotoSelectUtil.showPop(dynamicactivity, true, new PopWindowCallBack() {
-//            //相册
-//            @Override
-//            public void photoAlbum(final PopupWindow popupWindow) {
-//                BaseRxPermission.Permission(dynamicactivity, Manifest.permission.READ_EXTERNAL_STORAGE, new BasePermissionCallback() {
-//                    @Override
-//                    public void grand(boolean grand) {
-//                        if (grand) {
-//                            getPhoto(StatusVariable.PHOTOALBUM);
-//                            popupWindow.dismiss();
-//                        }
-//                    }
-//                });
-//            }
-//
-//            //相机
-//            @Override
-//            public void camera(final PopupWindow popupWindow) {
-//                BaseRxPermission.Permission(dynamicactivity, Manifest.permission.READ_EXTERNAL_STORAGE, new BasePermissionCallback() {
-//                    @Override
-//                    public void grand(boolean grand) {
-//                        if (grand) {
-//                            getPhoto(StatusVariable.CAMERACODE);
-//                            popupWindow.dismiss();
-//                        }
-//                    }
-//                });
-
     }
 
     /**
@@ -470,12 +403,12 @@ public class DynamicVm extends BaseViewModel {
      */
     private void Save() {
         DynamicDataBean dynamicDataBean = new DynamicDataBean();
-        List<byte[]> imgbytelist = new ArrayList<>();
+        List<String> imgbytelist = new ArrayList<>();
         if (releaseBeanList.size() > 0) {
             try {
                 for (int i = 0; i < releaseBeanList.size(); i++) {
                     if (EmptyUtil.isEmpty(releaseBeanList.get(i).getTypes())) {
-                        imgbytelist.add(releaseBeanList.get(i).getImgbyte());
+                        imgbytelist.add(releaseBeanList.get(i).getPath());
                     }
                 }
             } catch (Exception e) {
@@ -498,9 +431,9 @@ public class DynamicVm extends BaseViewModel {
 
         HashMap params = new HashMap();
         if (EmptyUtil.isEmpty(releaseBeanList.get(count).getTypes())) {
-            if (!EmptyUtil.isEmpty(releaseBeanList.get(count).getImgbyte())) {
-                file = Util.bytesToImageFile(releaseBeanList.get(count).getImgbyte());
-            }
+//            if (!EmptyUtil.isEmpty(releaseBeanList.get(count).getPath())) {
+//                file = Util.bytesToImageFile(releaseBeanList.get(count).getImgbyte());
+//            }
 
             params.put("baseUrl", Config.baseUrl2);
             params.put("file", releaseBeanList.get(count).getPath());

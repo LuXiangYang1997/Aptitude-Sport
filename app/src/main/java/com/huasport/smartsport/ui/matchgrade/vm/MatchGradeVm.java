@@ -370,7 +370,9 @@ public class MatchGradeVm extends BaseViewModel implements CounterListener,Refre
     @Override
     public void countEnd(boolean isEnd) {
         if (isEnd){
-            loadingDialog.dismiss();
+            if(!EmptyUtil.isEmpty(loadingDialog)){
+                loadingDialog.dismiss();
+            }
         }
     }
 

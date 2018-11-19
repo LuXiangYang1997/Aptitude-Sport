@@ -6,7 +6,7 @@ import java.util.List;
 public class DynamicDataBean implements Serializable {
 
     private String content;
-    private List<byte[]> dyImg;
+    private List<String> dyImg;
 
     public String getContent() {
         return content;
@@ -16,11 +16,11 @@ public class DynamicDataBean implements Serializable {
         this.content = content;
     }
 
-    public List<byte[]> getDyImg() {
+    public List<String> getDyImg() {
         return dyImg;
     }
 
-    public void setDyImg(List<byte[]> dyImg) {
+    public void setDyImg(List<String> dyImg) {
         this.dyImg = dyImg;
     }
 }

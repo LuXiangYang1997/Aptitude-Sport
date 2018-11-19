@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="matchIntroduceViewModel"
+            type="com.huasport.smartsport.ui.matchapply.vm.MatchIntroduceVM" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:background="@color/color_EFEFF4"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:overScrollMode="never"
+            android:id="@+id/matchIndroduceRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="visible"></android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:layout_gravity="center"
+            android:background="@color/color_FF8F00"
+            android:gravity="center"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/sp_15"
+            android:textStyle="bold"
+        android:onClick="@{()->matchIntroduceViewModel.nextStepText()}"
+            />
+
+    </LinearLayout>
+
+</layout>

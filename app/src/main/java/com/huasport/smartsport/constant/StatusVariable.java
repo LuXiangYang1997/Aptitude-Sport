@@ -80,9 +80,18 @@ public class StatusVariable {
     public static final int NORMAL = 0;//普通事件
     public static final int DELIMG = 1;//删除图片
 
+    public static final String MATCH_OVER = "1";//比赛已结束
+    public static final String APPLY_ABORT = "2";//报名截止
+    public static final String PEOPLENUM_FULL = "3";//人数已满
+    public static final String PAUSE_APPLY = "4";//暂停报名
+    public static final String APPLY = "5";//报名
 
+    public static final int PROVINCECODE = 0;//省
+    public static final int CITYCODE = 1;//市
+    public static final int DISTRICTCODE = 2;//区
 
-
-
+    public static final int NOLOGIN = 204;//未登录
+    public static final int SUCCESS = 200;//请求成功
+    public static final int NOBIND = 205;//未绑定手机号
 
 }
