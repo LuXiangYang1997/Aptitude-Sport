@@ -455,7 +455,6 @@ public class GroupApplyWaitPerfectVM extends BaseViewModel implements CounterLis
      */
     private void cancelGroupApply() {
 
-
         HashMap params = new HashMap<>();
         params.put("token", token);//token
         params.put("orderCode", orderCode);//订单ID

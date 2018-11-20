@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="groupwaitPay"
+            type="com.huasport.smartsport.ui.matchapply.vm.GroupApplyWaitPayVM" />
+
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_EFEFF4"
+        android:orientation="vertical">
+
+        <com.huasport.smartsport.custom.RecyclerScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/status_text"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+               
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_FFFFFF"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15">
+
+                        <View
+                            android:layout_width="@dimen/dp_3"
+                            android:layout_height="@dimen/dp_13"
+                            android:layout_gravity="center"
+                            android:background="@color/color_E50113" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:text="团队信息"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_14" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginBottom="@dimen/dp_13">
+
+                        <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="*"-->
+                        <!--android:textColor="@color/color_E50113"-->
+                        <!--android:visibility="visible" />-->
+
+                        <TextView
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="团队名称"
+                            android:textColor="@color/color_151515"
+                            android:textSize="@dimen/sp_13" />
+
+                        <TextView
+                            android:id="@+id/tv_groupName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:maxLines="1"
+                            android:text="@{groupwaitPay.waitPaygroupName}"
+                            android:textSize="@dimen/sp_14" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_0_5"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:background="@color/color_BDBDBD" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginBottom="@dimen/dp_13">
+
+                        <TextView
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="领队姓名"
+                            android:textColor="@color/color_151515"
+                            android:textSize="@dimen/sp_13" />
+
+                        <TextView
+                            android:id="@+id/tv_leaderName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:maxLines="1"
+                            android:text="@{groupwaitPay.waitPayleaderName}"
+                            android:textSize="@dimen/sp_14" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_0_5"
+                        android:layout_marginLeft="@dimen/dp_13"
+                        android:layout_marginRight="@dimen/dp_13"
+                        android:background="@color/color_BDBDBD" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginBottom="@dimen/dp_13">
+
+                        <TextView
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="手机号码"
+                            android:textColor="@color/color_151515"
+                            android:textSize="@dimen/sp_13" />
+
+                        <TextView
+                            android:id="@+id/tv_group_msg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:maxLines="1"
+                            android:text="@{groupwaitPay.waitPayphoneNum}"
+                            android:textSize="@dimen/sp_14" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/waitPay_personalMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@color/color_FFFFFF"></android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
+
+                <!--报名信息-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/color_FFFFFF"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_15">
+
+                        <View
+                            android:layout_width="@dimen/dp_3"
+                            android:layout_height="@dimen/dp_13"
+                            android:layout_gravity="center"
+                            android:background="@color/color_E50113" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:text="报名信息"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_14" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:orientation="vertical">
+
+                        <!--报名项-->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:descendantFocusability="blocksDescendants">
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/group_waitpayRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </RelativeLayout>
+
+                        <!--订单编号-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_45"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="订单编号："
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:id="@+id/group_waitpayOrderCode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_3"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0_5"
+                            android:background="@color/color_EFEFF4" />
+
+                        <!--下单日期-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_45"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="下单日期："
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:id="@+id/group_waitpayOrderTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_3"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0_5"
+                            android:background="@color/color_EFEFF4" />
+
+                        <!--订单总额-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_45"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="订单总额："
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:id="@+id/group_waitpayOrderAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_3"
+                                android:text=""
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0_5"
+                            android:background="@color/color_EFEFF4" />
+
+                        <!--备注信息-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_45"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="备注信息："
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:id="@+id/group_waitpayOrderRemark"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_3"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_14" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.huasport.smartsport.custom.RecyclerScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/ll_waitpay_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+
+            <TextView
+                android:onClick="@{()->groupwaitPay.cancel()}"
+                android:id="@+id/waitpay_modifyMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/color_FFCA00"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_21"
+                android:paddingTop="@dimen/dp_12"
+                android:paddingRight="@dimen/dp_21"
+                android:paddingBottom="@dimen/dp_12"
+                android:text="取消报名"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:onClick="@{()->groupwaitPay.continuePay()}"
+                android:id="@+id/waitpay_nextStep"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_44"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/color_FF8F00"
+                android:gravity="center"
+                android:text="继续支付"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/groupOrderDetailpay_textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:layout_gravity="center"
+            android:background="@color/color_FF8F00"
+            android:gravity="center"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/sp_15"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</layout>

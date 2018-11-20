@@ -143,5 +143,13 @@ public class StatusVariable {
     public static final int PERSONALCENTER_ALREADYSUCCESS = 2;//已成功
     public static final int PERSONALCENTER_ALLMATCH = 3;//全部赛事
 
+    public static final int PCENTERAPPROVEFRONT = 0;//个人认证照片正面
+    public static final int PCENTERAPPROVECONTRACT = 1;//个人认证照片反面
+    public static final int PCENTERAPPROVEHAND = 2;//个人认正手持
+    public static final int FIRMAPPROVEIMG = 3;//企业认正照
 
+    public static final int PHOTOALBUM = 0;//从相册
+
+    public static final String PCENTERAPPROVE = "个人";
+    public static final String FIRMAPPROVE = "企业";
 }

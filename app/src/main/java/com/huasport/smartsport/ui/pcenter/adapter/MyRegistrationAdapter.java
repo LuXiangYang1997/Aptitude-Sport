@@ -7,14 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.huasport.smartsport.BR;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseAdapter;
 import com.huasport.smartsport.base.BaseViewHolder;
 import com.huasport.smartsport.databinding.MyregistrationItemBinding;
 import com.huasport.smartsport.ui.matchapply.view.GroupApplySuccessActivity;
+import com.huasport.smartsport.ui.matchapply.view.GroupApplyWaitPayActivity;
 import com.huasport.smartsport.ui.matchapply.view.GroupApplyWaitPerfectActivity;
+import com.huasport.smartsport.ui.matchapply.view.RegistrationInformationActivity;
 import com.huasport.smartsport.ui.matchapply.view.SuccessPaymentInfoActivity;
 import com.huasport.smartsport.ui.pcenter.bean.MyRegistrationBean;
 import com.huasport.smartsport.ui.pcenter.view.MatchStatusListActivity;
@@ -71,7 +72,6 @@ public class MyRegistrationAdapter extends BaseAdapter<MyRegistrationBean.Result
             myregistrationItemBinding.itemNext.setVisibility(View.GONE);
             myregistrationItemBinding.itemTvOrderStatus.setBackgroundResource(R.drawable.gray_side_line);
             myregistrationItemBinding.itemTvOrderStatus.setTextColor(ContextCompat.getColor(matchStatusListActivity, R.color.color_999999));
-
         }
     }
 
@@ -82,20 +82,19 @@ public class MyRegistrationAdapter extends BaseAdapter<MyRegistrationBean.Result
                 intent = new Intent(matchStatusListActivity, GroupApplyWaitPerfectActivity.class);
                 intent.putExtra("orderCode", bean.getOrderCode());
                 intent.putExtra("orderStatus", bean.getOrderStatus());
-
             } else {
-//                intent = new Intent(matchStatusListActivity, RegistrationInformationActivity.class);
-//                intent.putExtra("orderCode", bean.getOrderCode());
-//                intent.putExtra("orderStatus", bean.getOrderStatus());
+                intent = new Intent(matchStatusListActivity, RegistrationInformationActivity.class);
+                intent.putExtra("orderCode", bean.getOrderCode());
+                intent.putExtra("orderStatus", bean.getOrderStatus());
             }
             matchStatusListActivity.startActivity(intent);
         } else if ("待支付".equals(bean.getOrderStatusDesc())) {
             //待支付、已支付
             if (bean.getEventType().equals("group")) {
-//                intent2 = new Intent(matchStatusListActivity, GroupApplyWaitPayActivity.class);
-//                intent2.putExtra("orderCode", bean.getOrderCode());
-//                intent2.putExtra("orderStatus", bean.getOrderStatus());
-//                intent2.putExtra("orderType", "wait_pay");
+                intent2 = new Intent(matchStatusListActivity, GroupApplyWaitPayActivity.class);
+                intent2.putExtra("orderCode", bean.getOrderCode());
+                intent2.putExtra("orderStatus", bean.getOrderStatus());
+                intent2.putExtra("orderType", "wait_pay");
             } else {
                 intent2 = new Intent(matchStatusListActivity, SuccessPaymentInfoActivity.class);
                 intent2.putExtra("orderCode", bean.getOrderCode());
