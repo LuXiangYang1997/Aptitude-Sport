@@ -1,6 +1,7 @@
 package com.huasport.smartsport.ui.pcenter.vm;
 
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -15,9 +16,12 @@ import com.huasport.smartsport.databinding.PcenterLayoutBinding;
 import com.huasport.smartsport.ui.discover.view.ReleaseActivity;
 import com.huasport.smartsport.ui.pcenter.bean.UserCenterInfo;
 import com.huasport.smartsport.ui.pcenter.bean.UserCertStatusBean;
+import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
+import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.ui.pcenter.settings.bean.UserInfoBean;
 import com.huasport.smartsport.ui.pcenter.settings.view.PersonalMsgActivity;
 import com.huasport.smartsport.ui.pcenter.settings.view.SettingsActivity;
+import com.huasport.smartsport.ui.pcenter.view.MatchStatusListActivity;
 import com.huasport.smartsport.ui.pcenter.view.PCenterFragment;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
@@ -30,6 +34,8 @@ import com.lzy.okgo.model.Response;
 
 import java.util.HashMap;
 
+import okhttp3.Call;
+
 public class PcenterVm extends BaseViewModel implements CounterListener {
 
     private PCenterFragment fragment;
@@ -37,6 +43,8 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
     private ToastUtil toastUtil;
     private PcenterLayoutBinding binding;
     private String registerCode = "";
+    private Counter counter;
+    private Intent intent;
 
     public PcenterVm(PCenterFragment fragment, PcenterLayoutBinding binding) {
         this.fragment = fragment;
@@ -51,7 +59,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
         //初始化Toast
         toastUtil = new ToastUtil(fragment.getActivity());
         //初始化Counter
-        Counter counter = new Counter(this,2);
+        counter = new Counter(this,2);
 
     }
 
@@ -87,9 +95,62 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      *
      * @param type 0:待支付 1:待完善 2:已成功 3:全部比赛
      */
-    public void matchList(int type) {
+    public void matchList(final int type) {
 
+        HashMap params = new HashMap();
+        params.put("baseMethod", Method.GETUSERINFO);
+        params.put("token", token);
+        params.put("baseUrl", Config.baseUrl3);
+        OkHttpUtil.getRequest(fragment.getActivity(), params, new RequestCallBack<UserInfoBean>() {
+            @Override
+            public void onSuccess(Response<UserInfoBean> response) {
+                UserInfoBean userInfoBean = response.body();
+                if (!EmptyUtil.isEmpty(userInfoBean)){
+                    int resultCode = userInfoBean.getResultCode();
+                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                        UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
+                        if(!EmptyUtil.isEmpty(resultBean)){
+                            intent = new Intent(fragment.getActivity(), MatchStatusListActivity.class);
+                            switch (type) {
+                                case StatusVariable.PERSONALCENTER_WAITPAY:
+                                    intent.putExtra("ListStatus", StatusVariable.WAIT_PAY);
+                                    break;
+                                case StatusVariable.PERSONALCENTER_PERFECT:
+                                    intent.putExtra("ListStatus", StatusVariable.WAIT_COMPLETE);
+                                    break;
+                                case StatusVariable.PERSONALCENTER_ALREADYSUCCESS:
+                                    intent.putExtra("ListStatus", StatusVariable.ORDERSUCCESS);
+                                    break;
+                                case StatusVariable.PERSONALCENTER_ALLMATCH:
+                                    intent.putExtra("ListStatus", "");
+                                    break;
+                            }
+                            if (intent != null) {
+                                fragment.getActivity().startActivity(intent);
+                            }
+                        }
+                    }else if (resultCode == StatusVariable.NOBIND){
+                        IntentUtil.startActivity(fragment.getActivity(),LoginActivity.class);
+                    }else if (resultCode == StatusVariable.NOLOGIN){
+                        IntentUtil.startActivity(fragment.getActivity(), BindPhoneActivity.class);
+                    }
 
+                }
+            }
+
+            @Override
+            public UserInfoBean parseNetworkResponse(String jsonResult) {
+                UserInfoBean userInfoBean = JSON.parseObject(jsonResult, UserInfoBean.class);
+                return userInfoBean;
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if(!EmptyUtil.isEmpty(msg)){
+                    toastUtil.centerToast(msg);
+                }
+            }
+        });
     }
 
     /**

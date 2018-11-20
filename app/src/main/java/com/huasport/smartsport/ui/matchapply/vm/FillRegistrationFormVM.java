@@ -43,6 +43,7 @@ import com.huasport.smartsport.ui.matchapply.view.FillRegistrationFormActivity;
 import com.huasport.smartsport.ui.matchapply.view.MatchIntroduceActivity;
 import com.huasport.smartsport.ui.matchapply.view.PayMentOrderActivty;
 import com.huasport.smartsport.ui.matchapply.view.ProtocolActivity;
+import com.huasport.smartsport.ui.matchapply.view.SuccessPaymentInfoActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.bean.GetVertifyCodeResultBean;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
@@ -98,7 +99,6 @@ public class FillRegistrationFormVM extends BaseViewModel implements CounterList
     private String token;
     private ToastUtil toastUtil;
     private MyApplication application = MyApplication.getInstance();
-
     public ObservableField<String> formRealName = new ObservableField<>("");//realName
     public ObservableField<String> formPhoneNumber = new ObservableField<>("");//手机号
     public ObservableField<String> formCode = new ObservableField<>("");//验证码
@@ -107,7 +107,6 @@ public class FillRegistrationFormVM extends BaseViewModel implements CounterList
     public ObservableField<String> sexStr = new ObservableField<>("");//性别
     public ObservableField<Boolean> saveStatus = new ObservableField<>(false);//是否保存为卡片
     public ObservableField<UserInfoBean.ResultBean.RegisterBean> registerBeanObservableField = new ObservableField<>();
-
     private UserInfoBean.ResultBean.RegisterBean register;
     private LoadingDialog loadingDialog;
     private Counter counter;
@@ -287,7 +286,6 @@ public class FillRegistrationFormVM extends BaseViewModel implements CounterList
         params.put("orderCode", orderCode);
         params.put("token", token);
         params.put("playerPhone", formPhoneNumber.get());
-        params.put("t", String.valueOf(System.currentTimeMillis()));
         params.put("playerName", formRealName.get());
         params.put("sex", sexStr.get());
         params.put("baseUrl", Config.baseUrl);
@@ -498,11 +496,11 @@ public class FillRegistrationFormVM extends BaseViewModel implements CounterList
                         if (!EmptyUtil.isEmpty(resultBean)) {
                             String orderStaus = resultBean.getOrderStaus();
                                     if (orderStaus.equals("success")) {
-//                            Intent intent = new Intent(fillRegistrationFormActivity, SuccessPaymentInfoActivity.class);
-//                            intent.putExtra("orderCode", orderCode);
-//                            intent.putExtra("orderType", StatusVariable.APPLYSUCCESS);
-//                            intent.putExtra("orderStatus", StatusVariable.ORDERSUCCESS);
-//                            fillRegistrationFormActivity.startActivity(intent);
+                            Intent intent = new Intent(fillRegistrationFormActivity, SuccessPaymentInfoActivity.class);
+                            intent.putExtra("orderCode", orderCode);
+                            intent.putExtra("orderType", StatusVariable.APPLYSUCCESS);
+                            intent.putExtra("orderStatus", StatusVariable.ORDERSUCCESS);
+                            fillRegistrationFormActivity.startActivity(intent);
                         } else {
                             Intent intent = new Intent(fillRegistrationFormActivity, PayMentOrderActivty.class);//支付
                             intent.putExtra("orderCode", orderCode);//orderCode

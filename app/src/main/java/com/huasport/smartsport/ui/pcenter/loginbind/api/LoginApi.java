@@ -1,6 +1,7 @@
 package com.huasport.smartsport.ui.pcenter.loginbind.api;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
@@ -23,21 +24,12 @@ import java.util.HashMap;
 public class LoginApi {
 
     private Context context;
-    private ToastUtil mToast;
+    private ToastUtil toastUtil;
 
     public LoginApi(Context context) {
         this.context = context;
-        init();
     }
 
-    /**
-     * 初始化
-     */
-    private void init() {
-
-        mToast = new ToastUtil(context);
-
-    }
 
     /**
      * 用户登录 (短信和第三方登录)
@@ -55,8 +47,6 @@ public class LoginApi {
                 if (!EmptyUtil.isEmpty(loginResultBean)) {
                     int resultCode = loginResultBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
-
-                        mToast.centerToast(context.getResources().getString(R.string.login_success));
 
                         LoginResultBean.ResultBean resultBean = loginResultBean.getResult();
                         if (!EmptyUtil.isEmpty(resultBean)) {
@@ -84,10 +74,12 @@ public class LoginApi {
                             }
                         }
 
+                        Toast.makeText(context,"登录成功",Toast.LENGTH_SHORT).show();
                     } else {
-                        if (!EmptyUtil.isEmpty(loginResultBean.getResultMsg())) {
-                            mToast.centerToast(loginResultBean.getResultMsg());
-                        }
+//                        if (!EmptyUtil.isEmpty(loginResultBean.getResultMsg())) {
+//                            toastUtil.centerToast(loginResultBean.getResultMsg());
+//                        }
+                        Toast.makeText(context,loginResultBean.getResultMsg(),Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -103,11 +95,11 @@ public class LoginApi {
             @Override
             public void onFailed(int code, String msg) {
 
-                if (!EmptyUtil.isEmpty(msg)) {
-
-                    mToast.centerToast(msg);
-
-                }
+//                if (!EmptyUtil.isEmpty(msg)) {
+//
+//                    toastUtil.centerToast(msg);
+//
+//                }
 
             }
         });

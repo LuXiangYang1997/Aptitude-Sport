@@ -24,6 +24,8 @@ import com.huasport.smartsport.ui.matchapply.bean.PayResultBean;
 import com.huasport.smartsport.ui.matchapply.bean.RegistrationInfoBean;
 import com.huasport.smartsport.ui.matchapply.bean.WeChatBean;
 import com.huasport.smartsport.ui.matchapply.view.ConfirmPayMentActivity;
+import com.huasport.smartsport.ui.matchapply.view.GroupApplySuccessActivity;
+import com.huasport.smartsport.ui.matchapply.view.SuccessPaymentInfoActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
@@ -132,14 +134,14 @@ public class ConfirmPayMentVM extends BaseViewModel implements CounterListener {
             String paystatus = intent.getStringExtra(StatusVariable.PAYSUCCESS);
             if (paystatus.equals("WXPaySuccess")) {
                 if (matchType.equals("group")) {
-//                    intent = new Intent(confirmPayMentActivity, GroupApplySuccessActivity.class);
-//                    intent.putExtra("orderCode", orderCode);
-//                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
+                    intent = new Intent(confirmPayMentActivity, GroupApplySuccessActivity.class);
+                    intent.putExtra("orderCode", orderCode);
+                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
                 } else {
-//                    intent = new Intent(confirmPayMentActivity, SuccessPaymentInfoActivity.class);
-//                    intent.putExtra("orderCode", orderCode);
-//                    intent.putExtra("orderStatus", StatusVariable.SUCCESSAPPLY);
-//                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
+                    intent = new Intent(confirmPayMentActivity, SuccessPaymentInfoActivity.class);
+                    intent.putExtra("orderCode", orderCode);
+                    intent.putExtra("orderStatus", StatusVariable.SUCCESSAPPLY);
+                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
                 }
                 if (!success.get()) {
                     success.set(true);
@@ -377,18 +379,16 @@ public class ConfirmPayMentVM extends BaseViewModel implements CounterListener {
     AlipayCallBack alipayCallBack = new AlipayCallBack() {
         @Override
         public void paySuccess(String resultStatus) {
-//            RxBus.getInstance().post(new RxBusMessage(RxBusMessage.RxBusFlag.RXBUS_ZHIFUBAO_PAYSUCCESS));
             if (matchType != null) {
-
                 if (matchType.equals("personal")) {
-//                    intent = new Intent(confirmPayMentActivity, SuccessPaymentInfoActivity.class);
-//                    intent.putExtra("orderCode", orderCode);
-//                    intent.putExtra("orderStatus", StatusVariable.SUCCESSAPPLY);
-//                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
+                    intent = new Intent(confirmPayMentActivity, SuccessPaymentInfoActivity.class);
+                    intent.putExtra("orderCode", orderCode);
+                    intent.putExtra("orderStatus", StatusVariable.SUCCESSAPPLY);
+                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
                 } else {
-//                    intent = new Intent(confirmPayMentActivity, GroupApplySuccessActivity.class);
-//                    intent.putExtra("orderCode", orderCode);
-//                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
+                    intent = new Intent(confirmPayMentActivity, GroupApplySuccessActivity.class);
+                    intent.putExtra("orderCode", orderCode);
+                    intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
                 }
                 if (!success.get()) {
                     success.set(true);
@@ -412,14 +412,14 @@ public class ConfirmPayMentVM extends BaseViewModel implements CounterListener {
             public void call(String payStatusBean) {
                 if (payStatusBean.equals(StatusVariable.PAYSUCCESS)) {
                     if (matchType.equals("group")) {
-//                        intent = new Intent(confirmPayMentActivity, GroupApplySuccessActivity.class);
-//                        intent.putExtra("orderCode", orderCode);
-//                        intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
+                        intent = new Intent(confirmPayMentActivity, GroupApplySuccessActivity.class);
+                        intent.putExtra("orderCode", orderCode);
+                        intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
                     } else {
-//                        intent = new Intent(confirmPayMentActivity, SuccessPaymentInfoActivity.class);
-//                        intent.putExtra("orderCode", orderCode);
-//                        intent.putExtra("orderStatus", StatusVariable.SUCCESSAPPLY);
-//                        intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
+                        intent = new Intent(confirmPayMentActivity, SuccessPaymentInfoActivity.class);
+                        intent.putExtra("orderCode", orderCode);
+                        intent.putExtra("orderStatus", StatusVariable.SUCCESSAPPLY);
+                        intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
                     }
                     if (!success.get()) {
                         success.set(true);

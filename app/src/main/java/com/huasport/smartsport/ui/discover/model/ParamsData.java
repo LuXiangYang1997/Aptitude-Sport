@@ -1,15 +1,20 @@
 package com.huasport.smartsport.ui.discover.model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
+import com.huasport.smartsport.R;
+import com.huasport.smartsport.ui.matchapply.bean.AddMemberInitializeBean;
 import com.huasport.smartsport.ui.matchapply.bean.AthletesMessageBean;
+import com.huasport.smartsport.ui.matchapply.bean.PersonalInfoBean;
 import com.huasport.smartsport.ui.matchapply.view.FillRegistrationFormActivity;
+import com.huasport.smartsport.ui.matchapply.vm.AdditionMemberVM;
 import com.huasport.smartsport.ui.matchapply.vm.FillRegistrationFormVM;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.ToastUtil;
-
 import java.util.List;
 
 /**
@@ -127,55 +132,54 @@ public class ParamsData {
 //        return isNull;
 //    }
 
-//    public static boolean groupParams(Context context, List<AddMemberInitializeBean.ResultBean.PropertiesBean> propertiesBeans, View view, AdditionMemberVM additionMemberVM) {
-//        boolean isNull = false;
-//        for (AddMemberInitializeBean.ResultBean.PropertiesBean propertiesBean : propertiesBeans) {
-//            if (propertiesBean.isIsRequired() && EmptyUtil.isEmpty(propertiesBean.getVal())) {
-//                TopSnackbarUtils.showTopSnackBar(context, propertiesBean.getCnname() + "不能为空");
-//                isNull = false;
-//                break;
-//            } else {
-//                if (propertiesBean.getCnname().equals("证件类型")) {
-//                    if (propertiesBean.getVal() != null) {
-//                        if (propertiesBean.getVal().equals("身份证")) {
-//                            Log.e("FrontImage", additionMemberVM.imgOne.get());
-//                            if (EmptyUtil.isEmpty(additionMemberVM.imgOne.get())) {
-//                                SnackbarUtils.Long(view, "请上传身份证正面").leftAndRightDrawable(R.mipmap.msg_icon, 0).gravityFrameLayout(Gravity.TOP).backColor(Color.parseColor("#E50113")).alpha(0.8f).margins(0, 20, 0, 0).show();
-//                                isNull = false;
-//                                break;
-//                            } else if (EmptyUtil.isEmpty(additionMemberVM.imgTwo.get())) {
-//
-//                                SnackbarUtils.Long(view, "请上传身份证反面").leftAndRightDrawable(R.mipmap.msg_icon, 0).gravityFrameLayout(Gravity.TOP).backColor(Color.parseColor("#E50113")).alpha(0.8f).margins(0, 20, 0, 0).show();
-//                                isNull = false;
-//                                break;
-//                            }
-//                        } else if (propertiesBean.getVal().equals("护照")) {
-//
-//                            if (EmptyUtil.isEmpty(additionMemberVM.imgOne.get())) {
-//                                TopSnackbarUtils.showTopSnackBar(context, "请上传护照");
-//                                isNull = false;
-//                                break;
-//                            }
-//
-//
-//                        } else if (propertiesBean.getVal().equals("军官证")) {
-//                            if (EmptyUtil.isEmpty(additionMemberVM.imgOne.get())) {
-//                                TopSnackbarUtils.showTopSnackBar(context, "请上传军官证");
-//                                isNull = false;
-//                                break;
-//                            }
-//                        }
-//
-//                    }
-//
-//                } else {
-//                    isNull = true;
-//                }
-//            }
-//
-//        }
-//        return isNull;
-//    }
+    public  boolean groupParams(List<AddMemberInitializeBean.ResultBean.PropertiesBean> propertiesBeans, AdditionMemberVM additionMemberVM) {
+        boolean isNull = false;
+        for (AddMemberInitializeBean.ResultBean.PropertiesBean propertiesBean : propertiesBeans) {
+            if (propertiesBean.isIsRequired() && EmptyUtil.isEmpty(propertiesBean.getVal())) {
+                toastUtil.showTopSnackBar(propertiesBean.getCnname() + "不能为空");
+                isNull = false;
+                break;
+            } else {
+                if (propertiesBean.getCnname().equals("证件类型")) {
+                    if (propertiesBean.getVal() != null) {
+                        if (propertiesBean.getVal().equals("身份证")) {
+                            Log.e("FrontImage", additionMemberVM.imgOne.get());
+                            if (EmptyUtil.isEmpty(additionMemberVM.imgOne.get())) {
+                                toastUtil.showTopSnackBar("请上传身份证正面");
+                                isNull = false;
+                                break;
+                            } else if (EmptyUtil.isEmpty(additionMemberVM.imgTwo.get())) {
+                                toastUtil.showTopSnackBar("请上传身份证反面");
+                                isNull = false;
+                                break;
+                            }
+                        } else if (propertiesBean.getVal().equals("护照")) {
+
+                            if (EmptyUtil.isEmpty(additionMemberVM.imgOne.get())) {
+                                toastUtil.showTopSnackBar("请上传护照");
+                                isNull = false;
+                                break;
+                            }
+
+
+                        } else if (propertiesBean.getVal().equals("军官证")) {
+                            if (EmptyUtil.isEmpty(additionMemberVM.imgOne.get())) {
+                                toastUtil.showTopSnackBar("请上传军官证");
+                                isNull = false;
+                                break;
+                            }
+                        }
+
+                    }
+
+                } else {
+                    isNull = true;
+                }
+            }
+
+        }
+        return isNull;
+    }
 
 
 }

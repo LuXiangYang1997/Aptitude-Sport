@@ -132,4 +132,16 @@ public class StatusVariable {
     public static final String SHIPPED = "shipped";
     public static final String COMOLETED = "completed";
 
+    public static final String APPLYSUCCESS = "success";//提交订单成功
+
+    public static final int ADDITIONMEMBER = 1;//添加队员
+    public static final int MODIFYMEMMBER = 2;//修改成员信息
+
+    //个人中心区分四种点击事件
+    public static final int PERSONALCENTER_WAITPAY = 0;//待支付
+    public static final int PERSONALCENTER_PERFECT = 1;//待完善
+    public static final int PERSONALCENTER_ALREADYSUCCESS = 2;//已成功
+    public static final int PERSONALCENTER_ALLMATCH = 3;//全部赛事
+
+
 }

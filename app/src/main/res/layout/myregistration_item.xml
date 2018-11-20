@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="myRegistrationBean"
+            type="com.huasport.smartsport.ui.pcenter.bean.MyRegistrationBean.ResultBean.ListBean" />
+
+        <variable
+            name="myRegistrationAdapter"
+            type="com.huasport.smartsport.ui.pcenter.adapter.MyRegistrationAdapter" />
+
+        <variable
+            name="position"
+            type="int" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@color/color_FFFFFF"
+        android:clickable="true"
+        android:onClick="@{()->myRegistrationAdapter.onClickItem(myRegistrationBean,position)}"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_50">
+
+                <!--图片-->
+                <ImageView
+                    android:id="@+id/item_iv_image"
+                    android:layout_width="@dimen/dp_70"
+                    android:layout_height="@dimen/dp_70"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:clickable="false"
+                    android:scaleType="fitXY" />
+
+                <!--组-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/item_iv_image"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:src="@mipmap/icon_name" />
+
+                    <TextView
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:layout_width="@dimen/dp_210"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:clickable="false"
+                        android:maxLines="1"
+                        android:text="@{myRegistrationBean.matchName}"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/sp_13" />
+
+                </LinearLayout>
+
+                <!--个人项目-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:layout_toRightOf="@+id/item_iv_image"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:src="@mipmap/icon_program" />
+
+                    <TextView
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:layout_width="@dimen/dp_210"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:clickable="false"
+                        android:maxLines="1"
+                        android:text="@{myRegistrationBean.itemName}"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/sp_13" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <!--支付状态、申请时间-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!--状态
+                青色：young_side_line
+                红色：red_side_line
+                -->
+                <TextView
+                    android:id="@+id/item_tv_order_status"
+                    android:layout_width="@dimen/dp_70"
+                    android:layout_height="@dimen/dp_20"
+                    android:gravity="center"
+                    android:text="@{myRegistrationBean.orderStatusDesc}"
+                    android:textColor="@color/color_FF8F00"
+                    android:textSize="@dimen/sp_11" />
+
+                <!--时间-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:src="@mipmap/icon_time_big" />
+
+                    <TextView
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:layout_width="@dimen/dp_210"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:clickable="false"
+                        android:text='@{"申请时间:"+myRegistrationBean.orderTime}'
+                        android:textColor="@color/color_black" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/dp_15"
+            android:clickable="false"
+            android:src="@mipmap/icon_right" />
+    </LinearLayout>
+</layout>

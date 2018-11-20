@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+
+        <variable
+            name="applysBean"
+            type="com.huasport.smartsport.ui.matchapply.bean.GroupOrderMsgBean.ResultBean.OrderDetailBean.ApplysBean" />
+
+        <variable
+            name="applyMsgadapter"
+            type="com.huasport.smartsport.ui.matchapply.adapter.GroupApplyMsgAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:background="@color/color_FFFFFF"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="报名项："
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_14" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_3">
+
+                <!--个人项目-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="团队赛"
+                        android:textColor="@color/color_FF8F00"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:id="@+id/matchGroupName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@{applysBean.matchGroupName}"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+
+                    <View
+                        android:id="@+id/vertical_line"
+                        android:layout_width="@dimen/dp_1"
+                        android:layout_height="@dimen/dp_13"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:background="@color/color_666666" />
+
+                    <TextView
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:maxLines="1"
+                        android:text="@{applysBean.eventName}"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+
+                <!--比赛时间-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="比赛时间："
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:text="@{applysBean.eventStartTime}"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+
+                <!--报名费-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="报名费："
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_3"
+                        android:text="@{applysBean.applyAmountStr }"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@color/color_EFEFF4" />
+    </LinearLayout>
+</layout>

@@ -139,6 +139,8 @@ dependencies {
 
     implementation 'com.contrarywind:Android-PickerView:3.2.7'
 
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
+
 }
 
 dependencies {

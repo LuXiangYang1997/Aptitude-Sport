@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -16,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.huasport.smartsport.constant.StatusVariable;
 
@@ -33,6 +37,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Util {
 
@@ -395,6 +401,105 @@ public class Util {
         Log.d("getTime()", "choice date millis: " + date.getTime());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
+    }
+
+    /**
+     * 改变字体颜色
+     * @param color
+     * @param text
+     * @param keyword
+     * @return
+     */
+    public static SpannableString matcherSearchText(int color, String text, String keyword) {
+        SpannableString ss = new SpannableString(text);
+        Pattern pattern = Pattern.compile(keyword);
+        Matcher matcher = pattern.matcher(ss);
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            ss.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return ss;
+    }
+
+    /**
+     * 保存截图
+     */
+    public static void saveImageToGallery(Context context, Bitmap bmp) {
+        // 首先保存图片路径
+        File appDir = new File(Environment.getExternalStorageDirectory(),
+                "zhinengtiyu");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        //当前时间来命名图片
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            Util.insertImageAlbum(context, file.getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        context.sendBroadcast(intent);
+
+        Toast.makeText(context, "图片保存到本地成功", Toast.LENGTH_SHORT).show();
+
+    }
+
+    //文件插入系统图库
+    public static void insertImageAlbum(Context context, String picPath) {
+        try {
+            String[] picPaths = picPath.split("/");
+            String fileName = picPaths[picPaths.length - 1];
+            MediaStore.Images.Media.insertImage(context.getContentResolver(), picPath, fileName, "截图");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (OutOfMemoryError e) {
+            LogUtil.i( "内存溢出...");
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @param view 需要截取图片的view
+     * @return 截图
+     */
+    public static Bitmap getBitmap(View view, Activity activity) throws Exception {
+
+        View screenView = activity.getWindow().getDecorView();
+        screenView.setDrawingCacheEnabled(false);
+        screenView.buildDrawingCache();
+
+        //获取屏幕整张图片
+        Bitmap bitmap = screenView.getDrawingCache();
+
+        if (bitmap != null) {
+
+            //需要截取的长和宽
+            int outWidth = view.getWidth();
+            int outHeight = view.getHeight();
+
+            //获取需要截图部分的在屏幕上的坐标(view的左上角坐标）
+            int[] viewLocationArray = new int[2];
+            view.getLocationOnScreen(viewLocationArray);
+
+            //从屏幕整张图片中截取指定区域
+            bitmap = Bitmap.createBitmap(bitmap, viewLocationArray[0], viewLocationArray[1], outWidth, outHeight);
+
+
+            Log.e("Bitmap", bitmap.toString());
+        }
+
+        return bitmap;
     }
 
 }

@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="view"
+            type="android.view.View" />
+
+        <variable
+            name="groupapplyVM"
+            type="com.huasport.smartsport.ui.matchapply.vm.GroupApplyVM"></variable>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_EFEFF4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/ll_groupApply"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/status_text"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_FFFFFF"
+                        android:onClick="@{()->groupapplyVM.matchIntroduceDetail()}"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            android:layout_weight="1"
+                            android:background="@color/color_FFFFFF"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/groupMatch_name"
+                                android:layout_width="338dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginTop="@dimen/dp_13"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="@{groupapplyVM.matchNameStr}"
+                                android:textColor="@color/color_333333"
+                                android:textSize="@dimen/sp_13" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginTop="@dimen/dp_5"
+                                android:layout_marginBottom="@dimen/dp_13"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@mipmap/icon_time" />
+
+                                <TextView
+                                    android:id="@+id/groupMatch_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_3"
+                                    android:text="@{groupapplyVM.matchTime}" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/dp_15"
+                            android:src="@mipmap/icon_right" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/color_FFFFFF"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/groupform_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <ImageView
+                                android:id="@+id/groupformapplycard_bg"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/icon_cardlight" />
+
+                            <ImageView
+                                android:id="@+id/groupformapplycard_sport"
+                                android:layout_width="@dimen/dp_100"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/dp_5"
+                                android:layout_toLeftOf="@+id/groupformcb_checkbox"
+                                android:paddingBottom="@dimen/dp_10"
+                                android:src="@mipmap/icon_mycard_bgsport" />
+
+                            <CheckBox
+                                android:id="@+id/groupformcb_checkbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/dp_25"
+                                android:background="@drawable/appcardswitch"
+                                android:button="@null" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_userName"
+                                android:layout_width="@dimen/dp_210"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginTop="@dimen/dp_40">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_15"
+                                    android:layout_height="@dimen/dp_20"
+                                    android:layout_marginLeft="@dimen/dp_26"
+                                    android:src="@mipmap/icon_mycarduser" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_12"
+                                    android:text="姓名:"
+                                    android:textColor="@color/color_FFFFFF"
+                                    android:textSize="@dimen/sp_14" />
+
+                                <TextView
+                                    android:id="@+id/formuserName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_5"
+                                    android:ellipsize="end"
+                                    android:singleLine="true"
+                                    android:text=""
+                                    android:textColor="@color/color_FFFFFF"
+                                    android:textSize="@dimen/sp_14" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="@dimen/dp_220"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/ll_userName"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:layout_marginTop="@dimen/dp_10">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dp_15"
+                                    android:layout_height="@dimen/dp_20"
+                                    android:layout_marginLeft="@dimen/dp_26"
+                                    android:src="@mipmap/icon_mycardphone" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_12"
+                                    android:text="手机号码:"
+                                    android:textColor="@color/color_FFFFFF"
+                                    android:textSize="@dimen/sp_14" />
+
+                                <TextView
+                                    android:id="@+id/formuserPhone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="@dimen/dp_5"
+                                    android:ellipsize="end"
+                                    android:phoneNumber="true"
+                                    android:singleLine="true"
+                                    android:text=""
+                                    android:textColor="@color/color_FFFFFF"
+                                    android:textSize="@dimen/sp_14" />
+
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_marginTop="@dimen/dp_13"
+                            android:layout_marginBottom="@dimen/dp_13">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="*"
+                                android:textColor="@color/color_E50113"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:layout_width="@dimen/dp_80"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:text="团队名称"
+                                android:textColor="@color/color_151515"
+                                android:textSize="@dimen/sp_13" />
+
+                            <EditText
+                                android:id="@+id/et_group_teamName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_15"
+                                android:background="@null"
+                                android:hint="请输入团队名称"
+                                android:maxLines="1"
+                                android:text="@={groupapplyVM.groupName}"
+                                android:textColorHint="@color/color_999999"
+                                android:textSize="@dimen/sp_14" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0_5"
+                            android:layout_marginLeft="@dimen/dp_13"
+                            android:layout_marginRight="@dimen/dp_13"
+                            android:background="@color/color_BDBDBD" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_group_applymsg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_10"
+                                android:layout_marginTop="@dimen/dp_13"
+                                android:layout_marginBottom="@dimen/dp_13">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="@color/color_E50113"
+                                    android:visibility="visible" />
+
+                                <TextView
+                                    android:layout_width="@dimen/dp_80"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="领队姓名"
+                                    android:textColor="@color/color_151515"
+                                    android:textSize="@dimen/sp_13" />
+
+                                <EditText
+                                    android:id="@+id/et_leaderName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:background="@null"
+                                    android:hint="请输入领队姓名"
+                                    android:maxLines="1"
+                                    android:text="@={groupapplyVM.leaderName}"
+                                    android:textColorHint="@color/color_999999"
+                                    android:textSize="@dimen/sp_14" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_0_5"
+                                android:layout_marginLeft="@dimen/dp_13"
+                                android:layout_marginRight="@dimen/dp_13"
+                                android:background="@color/color_BDBDBD" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_10"
+                                android:layout_marginTop="@dimen/dp_13"
+                                android:layout_marginBottom="@dimen/dp_13">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="@color/color_E50113"
+                                    android:visibility="visible" />
+
+                                <TextView
+                                    android:layout_width="@dimen/dp_80"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="手机号码"
+                                    android:textColor="@color/color_151515"
+                                    android:textSize="@dimen/sp_13" />
+
+                                <EditText
+                                    android:id="@+id/et_group_phoneNum"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:background="@null"
+                                    android:hint="请输入手机号码"
+                                    android:maxLines="1"
+                                    android:text="@={groupapplyVM.groupPhoneNum}"
+                                    android:textColorHint="@color/color_999999"
+                                    android:textSize="@dimen/sp_14" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_0_5"
+                                android:layout_marginLeft="@dimen/dp_13"
+                                android:layout_marginRight="@dimen/dp_13"
+                                android:background="@color/color_BDBDBD" />
+
+
+                            <LinearLayout
+                                android:id="@+id/llayout_code"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_10"
+                                android:layout_marginTop="@dimen/dp_13"
+                                android:layout_marginBottom="@dimen/dp_13">
+
+                                <TextView
+                                    android:id="@+id/code_requird"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="*"
+                                    android:textColor="@color/color_E50113"
+                                    android:visibility="visible" />
+
+                                <TextView
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"
+                                    android:text="验证码"
+                                    android:textColor="@color/color_151515"
+                                    android:textSize="@dimen/sp_13" />
+
+                                <EditText
+                                    android:id="@+id/group_vertifyCode"
+                                    android:layout_width="142dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_15"
+                                    android:background="@null"
+                                    android:hint="请输入验证码"
+                                    android:maxLines="1"
+                                    android:numeric="integer"
+                                    android:text="@={groupapplyVM.groupVertifyCode}"
+                                    android:textColorHint="@color/color_999999"
+                                    android:textSize="@dimen/sp_14" />
+
+                                <View
+                                    android:layout_width="@dimen/dp_0_5"
+                                    android:layout_height="@dimen/dp_13"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/dp_13"
+                                    android:layout_marginRight="@dimen/dp_13"
+                                    android:background="@color/color_BDBDBD" />
+
+                                <TextView
+                                    android:onClick="@{()->groupapplyVM.getVertifyCode()}"
+                                    android:id="@+id/tv_group_getVertifyCode"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="@{groupapplyVM.vertifyCodeTextclickable}"
+                                    android:gravity="center"
+                                    android:text="@={groupapplyVM.vertifiyCodeText}"
+                                    android:textColor="@color/color_FF8F00"
+                                    android:textSize="@dimen/sp_13" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_40"
+                        android:background="@color/color_FFEED9"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="@dimen/dp_3"
+                            android:layout_height="@dimen/dp_13"
+                            android:layout_centerVertical="true"
+                            android:background="@color/color_E50113" />
+
+                        <TextView
+                            android:id="@+id/groupApply_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="团体成员"
+                            android:textColor="@color/color_FF8F00"
+                            android:textSize="@dimen/sp_13" />
+
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:layout_toEndOf="@+id/groupApply_title">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="("
+                                android:textColor="@color/color_FF8F00" />
+
+                            <TextView
+                                android:id="@+id/group_member"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{groupapplyVM.member}"
+                                android:textColor="@color/color_FF8F00" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="/"
+                                android:textColor="@color/color_FF8F00" />
+
+                            <TextView
+                                android:id="@+id/tv_grouplimit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@={groupapplyVM.limit}"
+                                android:textColor="@color/color_FF8F00" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=")"
+                                android:textColor="@color/color_FF8F00" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_add_member"
+                            android:layout_width="@dimen/dp_50"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/dp_15"
+                            android:gravity="center_vertical|right"
+                            android:onClick="@{()->groupapplyVM.addMember()}">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_18"
+                                android:layout_height="@dimen/dp_18"
+                                android:src="@mipmap/group_addmember" />
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants">
+
+                        <com.zhouyou.recyclerview.XRecyclerView
+                            android:id="@+id/group_xrecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></com.zhouyou.recyclerview.XRecyclerView>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/dp_15"
+                android:background="@color/color_FFFFFF"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rl_saveapplycard"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_28"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:visibility="gone">
+
+                    <CheckBox
+                        android:id="@+id/groupcb_save"
+                        android:layout_width="@dimen/dp_16"
+                        android:layout_height="@dimen/dp_16"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:background="@drawable/save_cb_selector"
+                        android:button="@null" />
+
+                    <TextView
+                        android:layout_width="@dimen/dp_265"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:layout_toRightOf="@+id/groupcb_save"
+                        android:maxLines="2"
+                        android:text="将报名信息保存到个人报名卡，用作以后快速报名"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_12" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dp_15"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/group_checkbox"
+                            android:layout_width="@dimen/dp_20"
+                            android:layout_height="@dimen/dp_20"
+                            android:background="@drawable/agreement_selector"
+                            android:button="@null" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_6"
+                            android:text="我已阅读并接受"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/form_Agreement"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_5"
+                            android:onClick="@{()->groupapplyVM.stateMent()}"
+                            android:text="《免责声明》"
+                            android:textColor="@color/color_FF8F00"
+                            android:textSize="@dimen/sp_12" />
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:onClick="@{()->groupapplyVM.applyMessage()}"
+                    android:id="@+id/tv_group_apply"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center"
+                    android:background="@color/color_FF8F00"
+                    android:gravity="center"
+                    android:text="提交报名信息"
+                    android:textColor="@color/color_FFFFFF"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>

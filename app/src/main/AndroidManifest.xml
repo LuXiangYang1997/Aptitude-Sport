@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.huasport.smartsport">
 
-
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 这个权限用于访问GPS定位 -->
@@ -173,7 +172,24 @@
         <activity android:name=".ui.matchapply.view.ConfirmPayMentActivity"
             android:screenOrientation="portrait"
             />
-
+        <activity android:name=".ui.matchapply.view.SuccessPaymentInfoActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.GroupApplySuccessActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.bean.GroupApplyActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.GroupApplyWaitPerfectActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.matchapply.view.AdditionMemberActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.view.MatchStatusListActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

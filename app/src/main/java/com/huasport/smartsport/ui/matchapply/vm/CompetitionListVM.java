@@ -32,6 +32,7 @@ import com.huasport.smartsport.ui.matchapply.adapter.CityListAdapter;
 import com.huasport.smartsport.ui.matchapply.adapter.CompetitionListAdapter;
 import com.huasport.smartsport.ui.matchapply.bean.CityListBean;
 import com.huasport.smartsport.ui.matchapply.bean.CompetitionListBean;
+import com.huasport.smartsport.ui.matchapply.bean.GroupApplyActivity;
 import com.huasport.smartsport.ui.matchapply.bean.GroupEventsBean;
 import com.huasport.smartsport.ui.matchapply.bean.OrderBean;
 import com.huasport.smartsport.ui.matchapply.view.CompetitionListActivity;
@@ -442,15 +443,15 @@ public class CompetitionListVM extends BaseViewModel implements CounterListener,
 
                             //团队报名
                     if (matchState.get().equals("group")) {
-//                        Intent intent = new Intent(competitionListActivity, GroupApplyActivity.class);
-//                        intent.putExtra("orderCode", orderBean.getResult().getOrderCode());
-//                        intent.putExtra("matchCode", matchCode);
-//                        intent.putExtra("matchName", matchName);
-//                        intent.putExtra("matchStartTime", matchStartTime);
-//                        intent.putExtra("matchEndTime", matchEndTime);
-//                        intent.putExtra("groupLimit", competitionListAdapter.limit.get());
-//                        intent.putExtra("type", "normal_apply");
-//                        competitionListActivity.startActivity(intent);
+                        Intent intent = new Intent(competitionListActivity, GroupApplyActivity.class);
+                        intent.putExtra("orderCode", orderBean.getResult().getOrderCode());
+                        intent.putExtra("matchCode", matchCode);
+                        intent.putExtra("matchName", matchName);
+                        intent.putExtra("matchStartTime", matchStartTime);
+                        intent.putExtra("matchEndTime", matchEndTime);
+                        intent.putExtra("groupLimit", competitionListAdapter.limit.get());
+                        intent.putExtra("type", "normal_apply");
+                        competitionListActivity.startActivity(intent);
                         //个人报名
                     } else if (matchState.get().equals("personal")) {
                         Intent orderintent = new Intent(competitionListActivity, FillRegistrationFormActivity.class);
