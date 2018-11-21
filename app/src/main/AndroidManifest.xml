@@ -196,6 +196,73 @@
         <activity android:name=".ui.matchapply.view.RegistrationInformationActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".ui.matchapply.view.SearchActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.MedalPaySuccessActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.attention.view.AttentionActivity"
+            android:screenOrientation="portrait"
+            />
+       <activity android:name=".ui.pcenter.view.PersonalScoreCardAvtivity"
+           android:screenOrientation="portrait"
+           />
+        <activity android:name=".ui.pcenter.view.PersonalPrimordialMyGradeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.view.PersonalMyOrderActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.view.PersonalMyGradeDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.view.PersonalMyCardListActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.view.PersonalMyApplyCardActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.view.PersonalCenterWebActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.PersonalMyMedalActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.PersonalMedalDetailActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.PersonalMedalConfirmOrderActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.LookUpCertificateActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.ImmediatelyPayActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.AddNewAddressActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.attention.view.AddFriendsActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.approve.view.PcenterApproveActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.medal.view.AddAddressActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.approve.view.ApproveResultActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.approve.view.ApproveActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.pcenter.view.PersionAboutMyActivity"
+            android:screenOrientation="portrait"
+            />
+
     </application>
 
 </manifest>

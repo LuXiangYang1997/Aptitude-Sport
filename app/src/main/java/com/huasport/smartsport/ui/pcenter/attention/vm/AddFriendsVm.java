@@ -73,7 +73,6 @@ public class AddFriendsVm extends BaseViewModel implements CounterListener {
         this.addFriendsActivity = addFriendsActivity;
         this.phoneABookFriendsAdapter = phoneABookFriendsAdapter;
         binding = addFriendsActivity.getBinding();
-
         init();
         initView();
         toLeadaddress();
@@ -281,8 +280,13 @@ public class AddFriendsVm extends BaseViewModel implements CounterListener {
             public void onFailed(int code, String msg) {
 
             }
-        });
 
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
+        });
     }
 
     /**
@@ -310,7 +314,6 @@ public class AddFriendsVm extends BaseViewModel implements CounterListener {
                             if (!EmptyUtil.isEmpty(resultBean.getShareUrl())) {
                                 shareUrl = resultBean.getShareUrl();
                             }
-
                             if (list.size() == 0 && friends.size() == 0) {
                                 binding.rlAllattention.setVisibility(View.VISIBLE);
                                 binding.invite.setVisibility(View.VISIBLE);
@@ -320,31 +323,20 @@ public class AddFriendsVm extends BaseViewModel implements CounterListener {
                                 binding.invite.setVisibility(View.GONE);
                                 NullStateUtil.setNullState(binding.nulldata, false);
                             }
-
                             if (!EmptyUtil.isEmpty(list)) {
                                 tv_abookFriendsCount.setText(resultBean.getInvitesNum() + "位通讯录好友可邀请");
                                 addressBookFriendsAdapter.loadData(list);
                             }
-
                             int unfollowNum = resultBean.getUnfollowNum();
-
                             followNumber = unfollowNum;
-
                             if (followNumber > 0) {
-
                                 tv_allattention.setBackground(addFriendsActivity.getResources().getDrawable(R.drawable.addressbookbg));
-
                             } else {
-
                                 tv_allattention.setBackgroundColor(addFriendsActivity.getResources().getColor(R.color.color_D0D0D0));
-
                             }
-
-
                             if (!EmptyUtil.isEmpty(friends)) {
                                 tv_attentionFriend.setText("一键关注" + unfollowNum + "位通讯录好友");
                                 phoneABookFriendsAdapter.loadData(friends);
-
                             }
                         }
 
@@ -376,11 +368,8 @@ public class AddFriendsVm extends BaseViewModel implements CounterListener {
      * @return
      */
     public static File WriteConfigJson(String args) {
-
         String absolutePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-
         File file = new File(absolutePath + "/address.txt");
-
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
@@ -390,7 +379,6 @@ public class AddFriendsVm extends BaseViewModel implements CounterListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         try {
             FileWriter fw = new FileWriter(file, true);
             fw.write(args);

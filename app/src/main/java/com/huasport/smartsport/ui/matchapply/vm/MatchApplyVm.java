@@ -3,9 +3,9 @@ package com.huasport.smartsport.ui.matchapply.vm;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.huasport.smartsport.MainActivity;
@@ -24,15 +24,17 @@ import com.huasport.smartsport.ui.matchapply.bean.BannerListBean;
 import com.huasport.smartsport.ui.matchapply.bean.MatchApplyListBean;
 import com.huasport.smartsport.ui.matchapply.view.BannerRuleActivity;
 import com.huasport.smartsport.ui.matchapply.view.MatchApplyFragment;
+import com.huasport.smartsport.ui.matchapply.view.SearchActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.util.Config;
-import com.huasport.smartsport.util.LogUtil;
-import com.huasport.smartsport.util.counter.Counter;
-import com.huasport.smartsport.util.counter.CounterListener;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
+import com.huasport.smartsport.util.LogUtil;
 import com.huasport.smartsport.util.ToastUtil;
+import com.huasport.smartsport.util.counter.Counter;
+import com.huasport.smartsport.util.counter.CounterListener;
 import com.lzy.okgo.model.Response;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -69,7 +71,6 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
         counter = new Counter(this,2);
         //Toast
         toastUtil = new ToastUtil(matchApplyFragment.getActivity());
-
     }
 
     /**
@@ -95,8 +96,6 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
                         if (!EmptyUtil.isEmpty(resultBean)){
                             final List<String> bannerlist = resultBean.getList();
                             if (bannerlist.size()>0){
-
-
 
                              binding.bgaBanner.setAdapter(new BGABanner.Adapter<ImageView, String>() {
                                  @Override
@@ -159,7 +158,6 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
                counter.countDown();
             }
         });
-
     }
 
     /**
@@ -225,6 +223,12 @@ public class MatchApplyVm extends BaseViewModel implements CounterListener{
 
     }
 
+    /**
+     * 搜索
+     */
+    public void searchClick(){
+        IntentUtil.startActivity(matchApplyFragment.getActivity(),SearchActivity.class);
+    }
     /**
      * 头像点击事件
      */

@@ -1,6 +1,5 @@
 package com.huasport.smartsport.ui.pcenter.vm;
 
-import android.databinding.ObservableField;
 import android.support.design.widget.TabLayout;
 
 import com.alibaba.fastjson.JSON;
@@ -20,7 +19,6 @@ import com.huasport.smartsport.ui.pcenter.view.PersonalMyOrderActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.NullStateUtil;
-import com.huasport.smartsport.util.ShareUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
@@ -30,8 +28,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.HashMap;
 import java.util.List;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class PersonalMyOrderVm extends BaseViewModel implements CounterListener, RefreshLoadMoreListener {
 
@@ -100,9 +96,9 @@ public class PersonalMyOrderVm extends BaseViewModel implements CounterListener,
                 } else if (tabText.equals(StatusVariable.ALLREADYPAY)) {//成功
                     orderType = StatusVariable.ORDERSUCCESS;
                 } else if (tabText.equals(StatusVariable.SHIPPEDSTR)) {
-                    orderType = StatusVariable.SHIPPEDSTR;
+                    orderType = StatusVariable.SHIPPEDSTRS;
                 } else if (tabText.equals(StatusVariable.OMPLETED)) {
-                    orderType = StatusVariable.OMPLETED;
+                    orderType = StatusVariable.COMPLETED;
                 }
                 initData(StatusVariable.REFRESH);
             }
@@ -150,7 +146,6 @@ public class PersonalMyOrderVm extends BaseViewModel implements CounterListener,
                             } else {
                                 NullStateUtil.setNullState(binding.nulldata,false);
                             }
-
                             List<OrderCenterListBean.ResultBean.ListBean> list = orderCenterListBean.getResult().getList();
                             if (loadType == StatusVariable.LOADMORE) {//判断是加载还是加载更多
                                 orderCenterListAdapter.loadMoreData(list);

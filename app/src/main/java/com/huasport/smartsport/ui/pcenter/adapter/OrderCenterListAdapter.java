@@ -13,6 +13,8 @@ import com.huasport.smartsport.base.BaseViewHolder;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.OrdercenterItemlayoutBinding;
 import com.huasport.smartsport.ui.pcenter.bean.OrderCenterListBean;
+import com.huasport.smartsport.ui.pcenter.medal.view.ImmediatelyPayActivity;
+import com.huasport.smartsport.ui.pcenter.view.PerCenterSuccessOrderDetailActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalMyOrderActivity;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.SharedPreferencesUtil;
@@ -80,16 +82,15 @@ public class OrderCenterListAdapter extends BaseAdapter<OrderCenterListBean.Resu
                 public void onClick(View v) {
 
                     if (orderStatus.equals(StatusVariable.WAITPAY)) {
-//                        SharedPreferencesUtil.setParam(personalMyOrderActivity, "successType", "ordercenter");
-//                        Intent intent = new Intent(personalMyOrderActivity, ImmediatelyPayActivity.class);
-//                        intent.putExtra("orderCode", mList.get(position).getOrderCode());
-//                        personalMyOrderActivity.startActivity(intent);
-
+                        SharedPreferencesUtil.setParam(personalMyOrderActivity, "successType", "ordercenter");
+                        Intent intent = new Intent(personalMyOrderActivity, ImmediatelyPayActivity.class);
+                        intent.putExtra("orderCode", mList.get(position).getOrderCode());
+                        personalMyOrderActivity.startActivity(intent);
                     } else if (orderStatus.equals(StatusVariable.SUCCESSAPPLY) || orderStatus.equals(StatusVariable.SHIPPED) || orderStatus.equals(StatusVariable.COMOLETED)) {
-//                        Intent intent = new Intent(personalMyOrderActivity, PerCenterSuccessOrderDetailActivity.class);
-//                        intent.putExtra("orderCode", mList.get(position).getOrderCode());
-//                        intent.putExtra("orderType", orderStatus);
-//                        personalMyOrderActivity.startActivity(intent);
+                        Intent intent = new Intent(personalMyOrderActivity, PerCenterSuccessOrderDetailActivity.class);
+                        intent.putExtra("orderCode", mList.get(position).getOrderCode());
+                        intent.putExtra("orderType", orderStatus);
+                        personalMyOrderActivity.startActivity(intent);
                     }
                 }
             });

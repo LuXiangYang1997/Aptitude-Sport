@@ -212,6 +212,12 @@ public class AttentionVm extends BaseViewModel implements CounterListener, Refre
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
 
     }

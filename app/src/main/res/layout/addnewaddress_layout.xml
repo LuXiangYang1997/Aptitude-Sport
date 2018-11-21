@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="addnewAddressVm"
+            type="com.huasport.smartsport.ui.pcenter.medal.vm.AddNewAddressVM" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_FFFFFF"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginLeft="@dimen/sp_15"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/sp_15">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="收货人"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_14" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:background="@null"
+                        android:hint="收货人"
+                        android:maxLines="1"
+                        android:maxLength="20"
+                        android:text="@={addnewAddressVm.consignee}"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_12" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/color_BDBDBD" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginLeft="@dimen/sp_15"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/sp_15">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="联系电话"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_14" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_30"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:background="@null"
+                        android:hint="联系电话"
+                        android:maxLines="1"
+                        android:maxLength="11"
+                        android:numeric="integer"
+                        android:phoneNumber="true"
+                        android:singleLine="true"
+                        android:text="@={addnewAddressVm.phoneNumber}"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/color_BDBDBD" />
+
+                <LinearLayout
+                    android:id="@+id/ll_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginLeft="@dimen/sp_15"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/sp_15"
+                    android:onClick="@{()->addnewAddressVm.selectCisty()}"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="收货地址"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_addressCity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_14" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/icon_right" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/color_BDBDBD" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/sp_15"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/sp_15">
+
+                    <TextView
+                        android:id="@+id/tv_detailaddress"
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="详细地址"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_14" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_90"
+                        android:layout_marginLeft="@dimen/dp_20"
+                        android:layout_toRightOf="@id/tv_detailaddress"
+                        android:background="@drawable/edit_fram"
+                        android:gravity="left|top"
+                        android:padding="@dimen/dp_5"
+                        android:text="@={addnewAddressVm.detail_address}"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_12" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/color_BDBDBD" />
+
+
+                <RelativeLayout
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_45"
+                    android:layout_marginTop="@dimen/dp_13"
+                    android:layout_marginBottom="@dimen/dp_13"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:id="@+id/tv_defaultaddress"
+                            android:layout_width="@dimen/dp_90"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/sp_15"
+                            android:text="设置默认地址"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_13" />
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/cb_default"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="@dimen/dp_15"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/checkboxbtn_selecter" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/color_BDBDBD" />
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/tv_addnewaddress"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_44"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:background="@color/color_FF8F00"
+            android:gravity="center"
+            android:onClick="@{()->addnewAddressVm.addAddress()}"
+            android:text="确定"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="@dimen/sp_15"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</layout>

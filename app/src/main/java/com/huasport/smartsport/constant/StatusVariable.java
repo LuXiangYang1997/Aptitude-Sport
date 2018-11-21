@@ -176,4 +176,9 @@ public class StatusVariable {
 
     public static final String PCENTERAPPROVE = "个人";
     public static final String FIRMAPPROVE = "企业";
+
+    public static final int ADDRESSCODE = 1;
+
+    public static final String WAITAUTH = "wait_auth";//未认证
+
 }

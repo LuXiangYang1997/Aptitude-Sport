@@ -68,14 +68,7 @@ public class AttentionActivity extends BaseActivity<AttentionLayoutBinding, Atte
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-                activityState = (boolean) SharedPreferencesUtil.getParam(this, "ActivityState", false);
-                if (activityState) {
-                    setResult(0);
-                    this.finish();
-                } else {
-                    this.setResult(1);
-                    this.finish();
-                }
+                finish();
                 break;
             case R.id.img_right:
                 RxPermissionUtil.getPermission(this, Manifest.permission.READ_CONTACTS, new RxPermissionUtilCallback() {
@@ -129,19 +122,6 @@ public class AttentionActivity extends BaseActivity<AttentionLayoutBinding, Atte
 
 
                 break;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        activityState = (boolean) SharedPreferencesUtil.getParam(this, "ActivityState", false);
-        if (activityState) {
-            setResult(0);
-            this.finish();
-        } else {
-            this.setResult(1);
-            this.finish();
         }
     }
 }

@@ -36,25 +36,18 @@ public class PersonalAboutMyVM extends BaseViewModel {
     }
 
     private void init() {
-
         binding = persionAboutMyActivity.getBinding();
-
         version = Util.getVersionName(persionAboutMyActivity);
         binding.appversion.setText("智体运动 " +"v"+version);
-
         long time = System.currentTimeMillis();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
         SimpleDateFormat sf = new SimpleDateFormat("yyyy");//这里的格式可换"yyyy年-MM月dd日-HH时mm分ss秒"等等格式
         String date = sf.format(calendar.getTime());
-
         binding.Copyright.setText("Copyright@" + date);
-
         //初始化Toast
         toastUtil = new ToastUtil(persionAboutMyActivity);
-
         updataVersion();
-
     }
 
     /**
@@ -65,7 +58,6 @@ public class PersonalAboutMyVM extends BaseViewModel {
         final HashMap params = new HashMap();
         params.put("baseMethod", Method.VERSION_CODE);
         params.put("platform", "android");
-        params.put("t", String.valueOf(System.currentTimeMillis()));
         params.put("baseUrl", Config.baseUrl);
 
 
@@ -94,8 +86,6 @@ public class PersonalAboutMyVM extends BaseViewModel {
 
             }
         });
-
-
     }
 
     /**

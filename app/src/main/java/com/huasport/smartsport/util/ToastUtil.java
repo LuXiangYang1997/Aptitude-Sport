@@ -16,7 +16,6 @@ public class ToastUtil {
 
     public ToastUtil(Context context) {
         this.context=context;
-        mToast = new Toast(context);
     }
 
     /**

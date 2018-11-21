@@ -7,7 +7,7 @@
             type="com.huasport.smartsport.ui.pcenter.bean.PersonalMedalBean.ResultBean.ScoreCertBean"/>
         <variable
             name="medalAdapter"
-            type="com.huasport.smartsport.ui.pcenter.adapter.PersonalMedalAdapter"/>
+            type="com.huasport.smartsport.ui.pcenter.medal.adapter.PersonalMedalAdapter"/>
 
     </data>
 

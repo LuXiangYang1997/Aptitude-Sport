@@ -45,12 +45,8 @@ public class AddFriendsActivity extends BaseActivity<AddfriendsLayoutBinding, Ad
     @Override
     public void initViewObservable() {
         super.initViewObservable();
-
         setTitle("添加好友");
-
         toolbarBinding.llLeft.setOnClickListener(this);
-
-
         binding.addfriendsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.addfriendsRecyclerView.setAdapter(phoneABookFriendsAdapter);
         binding.addfriendsRecyclerView.setPullRefreshEnabled(false);

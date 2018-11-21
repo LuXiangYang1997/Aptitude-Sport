@@ -5,7 +5,7 @@
 
         <variable
             name="personalMyApplyCardVM"
-            type="com.huasport.smartsport.ui.personalcenter.vm.PersonalMyApplyCardVM" />
+            type="com.huasport.smartsport.ui.pcenter.vm.PersonalMyApplyCardVM" />
 
 
     </data>

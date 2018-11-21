@@ -1,4 +1,4 @@
-package com.huasport.smartsport.ui.pcenter.view;
+package com.huasport.smartsport.ui.pcenter.medal.view;
 
 
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,8 +7,8 @@ import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseActivity;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.ActivityMymedalBinding;
-import com.huasport.smartsport.ui.pcenter.adapter.PersonalMedalAdapter;
-import com.huasport.smartsport.ui.pcenter.vm.PersonalMyMedalVM;
+import com.huasport.smartsport.ui.pcenter.medal.adapter.PersonalMedalAdapter;
+import com.huasport.smartsport.ui.pcenter.medal.vm.PersonalMyMedalVM;
 import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.SharedPreferencesUtil;
 

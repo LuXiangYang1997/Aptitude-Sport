@@ -5,11 +5,12 @@ import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseAdapter;
 import com.huasport.smartsport.base.BaseViewHolder;
+import com.huasport.smartsport.databinding.PersonalrankingItemlayoutBinding;
 import com.huasport.smartsport.ui.pcenter.bean.PersonalCompetitionBean;
+import com.huasport.smartsport.ui.pcenter.view.PersonalMyGradeDetailActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalScoreCardAvtivity;
 import com.huasport.smartsport.util.EmptyUtil;
 
@@ -50,10 +51,10 @@ public class PersonalRankingAdapter extends BaseAdapter<PersonalCompetitionBean.
             @Override
             public void onClick(View v) {
 
-//                Intent intent = new Intent(personalScoreCardActivity, PersonalMyGradeDetailActivity.class);
-//                intent.putExtra("competiotionCode", mList.get(position).getCompetitionCode());
-//                intent.putExtra("scoreDesc", mList.get(position).getScore());
-//                personalScoreCardActivity.startActivity(intent);
+                Intent intent = new Intent(personalScoreCardActivity, PersonalMyGradeDetailActivity.class);
+                intent.putExtra("competiotionCode", mList.get(position).getCompetitionCode());
+                intent.putExtra("scoreDesc", mList.get(position).getScore());
+                personalScoreCardActivity.startActivity(intent);
             }
         });
 

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -32,12 +34,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -613,11 +622,90 @@ public class Util {
         editText.setFilters(new InputFilter[]{filter_space, filter_speChat});
     }
 
+    /**
+     * 对字符串处理特殊符号
+     * @param str
+     * @return
+     * @throws PatternSyntaxException
+     */
     public static String stringFilter(String str) throws PatternSyntaxException {
-// 只允许字母、数字和汉字
+    // 只允许字母、数字和汉字
         String regEx = "[^a-zA-Z0-9\u4E00-\u9FA5]";//正则表达式
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str);
         return m.replaceAll("").trim();
     }
+
+    /**
+     * url转成Bitmap
+     * @param url
+     * @return
+     */
+    public static Bitmap decodeUriAsBitmapFromNet(String url) {
+
+        byte[] htmlByteArray = Util.getHtmlByteArray(url);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(htmlByteArray, 0, htmlByteArray.length);
+
+        return bitmap;
+
+    }
+    public static byte[] getHtmlByteArray(final String url) {
+        URL htmlUrl = null;
+        InputStream inStream = null;
+        try {
+            htmlUrl = new URL(url);
+            URLConnection connection = htmlUrl.openConnection();
+            HttpURLConnection httpConnection = (HttpURLConnection) connection;
+            int responseCode = httpConnection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                inStream = httpConnection.getInputStream();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        byte[] data = inputStreamToByte(inStream);
+
+        return data;
+    }
+
+    public static byte[] inputStreamToByte(InputStream is) {
+        try {
+            ByteArrayOutputStream bytestream = new ByteArrayOutputStream();
+            int ch;
+            while ((ch = is.read()) != -1) {
+                bytestream.write(ch);
+            }
+            byte imgdata[] = bytestream.toByteArray();
+            bytestream.close();
+            return imgdata;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getJson(String fileName, Context context) {
+        //将json数据变成字符串
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try {
+            //获取assets资源管理器
+            AssetManager assetManager = context.getAssets();
+            //通过管理器打开文件并读取
+            BufferedReader bf = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName)));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
+
+
 }

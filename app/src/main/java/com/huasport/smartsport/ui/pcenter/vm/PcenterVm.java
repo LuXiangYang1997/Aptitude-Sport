@@ -2,9 +2,9 @@ package com.huasport.smartsport.ui.pcenter.vm;
 
 
 import android.content.Intent;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.api.Method;
@@ -13,12 +13,17 @@ import com.huasport.smartsport.api.RequestCallBack;
 import com.huasport.smartsport.base.BaseViewModel;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.PcenterLayoutBinding;
+import com.huasport.smartsport.ui.discover.bean.ApproveBean;
 import com.huasport.smartsport.ui.discover.view.ReleaseActivity;
 import com.huasport.smartsport.ui.matchapply.view.BannerRuleActivity;
+import com.huasport.smartsport.ui.pcenter.approve.view.ApproveActivity;
+import com.huasport.smartsport.ui.pcenter.approve.view.ApproveResultActivity;
+import com.huasport.smartsport.ui.pcenter.attention.view.AttentionActivity;
 import com.huasport.smartsport.ui.pcenter.bean.UserCenterInfo;
 import com.huasport.smartsport.ui.pcenter.bean.UserCertStatusBean;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
+import com.huasport.smartsport.ui.pcenter.medal.view.PersonalMyMedalActivity;
 import com.huasport.smartsport.ui.pcenter.settings.bean.UserInfoBean;
 import com.huasport.smartsport.ui.pcenter.settings.view.PersonalMsgActivity;
 import com.huasport.smartsport.ui.pcenter.settings.view.SettingsActivity;
@@ -28,22 +33,20 @@ import com.huasport.smartsport.ui.pcenter.view.PersionAboutMyActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalCenterWebActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalMyApplyCardActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalMyCardListActivity;
-import com.huasport.smartsport.ui.pcenter.view.PersonalMyMedalActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalMyOrderActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalPrimordialMyGradeActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.LogUtil;
+import com.huasport.smartsport.util.SharedPreferencesUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
 import com.lzy.okgo.model.Response;
-import com.umeng.commonsdk.debug.E;
 
+import java.io.Serializable;
 import java.util.HashMap;
-
-import okhttp3.Call;
 
 public class PcenterVm extends BaseViewModel implements CounterListener {
 
@@ -54,6 +57,10 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
     private String registerCode = "";
     private Counter counter;
     private Intent intent;
+    private ApproveBean.ResultBean.AuthBean auth;
+    private String certStatus;
+    private String approveStatus;
+    private String statusType;
 
     public PcenterVm(PCenterFragment fragment, PcenterLayoutBinding binding) {
         this.fragment = fragment;
@@ -69,7 +76,6 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
         toastUtil = new ToastUtil(fragment.getActivity());
         //初始化Counter
         counter = new Counter(this,2);
-
     }
 
 
@@ -96,7 +102,92 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      */
     public void approve() {
 
+        binding.llApprove.setClickable(false);
+        HashMap params = new HashMap();
+        params.put("baseUrl", Config.baseUrl3);
+        params.put("token", token);
+        params.put("baseMethod", Method.GETCERTIFICATIONINFO);
+        params.put("terminal", "ANDROID");
 
+        OkHttpUtil.getRequest(fragment.getActivity(), params, new RequestCallBack<ApproveBean>() {
+            @Override
+            public void onSuccess(Response<ApproveBean> response) {
+                ApproveBean approveBean = response.body();
+                if (!EmptyUtil.isEmpty(approveBean)) {
+
+                    if (approveBean.getResultCode() == StatusVariable.SUCCESS) {
+
+                        String status = approveBean.getResult().getAuthStatus();
+                        auth = approveBean.getResult().getAuth();
+
+                        if (!EmptyUtil.isEmpty(auth)) {
+                            String certType = auth.getCertType();
+                            certStatus = certType;
+                        }
+                        if (!EmptyUtil.isEmpty(status)) {
+                            //认证状态
+                            if (!EmptyUtil.isEmpty(status)) {
+                                if (status.equals(StatusVariable.WAITAUTH)) {//未认证
+                                    binding.tvApproveStatus.setText("申请认证");
+                                } else if (status.equals(StatusVariable.PASS)) {//已认证
+                                    binding.tvApproveStatus.setText("已认证");
+                                } else if (status.equals(StatusVariable.REJECT)) {//认证失败
+                                    binding.tvApproveStatus.setText("申请认证");
+                                } else if (status.equals(StatusVariable.WAIT_AUDIT)) {//认证中
+                                    binding.tvApproveStatus.setText("申请认证");
+                                }
+                                approveStatus = status;
+                            }
+                            String registerCode = (String) SharedPreferencesUtil.getParam(fragment.getActivity(), "registerCode", "");
+                            statusType = (String) SharedPreferencesUtil.getParam(fragment.getActivity(), registerCode, "");
+                            if (!EmptyUtil.isEmpty(registerCode)) {
+                                if (approveStatus.equals(StatusVariable.WAITAUTH)) {
+                                    intent = new Intent(fragment.getActivity(), ApproveActivity.class);
+                                } else {
+                                    if (!EmptyUtil.isEmpty(auth)) {
+                                        if (approveStatus.equals(StatusVariable.REJECT)) {
+                                            if (approveStatus.equals(statusType)) {
+                                                intent = new Intent(fragment.getActivity(), ApproveActivity.class);
+                                            } else {
+                                                intent = new Intent(fragment.getActivity(), ApproveResultActivity.class);
+                                                intent.putExtra("certType", certStatus);
+                                                intent.putExtra("authStatus", (Serializable) auth);
+                                                intent.putExtra("type", "personalcenter");
+                                            }
+                                        } else {
+                                            intent = new Intent(fragment.getActivity(), ApproveResultActivity.class);
+                                            intent.putExtra("certType", certStatus);
+                                            intent.putExtra("authStatus", (Serializable) auth);
+                                            intent.putExtra("type", "personalcenter");
+                                        }
+
+                                    } else {
+                                        intent = new Intent(fragment.getActivity(), ApproveActivity.class);
+                                    }
+                                }
+                                fragment.getActivity().startActivity(intent);
+                                binding.llApprove.setClickable(true);
+                            }
+                        }
+
+                    }
+
+
+                }
+            }
+
+            @Override
+            public ApproveBean parseNetworkResponse(String jsonResult) {
+                ApproveBean approveBean = JSONObject.parseObject(jsonResult, ApproveBean.class);
+                return approveBean;
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+
+            }
+        });
+        
     }
 
     /**
@@ -178,7 +269,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
 
         intent = new Intent(fragment.getActivity(), AttentionActivity.class);
         intent.putExtra("types", "attention");
-        fragment.getActivity().startActivityForResult(intent, 0);
+        fragment.getActivity().startActivity(intent);
 
     }
 
@@ -189,7 +280,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
 
         intent = new Intent(fragment.getActivity(), AttentionActivity.class);
         intent.putExtra("types", "fans");
-        fragment.getActivity().startActivityForResult(intent, 0);
+        fragment.getActivity().startActivity(intent);
     }
 
     /**

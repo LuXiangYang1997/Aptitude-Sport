@@ -8,44 +8,54 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.api.Method;
+import com.huasport.smartsport.api.OkHttpUtil;
+import com.huasport.smartsport.api.RequestCallBack;
 import com.huasport.smartsport.base.BaseViewModel;
+import com.huasport.smartsport.bean.UserBean;
 import com.huasport.smartsport.constant.StatusVariable;
+import com.huasport.smartsport.custom.LoadingDialog;
 import com.huasport.smartsport.databinding.PersonalscoreLayoutBinding;
 import com.huasport.smartsport.ui.matchapply.bean.UploadBean;
 import com.huasport.smartsport.ui.matchgrade.view.MatchGradeRankingsActivity;
 import com.huasport.smartsport.ui.pcenter.adapter.PersonalRankingAdapter;
 import com.huasport.smartsport.ui.pcenter.bean.PersonalCompetitionBean;
+import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.ui.pcenter.view.PersonalScoreCardAvtivity;
 import com.huasport.smartsport.util.Config;
+import com.huasport.smartsport.util.EmptyUtil;
+import com.huasport.smartsport.util.GlideUtil;
+import com.huasport.smartsport.util.IntentUtil;
+import com.huasport.smartsport.util.LogUtil;
+import com.huasport.smartsport.util.ShareUtil;
+import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.Util;
+import com.huasport.smartsport.util.counter.Counter;
+import com.huasport.smartsport.util.counter.CounterListener;
+import com.huasport.smartsport.util.popwindow.NormalShareCallBack;
+import com.huasport.smartsport.util.popwindow.PopWindowUtil;
 import com.huasport.smartsport.wxapi.ThirdPart;
 import com.sina.weibo.sdk.share.WbShareCallback;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import okhttp3.Call;
-import okhttp3.Response;
 
-public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallback {
+public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallback, CounterListener {
 
     private static final Object TAG = "zhinengtiyu";
     private PersonalScoreCardAvtivity personalScoreCardactivity;
@@ -55,119 +65,136 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
     private PopupWindow sharePop;
     private ThirdPart mThirdPart;
     private String competitionCode;
-    private final String token;
+    private String token;
     public ObservableField<String> competitionDate = new ObservableField<>("");
     public ObservableField<String> matchName = new ObservableField<>("");
     public ObservableField<String> matchCode = new ObservableField<>("");
     private PersonalRankingAdapter personalRankingAdapter;
     private Bitmap bitmap;
+    private Counter counter;
+    private LoadingDialog loadingDialog;
+    private ToastUtil toastUtil;
+    private ShareUtil shareUtil;
 
 
     public PersonalScoreCardVM(PersonalScoreCardAvtivity personalScoreCardactivity, PersonalRankingAdapter personalRankingAdapter) {
         this.personalScoreCardactivity = personalScoreCardactivity;
         this.personalRankingAdapter = personalRankingAdapter;
         binding = personalScoreCardactivity.getBinding();
-        token = MyApplication.getToken(personalScoreCardactivity);
-        initIntent();
+        init();
         initView();
         initData();
         mThirdPart = new ThirdPart(personalScoreCardactivity);
     }
+    /**
+     * 初始化
+     */
+    private void init() {
+        competitionCode = personalScoreCardactivity.getIntent().getStringExtra("CompetitionCode");
+        //初始化Toast
+        toastUtil = new ToastUtil(personalScoreCardactivity);
+        //初始化加载框
+        loadingDialog = new LoadingDialog(personalScoreCardactivity, R.style.LoadingDialog);
+        //初始化Counter
+        counter = new Counter(this, 1);
+        //获取token
+        UserBean userBean = MyApplication.getInstance().getUserBean();
+        if (!EmptyUtil.isEmpty(userBean)) {
+            token = userBean.getToken();
+        }
+        //初始化分享
+        shareUtil = new ShareUtil(personalScoreCardactivity);
+        //弹出加载框
+        loadingDialog.show();
+    }
 
-    //成绩详情
+    /**
+     * 成绩详情
+     */
     private void initData() {
 
         HashMap params = new HashMap();
         params.put("token", token);
         params.put("competitionCode", competitionCode);
-        params.put("method", Method.MYGTRADEDETAIL);
+        params.put("baseMethod", Method.MYGTRADEDETAIL);
         params.put("baseUrl", Config.baseUrl);
-        OkhttpUtils.getRequest(personalScoreCardactivity, params, new BaseHttpCallBack<PersonalCompetitionBean>(personalScoreCardactivity, true) {
+
+        OkHttpUtil.getRequest(personalScoreCardactivity, params, new RequestCallBack<PersonalCompetitionBean>() {
             @Override
-            public PersonalCompetitionBean parseNetworkResponse(String jsonResult) throws Exception {
+            public void onSuccess(com.lzy.okgo.model.Response<PersonalCompetitionBean> response) {
+                PersonalCompetitionBean personalCompetitionBean = response.body();
+                if (!EmptyUtil.isEmpty(personalCompetitionBean)){
+                    int resultCode = personalCompetitionBean.getResultCode();
+                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                        PersonalCompetitionBean.ResultBean resultBean = personalCompetitionBean.getResult();
+                       if(!EmptyUtil.isEmpty(resultBean)){
+                           List<PersonalCompetitionBean.ResultBean.ScoreListBean> scoreList = resultBean.getScoreList();
+                           PersonalCompetitionBean.ResultBean.BestScoreBean bestScore = resultBean.getBestScore();
+                           if (!EmptyUtil.isEmpty(bestScore.getMatchCode())) {
+                               matchCode.set((String) bestScore.getMatchCode());
+                           }
+                           //用户头像
+                           if (!EmptyUtil.isEmpty(resultBean.getHeadimgUrl())) {
+                               GlideUtil.LoadCircleImage(personalScoreCardactivity, resultBean.getHeadimgUrl(), binding.userheader);
+                           } else {
+                               binding.userheader.setImageResource(R.mipmap.icon_defaultheader_yes);
+                           }
+                           //nickname
+                           if (!EmptyUtil.isEmpty(bestScore.getPalyerName())) {
+                               binding.userName.setText(bestScore.getPalyerName());
+                           }
+                           //赛事名称
+                           if (!EmptyUtil.isEmpty(bestScore.getMatchName())) {
+                               matchName.set(bestScore.getMatchName());
+                               binding.cardMatchName.setText(bestScore.getMatchName());
+                           }
+                           //成绩
+                           if (!EmptyUtil.isEmpty(bestScore.getScoreDesc())) {
+                               binding.cardCount.setText(bestScore.getScoreDesc());
+                           }
+                           //时间日期
+                           if (!EmptyUtil.isEmpty(bestScore.getPartTime())) {
 
+                               Calendar calendar = Calendar.getInstance();
+                               calendar.setTimeInMillis(bestScore.getPartTime());
+                               SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这里的格式可换"yyyy年-MM月dd日-HH时mm分ss秒"等等格式
+                               String date = sf.format(calendar.getTime());
+                               binding.shareCardTime.setText(date);
+                           }
+                           //
+                           //赛事名称
+
+                           String groupName = (String) bestScore.getGroupName();
+                           String eventName = bestScore.getEventName();
+
+                           if (!EmptyUtil.isEmpty(groupName) && !EmptyUtil.isEmpty(eventName)) {
+                               binding.groupName.setText(groupName + "-" + eventName);
+                           } else if (!EmptyUtil.isEmpty(groupName) && EmptyUtil.isEmpty(eventName)) {
+                               binding.groupName.setText(groupName);
+                           } else if (EmptyUtil.isEmpty(groupName) && !EmptyUtil.isEmpty(eventName)) {
+                               binding.groupName.setText(eventName);
+                           }
+                           personalRankingAdapter.loadData(scoreList);
+                       }
+                    }else if(resultCode == StatusVariable.NOBIND){
+                        IntentUtil.startActivity(personalScoreCardactivity,BindPhoneActivity.class);
+                    }else if(resultCode == StatusVariable.NOLOGIN){
+                        IntentUtil.startActivity(personalScoreCardactivity,LoginActivity.class);
+                    }
+                }
+            }
+
+            @Override
+            public PersonalCompetitionBean parseNetworkResponse(String jsonResult) {
                 PersonalCompetitionBean personalCompetitionBean = JSON.parseObject(jsonResult, PersonalCompetitionBean.class);
-
                 return personalCompetitionBean;
             }
 
             @Override
-            public void onSuccess(PersonalCompetitionBean perosonalCompetitionBean, Call call, Response response) {
-                if (perosonalCompetitionBean != null) {
+            public void onFailed(int code, String msg) {
 
-                    if (perosonalCompetitionBean.getResultCode() == StatusVariable.NO_LOGIN) {
-                        personalScoreCardactivity.startActivity2(LoginActivity.class);
-                        return;
-                    }
-                    if (perosonalCompetitionBean.getResultCode() == StatusVariable.NOBIND) {
-                        personalScoreCardactivity.startActivity2(BindActivity.class);
-                        return;
-                    }
-                    if (perosonalCompetitionBean.getResultCode() == StatusVariable.SUCCESS) {
-                        if (!EmptyUtils.isEmpty(perosonalCompetitionBean.getResult().getBestScore().getMatchCode())) {
-                            matchCode.set((String) perosonalCompetitionBean.getResult().getBestScore().getMatchCode());
-                        }
-                        //用户头像
-                        if (!EmptyUtils.isEmpty(perosonalCompetitionBean.getResult().getHeadimgUrl())) {
-                            GlideUtils.LoadCircleImage(personalScoreCardactivity, perosonalCompetitionBean.getResult().getHeadimgUrl(), binding.userheader);
-                        } else {
-                            binding.userheader.setImageResource(R.mipmap.icon_header_yes);
-                        }
-                        //nickname
-                        if (!EmptyUtils.isEmpty(perosonalCompetitionBean.getResult().getBestScore().getPalyerName())) {
-                            binding.userName.setText(perosonalCompetitionBean.getResult().getBestScore().getPalyerName());
-                        }
-                        //赛事名称
-                        if (!EmptyUtils.isEmpty(perosonalCompetitionBean.getResult().getBestScore().getMatchName())) {
-                            matchName.set(perosonalCompetitionBean.getResult().getBestScore().getMatchName());
-                            binding.cardMatchName.setText(perosonalCompetitionBean.getResult().getBestScore().getMatchName());
-                        }
-                        //成绩
-                        if (!EmptyUtils.isEmpty(perosonalCompetitionBean.getResult().getBestScore().getScoreDesc())) {
-                            binding.cardCount.setText(perosonalCompetitionBean.getResult().getBestScore().getScoreDesc());
-                        }
-                        //时间日期
-                        if (!EmptyUtils.isEmpty(perosonalCompetitionBean.getResult().getBestScore().getPartTime())) {
-
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTimeInMillis(perosonalCompetitionBean.getResult().getBestScore().getPartTime());
-                            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这里的格式可换"yyyy年-MM月dd日-HH时mm分ss秒"等等格式
-                            String date = sf.format(calendar.getTime());
-                            binding.shareCardTime.setText(date);
-                        }
-                        //
-                        //赛事名称
-
-                        String groupName = (String) perosonalCompetitionBean.getResult().getBestScore().getGroupName();
-                        String eventName = perosonalCompetitionBean.getResult().getBestScore().getEventName();
-
-                        if (!EmptyUtils.isEmpty(groupName) && !EmptyUtils.isEmpty(eventName)) {
-                            binding.groupName.setText(groupName + "-" + eventName);
-                        } else if (!EmptyUtils.isEmpty(groupName) && EmptyUtils.isEmpty(eventName)) {
-                            binding.groupName.setText(groupName);
-                        } else if (EmptyUtils.isEmpty(groupName) && !EmptyUtils.isEmpty(eventName)) {
-                            binding.groupName.setText(eventName);
-                        }
-                        List<PersonalCompetitionBean.ResultBean.ScoreListBean> scoreList = perosonalCompetitionBean.getResult().getScoreList();
-                        personalRankingAdapter.loadData(scoreList);
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onFailed(String code, String msg) {
-                ToastUtils.toast(personalScoreCardactivity, msg);
             }
         });
-
-    }
-
-    private void initIntent() {
-
-        competitionCode = personalScoreCardactivity.getIntent().getStringExtra("CompetitionCode");
-
     }
 
     private void initView() {
@@ -198,7 +225,6 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
 
     //排名点击事件
     public void scoreRankings() {
-
         Intent intent = new Intent(personalScoreCardactivity, MatchGradeRankingsActivity.class);
         intent.putExtra("comptitionCode", competitionCode);
         intent.putExtra("comptitionDate", competitionDate.get());
@@ -207,7 +233,7 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
         personalScoreCardactivity.startActivity(intent);
     }
 
-    /*
+    /**
      * 将bitmap转成路径,传给后台
      * */
     public String uploadImg(Bitmap temBitmap) {
@@ -243,72 +269,58 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
     private void uploadImg(final String filepath) {
 
         HashMap uploadParams = new HashMap();
-        uploadParams.put("method", Method.UPLOAD_FILE);
+        uploadParams.put("baseMethod", Method.UPLOAD_FILE);
         uploadParams.put("file", filepath);
         uploadParams.put("t", String.valueOf(System.currentTimeMillis()));
         uploadParams.put("baseUrl", Config.baseUrl);
 
-        OkhttpUtils.uploadHttp(uploadParams, new StringCallBack(personalScoreCardactivity, true) {
-
+        OkHttpUtil.uploadFile(personalScoreCardactivity, uploadParams, new RequestCallBack<UploadBean>() {
             @Override
-            public void onError(Call call, Response response, Exception e) {
-                super.onError(call, response, e);
-            }
-
-            @Override
-            public void onSuccess(String s, Call call, Response response) {
-                try {
-                    String uploadresultStr = response.body().string();
-                    Log.e("UploadStr", uploadresultStr);
-                    final UploadBean uploadBean = JSON.parseObject(uploadresultStr, UploadBean.class);
-
-                    if (uploadBean.getResultCode() == 200) {
+            public void onSuccess(com.lzy.okgo.model.Response<UploadBean> response) {
+                UploadBean uploadBean = response.body();
+                if (!EmptyUtil.isEmpty(uploadBean)){
+                    int resultCode = uploadBean.getResultCode();
+                    if (resultCode == StatusVariable.REQUESTSUCCESS){
                         sharePop(uploadBean.getResult().getUrl(), filepath);
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+
             }
-        }, personalScoreCardactivity, false);
+
+            @Override
+            public UploadBean parseNetworkResponse(String jsonResult) {
+                UploadBean uploadBean = JSON.parseObject(jsonResult, UploadBean.class);
+                return uploadBean;
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+
+            }
+        });
 
     }
 
+    /**
+     * 分享
+     * @param url
+     * @param filepath
+     */
     private void sharePop(final String url, final String filepath) {
 
-        View shareView = LayoutInflater.from(personalScoreCardactivity).inflate(R.layout.share_layout, null, false);
-        sharePop = new PopupWindow(shareView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        sharePop.setContentView(shareView);
-        sharePop.showAtLocation(personalScoreCardactivity.getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
-        sharePop.setOutsideTouchable(false);
-
-        //Util.backgroundAlpha(myGradeWebActivity, 0.5f);
-        //微博分享
-        shareView.findViewById(R.id.weibo_layout).setOnClickListener(new View.OnClickListener() {
+        PopWindowUtil.allShare(personalScoreCardactivity, new NormalShareCallBack() {
             @Override
-            public void onClick(View view) {
-                new AsyncTask<Void, Void, Boolean>() {
-                    @Override
-                    protected Boolean doInBackground(Void... voids) {
-                        bitmap = Util.decodeUriAsBitmapFromNet(url);
-                        return true;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean aBoolean) {
-                        super.onPostExecute(aBoolean);
-                        if (aBoolean) {
-                            mThirdPart.sinaWBShareImg(bitmap);
-                        }
-                    }
-                }.execute();
+            public void qqFriendsShare(PopupWindow popupWindow) {
+                mThirdPart.qqShareImage(filepath, mQQShareListener, false);
             }
-        });
-        //微信好友分享
-        shareView.findViewById(R.id.wechat_layout).setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
+            public void qqSpaceShare(PopupWindow popupWindow) {
+                mThirdPart.qqShareImage(filepath, mQZONEShareListener, true);
+            }
 
-
+            @Override
+            public void wechatFriendsShare(PopupWindow popupWindow) {
                 new AsyncTask<Void, Void, Boolean>() {
                     @Override
                     protected Boolean doInBackground(Void... voids) {
@@ -326,13 +338,10 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
                         }
                     }
                 }.execute();
-
             }
-        });
-        //微信朋友圈分享
-        shareView.findViewById(R.id.pengyouquan_layout).setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
+            public void wechatQuanShare(PopupWindow popupWindow) {
                 new AsyncTask<Void, Void, Boolean>() {
                     @Override
                     protected Boolean doInBackground(Void... voids) {
@@ -350,49 +359,45 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
                     }
                 }.execute();
             }
-        });
-        //qq朋友分享
-        shareView.findViewById(R.id.qFriend_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mThirdPart.qqShareImage(filepath, mQQShareListener, false);
-            }
-        });
 
-        //qq空间分享
-        shareView.findViewById(R.id.qSpase_layout).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                mThirdPart.qqShareImage(filepath, mQZONEShareListener, true);
-            }
-        });
-        shareView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sharePop.dismiss();
-            }
-        });
+            public void weiBoShare(PopupWindow popupWindow) {
+                new AsyncTask<Void, Void, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(Void... voids) {
+                        bitmap = Util.decodeUriAsBitmapFromNet(url);
+                        return true;
+                    }
 
+                    @Override
+                    protected void onPostExecute(Boolean aBoolean) {
+                        super.onPostExecute(aBoolean);
+                        if (aBoolean) {
+                            mThirdPart.sinaWBShareImg(bitmap);
+                        }
+                    }
+                }.execute();
+            }
+        });
     }
-
 
     //qq分享好友回调
     private IUiListener mQQShareListener = new IUiListener() {
         @Override
         public void onComplete(Object o) {
             Log.e("lwd", "qq 空间分享成功");
-            ToastUtils.toast(personalScoreCardactivity, "分享好友成功");
+            toastUtil.centerToast("分享好友成功");
         }
 
         @Override
         public void onError(UiError uiError) {
             Log.e("lwd", "qq 空间分享异常:" + uiError.errorMessage);
-            ToastUtils.toast(personalScoreCardactivity, "分享好友异常");
+            toastUtil.centerToast("分享好友异常");
         }
 
         @Override
         public void onCancel() {
-            ToastUtils.toast(personalScoreCardactivity, "取消分享好友");
+            toastUtil.centerToast("取消分享好友");
         }
     };
 
@@ -401,19 +406,19 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
         @Override
         public void onComplete(Object o) {
             Log.e("lxy", "qq 分享成功");
-            ToastUtils.toast(personalScoreCardactivity, "分享空间成功");
+            toastUtil.centerToast( "分享空间成功");
         }
 
         @Override
         public void onError(UiError uiError) {
             Log.e("lxy", "qq 分享异常:" + uiError.errorMessage);
-            ToastUtils.toast(personalScoreCardactivity, "分享空间异常");
+            toastUtil.centerToast( "分享空间异常");
         }
 
         @Override
         public void onCancel() {
             Log.e("lxy", "qq 分享取消");
-            ToastUtils.toast(personalScoreCardactivity, "取消分享空间");
+            toastUtil.centerToast( "取消分享空间");
         }
     };
 
@@ -422,10 +427,10 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             if (requestCode == Constants.REQUEST_QQ_SHARE) {
-                Log.e("lxyQQ", "qq");
+                LogUtil.e( "qq");
                 Tencent.onActivityResultData(requestCode, resultCode, data, mQQShareListener);
             } else if (requestCode == Constants.REQUEST_QZONE_SHARE) {
-                Log.e("lxyQZONE", "qzone");
+                LogUtil.e("qzone");
                 Tencent.onActivityResultData(requestCode, resultCode, data, mQZONEShareListener);
             }
         }
@@ -437,17 +442,16 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
 
     @Override
     public void onWbShareSuccess() {
-        ToastUtils.toast(personalScoreCardactivity, "分享成功");
+        toastUtil.centerToast( "分享成功");
     }
 
     @Override
-    public void onWbShareCancel() {
-        ToastUtils.toast(personalScoreCardactivity, "取消分享");
+    public void onWbShareCancel(){ toastUtil.centerToast( "取消分享");
     }
 
     @Override
     public void onWbShareFail() {
-        ToastUtils.toast(personalScoreCardactivity, "分享失败");
+        toastUtil.centerToast("分享失败");
     }
 
     //对ScrollView内部的Imageview进行截图
@@ -459,4 +463,12 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
         return bmp;
     }
 
+    @Override
+    public void countEnd(boolean isEnd) {
+        if (isEnd){
+            if (!EmptyUtil.isEmpty(loadingDialog)){
+                loadingDialog.dismiss();
+            }
+        }
+    }
 }

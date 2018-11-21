@@ -1,6 +1,8 @@
-package com.huasport.smartsport.ui.pcenter.vm;
+package com.huasport.smartsport.ui.pcenter.medal.adapter;
 
-import android.widget.PopupWindow;
+import android.content.Intent;
+import android.databinding.ObservableField;
+
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -11,49 +13,45 @@ import com.huasport.smartsport.base.BaseViewModel;
 import com.huasport.smartsport.bean.UserBean;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.LoadingDialog;
-import com.huasport.smartsport.databinding.ActivityMymedalBinding;
-import com.huasport.smartsport.ui.pcenter.adapter.PersonalMedalAdapter;
-import com.huasport.smartsport.ui.pcenter.bean.PersonalMedalBean;
+import com.huasport.smartsport.databinding.SelectAddressLayoutBinding;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
-import com.huasport.smartsport.ui.pcenter.view.PersonalMyMedalActivity;
+import com.huasport.smartsport.ui.pcenter.medal.bean.AddressBean;
+import com.huasport.smartsport.ui.pcenter.medal.view.AddAddressActivity;
+import com.huasport.smartsport.ui.pcenter.medal.view.AddNewAddressActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
-import com.huasport.smartsport.util.NullStateUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
 import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMore;
 import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMoreListener;
-import com.huasport.smartsport.wxapi.ThirdPart;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
 import java.util.HashMap;
 import java.util.List;
 
+public class SelectAddressVM extends BaseViewModel implements CounterListener, RefreshLoadMoreListener {
 
-public class PersonalMyMedalVM extends BaseViewModel implements CounterListener, RefreshLoadMoreListener {
-
-    private PersonalMyMedalActivity personalMyMedalActivity;
+    private AddAddressActivity addAddressActivity;
     private String token;
-    private PersonalMedalAdapter personalMedalAdapter;
-    private ActivityMymedalBinding binding;
-    private PersonalMedalBean.ResultBean.ShareBean share;
-    private ThirdPart mThirdPart;
-    private PopupWindow popupWindow;
     private int page = 1;
+    private AddressAdapter addressAdapter;
+    private SelectAddressLayoutBinding binding;
+    public ObservableField<Integer> totalpage = new ObservableField<>(0);
     private ToastUtil toastUtil;
     private LoadingDialog loadingDialog;
     private Counter counter;
     private int totalPage;
 
-    public PersonalMyMedalVM(PersonalMyMedalActivity personalMyMedalActivity, PersonalMedalAdapter personalMedalAdapter) {
-        this.personalMyMedalActivity = personalMyMedalActivity;
-        this.personalMedalAdapter = personalMedalAdapter;
 
-        binding = personalMyMedalActivity.getBinding();
+    public SelectAddressVM(AddAddressActivity addAddressActivity, AddressAdapter addressAdapter) {
+        this.addAddressActivity = addAddressActivity;
+        this.addressAdapter = addressAdapter;
+        binding = addAddressActivity.getBinding();
         init();
-        initData(StatusVariable.REFRESH);
+        initdata(StatusVariable.REFRESH);
     }
 
     /**
@@ -61,85 +59,69 @@ public class PersonalMyMedalVM extends BaseViewModel implements CounterListener,
      */
     private void init() {
         //初始化Toast
-        toastUtil = new ToastUtil(personalMyMedalActivity);
+        toastUtil = new ToastUtil(addAddressActivity);
         //初始化加载框
-        loadingDialog = new LoadingDialog(personalMyMedalActivity, R.style.LoadingDialog);
+        loadingDialog = new LoadingDialog(addAddressActivity, R.style.LoadingDialog);
         //初始化Counter
         counter = new Counter(this, 1);
         //初始化加载刷新
         new RefreshLoadMore(binding.smartRefreshlayout, this);
         //获取token
         UserBean userBean = MyApplication.getInstance().getUserBean();
-
         if (!EmptyUtil.isEmpty(userBean)) {
-
             token = userBean.getToken();
-
         }
         //弹出加载框
         loadingDialog.show();
     }
 
-
     /**
      * 初始化数据
-     * */
-    private void initData(final int loadType) {
+     * @param loadType
+     */
+    private void initdata(final int loadType) {
 
         HashMap params = new HashMap();
-        params.put("baseMethod", Method.MEDALLIST);
-        params.put("token", token);
         params.put("currentPage", page + "");
         params.put("pageSize", "10");
+        params.put("token", token);
+        params.put("baseMethod", Method.ADDRESSLIST);
         params.put("baseUrl", Config.baseUrl);
 
-
-        OkHttpUtil.getRequest(personalMyMedalActivity, params, new RequestCallBack<PersonalMedalBean>() {
+        OkHttpUtil.getRequest(addAddressActivity, params, new RequestCallBack<AddressBean>() {
             @Override
-            public void onSuccess(com.lzy.okgo.model.Response<PersonalMedalBean> response) {
-                PersonalMedalBean personalMedalBean = response.body();
-                if (!EmptyUtil.isEmpty(personalMedalBean)){
-                    int resultCode = personalMedalBean.getResultCode();
+            public void onSuccess(com.lzy.okgo.model.Response<AddressBean> response) {
+                AddressBean addressBean = response.body();
+                if (!EmptyUtil.isEmpty(addressBean)){
+                    int resultCode = addressBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS){
-                        PersonalMedalBean.ResultBean resultBean = personalMedalBean.getResult();
-                        if(!EmptyUtil.isEmpty(resultBean)){
-                            totalPage = resultBean.getTotalPage();
-                            if (totalPage == 0) {
-                                NullStateUtil.setNullState(binding.nulldata, true);
-                                return;
-                            } else {
-                                NullStateUtil.setNullState(binding.nulldata,  false);
-                            }
-
-                            //集合
-                            List<PersonalMedalBean.ResultBean.ScoreCertBean> scoreCert = personalMedalBean.getResult().getScoreCert();
-
-                            share = personalMedalBean.getResult().getShare();
-
+                        AddressBean.ResultBean resultBean = addressBean.getResult();
+                        if (!EmptyUtil.isEmpty(resultBean)){
+                            totalPage = addressBean.getResult().getTotalPage();
+                            List<AddressBean.ResultBean.ListBean> list = addressBean.getResult().getList();
                             if (loadType == StatusVariable.LOADMORE) {
                                 binding.smartRefreshlayout.finishLoadMore();
-                                personalMedalAdapter.loadMoreData(scoreCert);
+                                addressAdapter.loadMoreData(list);
                             } else {
+                                addressAdapter.loadData(list);
                                 binding.smartRefreshlayout.finishRefresh();
-                                personalMedalAdapter.loadData(scoreCert);
                             }
 
                         }
                         page++;
                     }else if (resultCode == StatusVariable.NOLOGIN){
-                        IntentUtil.startActivity(personalMyMedalActivity,LoginActivity.class);
+                        IntentUtil.startActivity(addAddressActivity,LoginActivity.class);
                     }else if (resultCode == StatusVariable.NOBIND){
-                        IntentUtil.startActivity(personalMyMedalActivity,BindPhoneActivity.class);
-
+                        IntentUtil.startActivity(addAddressActivity,BindPhoneActivity.class);
                     }
 
                 }
             }
 
             @Override
-            public PersonalMedalBean parseNetworkResponse(String jsonResult) {
-                PersonalMedalBean personalMedalBean = JSON.parseObject(jsonResult, PersonalMedalBean.class);
-                return personalMedalBean;
+            public AddressBean parseNetworkResponse(String jsonResult) {
+                AddressBean addressBean = JSON.parseObject(jsonResult, AddressBean.class);
+                return addressBean;
             }
 
             @Override
@@ -151,18 +133,29 @@ public class PersonalMyMedalVM extends BaseViewModel implements CounterListener,
             public void onFinish() {
                 super.onFinish();
                 counter.countDown();
-                binding.smartRefreshlayout.finishLoadMore();
                 binding.smartRefreshlayout.finishRefresh();
+                binding.smartRefreshlayout.finishLoadMore();
             }
         });
+    }
+
+    //添加收货地址
+    public void addAddress() {
+
+        Intent intent = new Intent(addAddressActivity, AddNewAddressActivity.class);
+        intent.putExtra("addressType", "addAddress");//添加地址
+        intent.putExtra("AddressBean", "");
+        addAddressActivity.startActivity(intent);
 
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
         page = 1;
-        initData(StatusVariable.REFRESH);
+        initdata(StatusVariable.REFRESH);
+
     }
 
     @Override
@@ -174,14 +167,14 @@ public class PersonalMyMedalVM extends BaseViewModel implements CounterListener,
     public void refresh(RefreshLayout refreshLayout, int type) {
         page = 1;
         binding.smartRefreshlayout.setNoMoreData(false);
-        initData(type);
+        initdata(type);
     }
 
     @Override
     public void loadMore(RefreshLayout refreshLayout, int type) {
         if (page <= totalPage) {
             binding.smartRefreshlayout.setNoMoreData(false);
-            initData(type);
+            initdata(type);
         } else {
             binding.smartRefreshlayout.finishLoadMoreWithNoMoreData();
             binding.smartRefreshlayout.setNoMoreData(true);

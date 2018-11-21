@@ -1,7 +1,6 @@
-package com.huasport.smartsport.ui.pcenter.adapter;
+package com.huasport.smartsport.ui.pcenter.medal.adapter;
 
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,8 @@ import com.huasport.smartsport.base.BaseAdapter;
 import com.huasport.smartsport.base.BaseViewHolder;
 import com.huasport.smartsport.databinding.PersonalMymedalLayoutBinding;
 import com.huasport.smartsport.ui.pcenter.bean.PersonalMedalBean;
-import com.huasport.smartsport.ui.pcenter.view.PersonalMyMedalActivity;
+import com.huasport.smartsport.ui.pcenter.medal.view.PersonalMyMedalActivity;
 import com.huasport.smartsport.util.EmptyUtil;
-import com.huasport.smartsport.util.SharedPreferencesUtil;
 
 
 public class PersonalMedalAdapter extends BaseAdapter<PersonalMedalBean.ResultBean.ScoreCertBean, BaseViewHolder> {

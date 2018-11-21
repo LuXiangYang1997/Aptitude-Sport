@@ -18,7 +18,6 @@ import com.huasport.smartsport.util.GlideUtil;
 
 public class MatchApplyFragment extends BaseFragment<MatchApplyLayoutBinding, MatchApplyVm> {
 
-
     private MyApplication myApplication = MyApplication.getInstance();
     private MatchApplyVm matchApplyVm;
     private LogoAdapter logoAdapter;

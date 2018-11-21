@@ -39,7 +39,7 @@ public class PersonalMyApplyCardActivity extends BaseActivity<PersonalApplycardL
         MyApplication.addActivity(this);
 
         setTitle("我的报名卡");
-
+        back();
         Util.setEditTextInhibitInputSpace(binding.cardRealName);//空格
         Util.setEditTextInhibitInputSpaChat(binding.cardRealName);//特殊字符
         //对特殊符号做处理，只允许添加文字，数字，英文，长度不能超过12

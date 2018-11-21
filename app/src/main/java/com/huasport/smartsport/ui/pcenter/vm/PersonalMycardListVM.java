@@ -42,6 +42,7 @@ public class PersonalMycardListVM extends BaseViewModel implements CounterListen
     public PersonalMycardListVM(PersonalMyCardListActivity personalMyCardListActivity, PersonalMyCardListAdapter personalMyCardListAdapter) {
         this.personalMyCardListActivity = personalMyCardListActivity;
         this.personalMyCardListAdapter = personalMyCardListAdapter;
+        init();
         initData();
     }
 

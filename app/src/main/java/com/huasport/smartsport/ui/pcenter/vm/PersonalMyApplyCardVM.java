@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.ObservableField;
 import android.os.Handler;
 import android.widget.RadioGroup;
+
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -17,30 +18,22 @@ import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.LoadingDialog;
 import com.huasport.smartsport.databinding.PersonalApplycardLayoutBinding;
 import com.huasport.smartsport.ui.matchapply.bean.PersonalMyCardBean;
-import com.huasport.smartsport.ui.pcenter.loginbind.bean.GetVertifyCodeResultBean;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.ui.pcenter.settings.bean.UserInfoBean;
 import com.huasport.smartsport.ui.pcenter.view.PersonalMyApplyCardActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalMyCardListActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
-import com.huasport.smartsport.util.ShareUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.Util;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
-import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMore;
-import com.lzy.okgo.callback.AbsCallback;
 
-import org.jsoup.Jsoup;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListener {
 
@@ -56,7 +49,7 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
     private Handler mHandler = new Handler();
     private  String token;
     private Timer timer;
-    private String type;
+    private String type = "";
     private ToastUtil toastUtil;
     private LoadingDialog loadingDialog;
     private Counter counter;
@@ -64,7 +57,7 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
     public PersonalMyApplyCardVM(PersonalMyApplyCardActivity personalMyApplyCardActivity) {
         this.personalMyApplyCardActivity = personalMyApplyCardActivity;
         binding = personalMyApplyCardActivity.getBinding();
-      
+        init();
         initView();
     }
 
@@ -86,14 +79,11 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
             token = userBean.getToken();
 
         }
-        //弹出加载框
-        loadingDialog.show();
     }
 
     private void initView() {
 
         type = personalMyApplyCardActivity.getIntent().getStringExtra(StatusVariable.PERSONALMSG);
-
 
         UserInfoBean.ResultBean.RegisterBean cardBean = (UserInfoBean.ResultBean.RegisterBean) personalMyApplyCardActivity.getIntent().getSerializableExtra(StatusVariable.CARDBEAN);
         if (!EmptyUtil.isEmpty(cardBean)) {
@@ -155,7 +145,7 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
             return;
         }
         HashMap params = new HashMap();
-        params.put("method", Method.MYAPPLYCARD);
+        params.put("baseMethod", Method.MYAPPLYCARD);
         params.put("realName", name.get());
         if (sex.get().equals("男")) {
             params.put("gender", "1");
@@ -168,7 +158,7 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
         params.put("baseUrl", Config.baseUrl);
 
 
-        OkHttpUtil.getRequest(personalMyApplyCardActivity, params, new RequestCallBack<PersonalMyCardBean>() {
+        OkHttpUtil.postRequest(personalMyApplyCardActivity, params, new RequestCallBack<PersonalMyCardBean>() {
             @Override
             public void onSuccess(com.lzy.okgo.model.Response<PersonalMyCardBean> response) {
                 PersonalMyCardBean personalMyCardBean = response.body();
@@ -176,17 +166,18 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
                     int resultCode = personalMyCardBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS){
 
-//                        Intent intent = new Intent(personalMyApplyCardActivity, PersonalMyCardListActivity.class);
-//                        intent.putExtra(StatusVariable.PERSONALMSG, StatusVariable.PERSONALAPPLYCARD);
-//                        if (type.equals(StatusVariable.PERSONALCARDLIST)) {
-//                            personalMyApplyCardActivity.finish();
-//                        } else {
-//                            personalMyApplyCardActivity.startActivity(intent);
-//                            personalMyApplyCardActivity.finish();
-//                        }
-//                        if (timer != null) {
-//                            timer.cancel();
-//                        }
+                        Intent intent = new Intent(personalMyApplyCardActivity, PersonalMyCardListActivity.class);
+                        intent.putExtra(StatusVariable.PERSONALMSG, StatusVariable.PERSONALAPPLYCARD);
+                        if (type.equals(StatusVariable.PERSONALCARDLIST)) {
+                            personalMyApplyCardActivity.finish();
+                        } else {
+                            personalMyApplyCardActivity.startActivity(intent);
+                            personalMyApplyCardActivity.finish();
+                        }
+                        if (timer != null) {
+                            timer.cancel();
+                        }
+                        toastUtil.centerToast("修改成功");
                     }else if(resultCode == StatusVariable.NOBIND){
                         IntentUtil.startActivity(personalMyApplyCardActivity, BindPhoneActivity.class);
                     }else if (resultCode == StatusVariable.NOLOGIN){
@@ -206,6 +197,8 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
             public void onFailed(int code, String msg) {
 
             }
+
+
         });
 
     }
@@ -228,6 +221,7 @@ public class PersonalMyApplyCardVM extends BaseViewModel implements CounterListe
         params.put("phoneNum", phoneNumber.get());
         params.put("t", String.valueOf(System.currentTimeMillis()));
         params.put("baseUrl", Config.baseUrl);
+        params.put("baseMethod",Method.GETVERTIFYCODE);
 
         OkHttpUtil.getRequest(personalMyApplyCardActivity, params, new RequestCallBack<ResultBean>() {
             @Override
