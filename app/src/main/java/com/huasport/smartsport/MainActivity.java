@@ -208,8 +208,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         loginState = MyApplication.getInstance().getLoginState();
-
-
     }
 
     /**

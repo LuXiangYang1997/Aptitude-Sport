@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.databinding.ToolbarLayoutBinding;
 import com.huasport.smartsport.util.EmptyUtil;
@@ -29,6 +31,8 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         decorView = getWindow().getDecorView();
+        MyApplication.removeActivity(this);
+        MyApplication.addActivity(this);
         initParam();
         initData();
         initViewDataBinding();

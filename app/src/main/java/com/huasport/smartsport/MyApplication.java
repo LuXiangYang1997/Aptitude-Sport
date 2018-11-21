@@ -1,5 +1,6 @@
 package com.huasport.smartsport;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -20,6 +21,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -27,9 +30,12 @@ import okhttp3.OkHttpClient;
 public class MyApplication extends Application {
 
     private static MyApplication instance;
+    private static Activity activity;
     private boolean clickState = false;//点击事件状态
     private int loginChannel = StatusVariable.SMSLOGIN;
     public LocationBean locationBean = new LocationBean();
+    private static List<Activity> lists = new ArrayList<>();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -69,6 +75,11 @@ public class MyApplication extends Application {
 
     public static MyApplication getInstance() {
         return instance;
+    }
+
+    //添加Activity
+    public static void addActivity(Activity activity) {
+        lists.add(activity);
     }
 
     /**
@@ -143,4 +154,21 @@ public class MyApplication extends Application {
     public void setLocationBean(LocationBean locationBean) {
         this.locationBean = locationBean;
     }
+
+    //获取Activity
+    public static Activity getActivity() {
+        if (lists != null) {
+            activity = lists.get(lists.size() - 1);
+        }
+        return activity;
+    }
+
+    //移除Activity
+    public static void removeActivity(Activity activity) {
+        if (lists.contains(activity)) {
+            lists.remove(activity);
+        }
+    }
+
+
 }
