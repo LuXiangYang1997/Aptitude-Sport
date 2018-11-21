@@ -1,5 +1,7 @@
 package com.huasport.smartsport.constant;
 
+import com.huasport.smartsport.util.Config;
+
 /**
  * Created by 陆向阳 on 2018/6/21.
  */
@@ -143,5 +145,27 @@ public class StatusVariable {
     public static final int PERSONALCENTER_ALREADYSUCCESS = 2;//已成功
     public static final int PERSONALCENTER_ALLMATCH = 3;//全部赛事
 
+    public static final String HELP = Config.webbaseurl+"/custom/service";//我的客服
+
+    public static final String ALLREADYPAY = "已支付";
+    public static final String ALLORDER = "全部";
+    public static final String WAITPAYORDER = "待支付";
+    public static final String SHIPPEDSTR = "已发货";
+    public static final String OMPLETED = "已完成";
+
+    public static final String PERSONALAPPLYCARD = "personalapplycard";//从我的报名卡创建的
+    public static final String PERSONALCARDLIST = "personalcardlist";//直接到我的报名卡列表
+    public static final String PERSONALMSG = "personalmsg";
+    public static final int PERSONALCODE = 0;
+    public static final String CARDBEAN = "cardBean";
+    public static final String PERCENTER = "personalcenter";
+
+    public static final String INVITE = "invite";//邀请
+//    public static final String UNFOLLOW = "unfollow";//未关注
+    public static final String FOLLOW = "follow";//已关注
+    public static final String MUTUALFOLLOW = "mutualfollow";//互相关注
+
+    public static final String NOADDRESSBOOK = "0";//不是通讯录
+    public static final String YESADDRESSBOOK = "1";//是通讯录
 
 }

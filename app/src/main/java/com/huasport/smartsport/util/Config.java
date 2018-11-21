@@ -20,7 +20,7 @@ public class Config {
 //    public static String webbaseurl = "http://wx.zntyydh.com";
 
 //    H5测试环境
-//    public static String webbaseurl = "http://devwx.zntyydh.com";
+    public static String webbaseurl = "http://devwx.zntyydh.com";
 
 
 }

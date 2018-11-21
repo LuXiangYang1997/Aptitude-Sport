@@ -14,6 +14,7 @@ import com.huasport.smartsport.base.BaseViewModel;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.PcenterLayoutBinding;
 import com.huasport.smartsport.ui.discover.view.ReleaseActivity;
+import com.huasport.smartsport.ui.matchapply.view.BannerRuleActivity;
 import com.huasport.smartsport.ui.pcenter.bean.UserCenterInfo;
 import com.huasport.smartsport.ui.pcenter.bean.UserCertStatusBean;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
@@ -23,6 +24,13 @@ import com.huasport.smartsport.ui.pcenter.settings.view.PersonalMsgActivity;
 import com.huasport.smartsport.ui.pcenter.settings.view.SettingsActivity;
 import com.huasport.smartsport.ui.pcenter.view.MatchStatusListActivity;
 import com.huasport.smartsport.ui.pcenter.view.PCenterFragment;
+import com.huasport.smartsport.ui.pcenter.view.PersionAboutMyActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalCenterWebActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalMyApplyCardActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalMyCardListActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalMyMedalActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalMyOrderActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalPrimordialMyGradeActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
@@ -31,6 +39,7 @@ import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
 import com.lzy.okgo.model.Response;
+import com.umeng.commonsdk.debug.E;
 
 import java.util.HashMap;
 
@@ -167,6 +176,9 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      */
     public void follow() {
 
+        intent = new Intent(fragment.getActivity(), AttentionActivity.class);
+        intent.putExtra("types", "attention");
+        fragment.getActivity().startActivityForResult(intent, 0);
 
     }
 
@@ -175,7 +187,9 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      */
     public void fans() {
 
-
+        intent = new Intent(fragment.getActivity(), AttentionActivity.class);
+        intent.putExtra("types", "fans");
+        fragment.getActivity().startActivityForResult(intent, 0);
     }
 
     /**
@@ -183,6 +197,55 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      */
     public void applycard() {
 
+        HashMap params = new HashMap();
+        params.put("baseMethod", Method.GETUSERINFO);
+        params.put("token", token);
+        params.put("baseUrl", Config.baseUrl3);
+
+        OkHttpUtil.getRequest(fragment.getActivity(), params, new RequestCallBack<UserInfoBean>() {
+            @Override
+            public void onSuccess(Response<UserInfoBean> response) {
+                UserInfoBean userInfoBean = response.body();
+                if (!EmptyUtil.isEmpty(userInfoBean)){
+                    int resultCode = userInfoBean.getResultCode();
+                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                        UserInfoBean.ResultBean result = userInfoBean.getResult();
+                        if (!EmptyUtil.isEmpty(result)){
+                            //未绑定手机号
+                            if (!userInfoBean.getResult().getRegister().isIsBindPhone()) {
+                                intent = new Intent(fragment.getActivity(), PersonalMyApplyCardActivity.class);
+                                intent.putExtra(StatusVariable.PERSONALMSG, StatusVariable.PERCENTER);
+                            }
+                            if (userInfoBean.getResultCode() == StatusVariable.SUCCESS) {
+
+                                UserInfoBean.ResultBean.RegisterBean register = userInfoBean.getResult().getRegister();
+                                if (register.isIsCard()) {
+                                    intent = new Intent(fragment.getActivity(), PersonalMyCardListActivity.class);
+                                    intent.putExtra(StatusVariable.PERSONALMSG, StatusVariable.PERSONALCARDLIST);
+                                } else {
+                                    intent = new Intent(fragment.getActivity(), PersonalMyApplyCardActivity.class);
+                                    intent.putExtra(StatusVariable.PERSONALMSG, StatusVariable.PERCENTER);
+                                }
+                                fragment.getActivity().startActivity(intent);
+                            } else {
+                                toastUtil.centerToast(userInfoBean.getResultMsg());
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public UserInfoBean parseNetworkResponse(String jsonResult) {
+                UserInfoBean userInfoBean = JSON.parseObject(jsonResult, UserInfoBean.class);
+                return userInfoBean;
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+
+            }
+        });
 
     }
 
@@ -191,14 +254,16 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      */
     public void grade() {
 
-
+        intent = new Intent(fragment.getActivity(), PersonalPrimordialMyGradeActivity.class);
+        fragment.getActivity().startActivity(intent);
     }
 
     /**
      * 我的奖章
      */
     public void medal() {
-
+        intent = new Intent(fragment.getActivity(), PersonalMyMedalActivity.class);
+        fragment.getActivity().startActivity(intent);
 
     }
 
@@ -208,13 +273,18 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
     public void order() {
 
 
+        intent = new Intent(fragment.getActivity(), PersonalMyOrderActivity.class);
+        fragment.getActivity().startActivity(intent);
+
     }
 
     /**
      * 帮助与反馈
      */
     public void help() {
-
+        intent = new Intent(fragment.getActivity(), PersonalCenterWebActivity.class);
+        intent.putExtra("WebUrl", StatusVariable.HELP);
+        fragment.getActivity().startActivity(intent);
 
     }
 
@@ -224,6 +294,8 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
     public void about() {
 
 
+        intent = new Intent(fragment.getActivity(), PersionAboutMyActivity.class);
+        fragment.getActivity().startActivity(intent);
     }
 
     /**
@@ -231,6 +303,10 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      */
     public void privacy() {
 
+        intent = new Intent(fragment.getActivity(), BannerRuleActivity.class);
+        intent.putExtra("webUrl", "http://wx.zntyydh.com/static/conceal");
+        intent.putExtra("title", "隐私政策");
+        fragment.getActivity().startActivity(intent);
 
     }
 

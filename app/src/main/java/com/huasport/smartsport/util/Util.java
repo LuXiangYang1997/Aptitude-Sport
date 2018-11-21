@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -19,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.huasport.smartsport.constant.StatusVariable;
@@ -34,11 +38,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class Util {
 
@@ -502,4 +508,116 @@ public class Util {
         return bitmap;
     }
 
+
+    /**
+     * 获取版本号
+     */
+    public static int getVersion(Context context) {
+        try {
+            PackageManager manager = context.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            String version = info.versionName;
+            int versioncode = info.versionCode;
+            return versioncode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    /**
+     * 判断当前wifi网络是否可用
+     * Created by 刘成龙 on 2018/5/17.
+     */
+    public static boolean isWifiConnected(Context context) {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetworkInfo.isConnected()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断当前移动网络是否可用
+     * Created by 刘成龙 on 2018/5/17.
+     */
+    public static boolean isMobileConnected(Context context) {
+        boolean temp = false;
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (info != null) {
+            temp = info.isAvailable();
+        }
+        return temp;
+    }
+
+    /**
+     * 保留两位小数
+     *
+     * @param count 金额
+     * @return
+     */
+    public static String decimal(double count) {
+
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        String acount = decimalFormat.format(count);
+        return acount;
+    }
+
+    /**
+     * 禁止EditText输入空格
+     *
+     * @param editText
+     */
+    public static void setEditTextInhibitInputSpace(EditText editText) {
+        InputFilter filter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source.equals(" ")) {
+                    return "";
+                } else {
+                    return null;
+                }
+            }
+        };
+        editText.setFilters(new InputFilter[]{filter});
+    }
+
+    /**
+     * 禁止EditText输入空格
+     *
+     * @param editText
+     */
+    public static void setEditTextInhibitInputSpaChat(EditText editText) {
+        InputFilter filter_space = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source.equals(" "))
+                    return "";
+                else
+                    return null;
+            }
+        };
+        InputFilter filter_speChat = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence charSequence, int i, int i1, Spanned spanned, int i2, int i3) {
+                String speChat = "[`~!@#_$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）— +|{}【】‘；：”“’。，、？~]";
+                Pattern pattern = Pattern.compile(speChat);
+                Matcher matcher = pattern.matcher(charSequence.toString());
+                if (matcher.find()) return "";
+                else return null;
+            }
+        };
+        editText.setFilters(new InputFilter[]{filter_space, filter_speChat});
+    }
+
+    public static String stringFilter(String str) throws PatternSyntaxException {
+// 只允许字母、数字和汉字
+        String regEx = "[^a-zA-Z0-9\u4E00-\u9FA5]";//正则表达式
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
+    }
 }
