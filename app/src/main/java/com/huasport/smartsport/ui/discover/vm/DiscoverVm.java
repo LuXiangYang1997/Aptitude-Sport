@@ -1,5 +1,6 @@
 package com.huasport.smartsport.ui.discover.vm;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -46,6 +48,7 @@ import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMore;
 import com.huasport.smartsport.util.refreshLoadmore.RefreshLoadMoreListener;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +91,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
     private View recommandView;
     private RecommandAdapter recommandAdapter;
     private ShareUtil shareUtil;
+    private Intent intent;
+    private int tabPos = 0;
 
 
     public DiscoverVm(FragmentActivity activity, DiscoverLayoutBinding binding, SocialAdapter socialAdapter, RecommandAdapter recommandAdapter) {
@@ -274,6 +279,14 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
                         }
                         page++;
+                    } else {
+                        if (loadtype.equals("follow")) {
+                            if (socialBean.getResultMsg().equals("用户未登录")) {
+                                socialAdapter.mList.clear();
+                                socialAdapter.notifyDataSetChanged();
+                                IntentUtil.startActivity(activity, LoginActivity.class);
+                            }
+                        }
                     }
                 }
             }
@@ -418,13 +431,13 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
         PopWindowUtil.releaseClick(activity, binding.tvDiscoverRelease, new ReleaseCallBack() {
             @Override
             public void dynamic(PopupWindow popupWindow) {
-                IntentUtil.startActivity(activity,DynamicActivity.class);
+                IntentUtil.startActivityForResult(activity, DynamicActivity.class);
                 popupWindow.dismiss();
             }
 
             @Override
             public void article(PopupWindow popupWindow) {
-                IntentUtil.startActivity(activity,ArticleActivity.class);
+                IntentUtil.startActivityForResult(activity, ArticleActivity.class);
                 popupWindow.dismiss();
             }
         });
@@ -462,7 +475,6 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                     }
                 } else {
                     IntentUtil.startActivity(activity, LoginActivity.class);
-
                 }
             }
         });
@@ -495,9 +507,9 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
     /**
      * 搜索
      */
-    public void search(){
+    public void search() {
 
-        IntentUtil.startActivity(activity,LightSocialSearchActivity.class);
+        IntentUtil.startActivity(activity, LightSocialSearchActivity.class);
 
     }
 
@@ -521,15 +533,17 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
                 tabData(0);
                 break;
             case R.id.ll_follow:
-
-//                boolean login = LoginUtil.isLogin(activity);
-//                if (!login) {
-//                    MyApplication.getInstance().setTimeOut(false);
-//                    SharedPreferencesUtils.setParam(activity, "loginstate", true);
-//                    intent = new Intent(activity, LoginActivity.class);
-//                    activity.startActivityForResult(intent, 0);
-//                    return;
-//                }
+                UserBean userBean = MyApplication.getInstance().getUserBean();
+                if (EmptyUtil.isEmpty(userBean)) {
+                    IntentUtil.startActivity(activity, LoginActivity.class);
+                    return;
+                } else {
+                    String token = userBean.getToken();
+                    if (EmptyUtil.isEmpty(token)) {
+                        IntentUtil.startActivity(activity, LoginActivity.class);
+                        return;
+                    }
+                }
                 binding.tvAll.setTextColor(activity.getResources().getColor(R.color.color_333333));
                 binding.tabAll.setVisibility(View.GONE);
                 binding.tvFollow.setTextColor(activity.getResources().getColor(R.color.color_FF8F00));
@@ -573,6 +587,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
      */
     public void tabData(int position) {
 
+        tabPos = position;
 
         if (position == 0) {
             loadtype = "all";
@@ -662,8 +677,8 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
     @Override
     public void countEnd(boolean isEnd) {
-        if (isEnd){
-            if(!EmptyUtil.isEmpty(loadingDialog)){
+        if (isEnd) {
+            if (!EmptyUtil.isEmpty(loadingDialog)) {
                 loadingDialog.dismiss();
             }
         }
@@ -671,6 +686,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
     /**
      * 刷新
+     *
      * @param refreshLayout
      * @param type
      */
@@ -678,7 +694,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
     public void refresh(RefreshLayout refreshLayout, int type) {
         page = 1;
         timestamp = "";
-        if (loadtype.equals("all")){
+        if (loadtype.equals("all")) {
             refreCommand();
         }
         initListData(type);
@@ -686,6 +702,7 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
 
     /**
      * 加载
+     *
      * @param refreshLayout
      * @param type
      */
@@ -723,6 +740,67 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
         }
     }
 
+    /**
+     * 刷新数据，并切换到全部
+     */
+    private void refreTab() {
+        page = 1;
+        allPage = 1;
+        dynamicPage = 1;
+        articlePage = 1;
+        followPage = 1;
+        allTimeStamp = "";
+        dynamicTimeStamp = "";
+        articleTimeStamp = "";
+        followTimeStamp = "";
+        allDataList.clear();
+        dynamicDataList.clear();
+        articleDataList.clear();
+        followDataList.clear();
+        dataList.clear();
+        binding.tvAll.setTextColor(activity.getResources().getColor(R.color.color_FF8F00));
+        binding.tabAll.setVisibility(View.VISIBLE);
+        binding.tvFollow.setTextColor(activity.getResources().getColor(R.color.color_333333));
+        binding.tabFollow.setVisibility(View.GONE);
+        binding.tvDynamic.setTextColor(activity.getResources().getColor(R.color.color_333333));
+        binding.tabDynamic.setVisibility(View.GONE);
+        binding.tvArticle.setTextColor(activity.getResources().getColor(R.color.color_333333));
+        binding.tabArticle.setVisibility(View.GONE);
+        tabData(0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == StatusVariable.RELEASECODESUCCESS) {
+            refreTab();
+        } else if (resultCode == StatusVariable.DELEATECODESUCCESS) {
+            deleateData();
+        }
+
+    }
+
+    /**
+     * 删除后刷新
+     */
+    private void deleateData() {
+        page = 1;
+        allPage = 1;
+        dynamicPage = 1;
+        articlePage = 1;
+        followPage = 1;
+        allTimeStamp = "";
+        dynamicTimeStamp = "";
+        articleTimeStamp = "";
+        followTimeStamp = "";
+        allDataList.clear();
+        dynamicDataList.clear();
+        articleDataList.clear();
+        followDataList.clear();
+        dataList.clear();
+        tabData(tabPos);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -731,5 +809,4 @@ public class DiscoverVm extends BaseViewModel implements CounterListener, Refres
             token = userBean.getToken();
         }
     }
-
 }

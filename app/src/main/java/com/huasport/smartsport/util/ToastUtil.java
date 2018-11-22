@@ -15,31 +15,36 @@ public class ToastUtil {
     private static Toast mToast = null;
 
     public ToastUtil(Context context) {
-        this.context=context;
+        this.context = context;
     }
 
     /**
      * 普通短Toast
+     *
      * @param context
      * @param content 内容
      */
-    public void normalShortTost(Context context,String content){
+    public void normalShortTost(Context context, String content) {
 
-        Toast.makeText(context,content,Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
 
     }
+
     /**
      * 普通长Toast
+     *
      * @param context
      * @param content 内容
      */
-    public void normalLongTost(Context context,String content){
+    public void normalLongTost(Context context, String content) {
 
-        Toast.makeText(context,content,Toast.LENGTH_LONG).show();
+        Toast.makeText(context, content, Toast.LENGTH_LONG).show();
 
     }
+
     /**
      * 在中间弹出Toast
+     *
      * @param content 内容
      */
     public void centerToast(String content) {
@@ -55,18 +60,20 @@ public class ToastUtil {
 
     /**
      * 自定义Toast
+     *
      * @param
      * @param msg
      */
     public void showTopSnackBar(String msg) {
-
+        if (mToast == null) {
+            mToast = new Toast(context);
+        }
         View toastView = LayoutInflater.from(context).inflate(R.layout.toast_layout, null);
         TextView msgText = toastView.findViewById(R.id.tv_msg);
         msgText.setText(msg);
         mToast.setView(toastView);
         mToast.setGravity(Gravity.TOP | Gravity.FILL_HORIZONTAL, 0, 120);
         mToast.show();
-
     }
 
 }

@@ -454,6 +454,7 @@ public class ArticleDetailVm extends BaseViewModel implements View.OnClickListen
                     int resultCode = resultBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         toastUtil.centerToast(articleDetailActivity.getResources().getString(R.string.delete_success));
+                        articleDetailActivity.setResult(StatusVariable.DELEATECODESUCCESS);
                         articleDetailActivity.finish();
                     } else {
                         toastUtil.centerToast(articleDetailActivity.getResources().getString(R.string.delete_failed));

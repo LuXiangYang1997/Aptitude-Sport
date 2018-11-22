@@ -129,6 +129,7 @@ public class ReleaseVm extends BaseViewModel implements View.OnClickListener, Re
         new RefreshLoadMore(binding.smartRefreshlayout, this);
         //registerID
         registerId = releaseActivity.getIntent().getStringExtra("registerId");
+        SharedPreferencesUtil.setParam(releaseActivity,"firstRegisterId",registerId);
         //初始化分享
         shareUtil = new ShareUtil(releaseActivity);
         appUserBean = application.getUserBean();
@@ -159,7 +160,6 @@ public class ReleaseVm extends BaseViewModel implements View.OnClickListener, Re
 
         ll_authstatus = releaseheaderView.findViewById(R.id.ll_authstatus);
         tv_attention = releaseheaderView.findViewById(R.id.tv_attention);
-
 
         ll_dynamic = releaseheaderView.findViewById(R.id.ll_dynamic);
         tab_dynamic = releaseheaderView.findViewById(R.id.tab_dynamic);
@@ -891,11 +891,34 @@ public class ReleaseVm extends BaseViewModel implements View.OnClickListener, Re
         }
     }
 
+    /**
+     * 刷新数据
+     * @param intent
+     */
+    private void refreshData(Intent intent) {
+        binding.releaseXrecyclerView.scrollToPosition(0);
+        registerId = intent.getStringExtra("registerId");
+        tabType = 0;totalPage = 0;page = 1;dynamicPage = 1;articlePage = 1;
+        articleList.clear();dataList.clear();dynamicList.clear();
+        releaseActivity.tabPosition = 0;
+        ll_dynamic.setClickable(false);
+        ll_article.setClickable(true);
+        tv_dynamic.setTextColor(releaseActivity.getResources().getColor(R.color.color_FF8F00));
+        tab_dynamic.setVisibility(View.VISIBLE);
+        tv_article.setTextColor(releaseActivity.getResources().getColor(R.color.color_333333));
+        tab_article.setVisibility(View.GONE);
+        tabData(tabType);
+        initUserData();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String firstRegisterId = (String) SharedPreferencesUtil.getParam(releaseActivity, "firstRegisterId", "");
+        registerId = firstRegisterId;
+        binding.releaseXrecyclerView.scrollToPosition(0);
         page = 1;
         timeStemp = "";
+        initUserData();
         initData(StatusVariable.REFRESH);
     }
 
@@ -912,4 +935,11 @@ public class ReleaseVm extends BaseViewModel implements View.OnClickListener, Re
         }
         initUserData();
     }
+
+    @Override
+    public void onNewIntent(Intent intent) {
+        refreshData(intent);
+    }
+
+
 }

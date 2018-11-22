@@ -75,7 +75,8 @@ public class GroupApplySuccessActivity extends BaseActivity<ActivityGroupapplysu
     @Override
     public void onBackPressed() {
         if (orderType.equals(StatusVariable.SUCCESSAPPLY)) {
-            IntentUtil.finishPage(this,StatusVariable.MATCHAPPLYCODE);
+            IntentUtil.startActivity(this,MainActivity.class);
+            appManager.finishAllActivity();
         } else {
             finish();
         }
@@ -88,7 +89,8 @@ public class GroupApplySuccessActivity extends BaseActivity<ActivityGroupapplysu
         switch (v.getId()) {
             case R.id.ll_left:
                 if (orderType.equals(StatusVariable.SUCCESSAPPLY)) {
-                    IntentUtil.finishPage(this,StatusVariable.MATCHAPPLYCODE);
+                    IntentUtil.startActivity(this,MainActivity.class);
+                    appManager.finishAllActivity();
                 } else {
                   finish();
                 }

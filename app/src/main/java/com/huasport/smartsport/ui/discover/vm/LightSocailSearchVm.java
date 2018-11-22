@@ -1,6 +1,7 @@
 package com.huasport.smartsport.ui.discover.vm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -81,6 +82,7 @@ public class LightSocailSearchVm extends BaseViewModel implements View.OnClickLi
     private UserBean userBean;
     private String registerCode = "";
     private int totalPage = 0;
+    private String tabStr = "全部";
 
 
     public LightSocailSearchVm(LightSocialSearchActivity lightSocialSearchActivity, LightSocialSearchAdapter lightSocialSearchAdapter) {
@@ -399,42 +401,6 @@ public class LightSocailSearchVm extends BaseViewModel implements View.OnClickLi
                 }
             }
         });
-//        OkhttpUtils.postRequest(lightSocialSearchActivity, params, new BaseHttpCallBack<CommandPraiseBean>(lightSocialSearchActivity, true) {
-//            @Override
-//            public CommandPraiseBean parseNetworkResponse(String jsonResult) throws Exception {
-//
-//                CommandPraiseBean commandPraiseBean = JSON.parseObject(jsonResult, CommandPraiseBean.class);
-//
-//                return commandPraiseBean;
-//            }
-//
-//            @Override
-//            public void onSuccess(CommandPraiseBean commandPraiseBean, Call call, Response response) {
-//                if (!EmptyUtils.isEmpty(commandPraiseBean)) {
-//                    if (commandPraiseBean.getResultCode() == StatusVariable.SUCCESS) {
-//                        refreshState();
-//                        if (commandPraiseBean.getResultMsg().equals("点赞成功")) {
-//                            dataList.get(pos).setIsLike("1");
-//                            dataList.get(pos).setLikesCount(dataList.get(pos).getLikesCount() + 1);
-//                        } else if (commandPraiseBean.getResultMsg().equals("取消点赞成功")) {
-//                            dataList.get(pos).setIsLike("0");
-//                            dataList.get(pos).setLikesCount(dataList.get(pos).getLikesCount() - 1);
-//                        }
-//                        lightSocialSearchAdapter.loadData(dataList);
-//                        SharedPreferencesUtils.setParam(lightSocialSearchActivity, "ActivityState", true);
-//                    } else {
-//                        ToastUtils.toast(lightSocialSearchActivity, commandPraiseBean.getResultMsg());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailed(String code, String msg) {
-//                ToastUtils.toast(lightSocialSearchActivity, msg);
-//            }
-//        });
-
-
     }
 
     /**
@@ -627,6 +593,7 @@ public class LightSocailSearchVm extends BaseViewModel implements View.OnClickLi
                 binding.tabDynamic.setVisibility(View.GONE);
                 binding.tvArticle.setTextColor(lightSocialSearchActivity.getResources().getColor(R.color.color_333333));
                 binding.tabArticle.setVisibility(View.GONE);
+                tabStr = "全部";
                 tabData("全部");
                 break;
             case R.id.ll_user:
@@ -638,6 +605,7 @@ public class LightSocailSearchVm extends BaseViewModel implements View.OnClickLi
                 binding.tabDynamic.setVisibility(View.GONE);
                 binding.tvArticle.setTextColor(lightSocialSearchActivity.getResources().getColor(R.color.color_333333));
                 binding.tabArticle.setVisibility(View.GONE);
+                tabStr = "用户";
                 tabData("用户");
                 break;
             case R.id.ll_dynamic:
@@ -649,6 +617,7 @@ public class LightSocailSearchVm extends BaseViewModel implements View.OnClickLi
                 binding.tabDynamic.setVisibility(View.VISIBLE);
                 binding.tvArticle.setTextColor(lightSocialSearchActivity.getResources().getColor(R.color.color_333333));
                 binding.tabArticle.setVisibility(View.GONE);
+                tabStr = "动态";
                 tabData("动态");
                 break;
             case R.id.ll_article:
@@ -660,6 +629,7 @@ public class LightSocailSearchVm extends BaseViewModel implements View.OnClickLi
                 binding.tabDynamic.setVisibility(View.GONE);
                 binding.tvArticle.setTextColor(lightSocialSearchActivity.getResources().getColor(R.color.color_FF8F00));
                 binding.tabArticle.setVisibility(View.VISIBLE);
+                tabStr = "文章";
                 tabData("文章");
                 break;
 
@@ -704,19 +674,22 @@ public class LightSocailSearchVm extends BaseViewModel implements View.OnClickLi
             binding.smartRefreshlayout.finishLoadMoreWithNoMoreData();
         }
     }
-    //    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);        String s = lightSocialSearchActivity.refreshStatus.get();
-//
-//        if (s.equals("refresh")) {
-//            lightSocialSearchActivity.refreshStatus.set("normal");
-//            clearData();
-//            page = 1;
-//            toPage = 0;
-//            binding.smartRefreshlayout.setNoMoreData(false);
-//            initData(binding.lightsocialSearchEdittext.getText().toString(), "load", loadtype);
-//        }
-//    }
+        @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == StatusVariable.DELEATECODESUCCESS){
+            refreshData();
+        }
+
+    }
+
+    private void refreshData() {
+        allList.clear();attentionList.clear();dynamicList.clear();articleList.clear();
+        allPage = 1;userPage = 1;articlePage = 1;dynamicPage = 1;allTotalPage = 0;userTotalPage = 0;
+        dynamicTotalPage = 0;articleTotalPage = 0;allKeyWord = "";userKeyWord = "";dynamicKeyWord = "";articleKeyWord = "";
+        tabData(tabStr);
+    }
+
     @Override
     public void onResume() {
         super.onResume();

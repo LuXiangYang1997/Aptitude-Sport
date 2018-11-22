@@ -30,11 +30,11 @@ public class AppManager {
         return instance;
     }
 
-    public static Stack<Activity> getActivityStack() {
+    public  Stack<Activity> getActivityStack() {
         return activityStack;
     }
 
-    public static Stack<Fragment> getFragmentStack() {
+    public  Stack<Fragment> getFragmentStack() {
         return fragmentStack;
     }
 

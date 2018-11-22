@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseActivity;
+import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.PcreleaseLayoutBinding;
 import com.huasport.smartsport.ui.discover.adapter.ReleaseAdapter;
 import com.huasport.smartsport.ui.discover.vm.ReleaseVm;
@@ -54,9 +55,16 @@ public class ReleaseActivity extends BaseActivity<PcreleaseLayoutBinding, Releas
     }
 
     @Override
+    public void onBackPressed() {
+        setResult(StatusVariable.DELEATECODESUCCESS);
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
+                setResult(StatusVariable.DELEATECODESUCCESS);
                 finish();
                 break;
         }

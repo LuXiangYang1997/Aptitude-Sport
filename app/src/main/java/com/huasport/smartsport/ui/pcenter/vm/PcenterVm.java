@@ -64,7 +64,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
 
     public PcenterVm(PCenterFragment fragment, PcenterLayoutBinding binding) {
         this.fragment = fragment;
-        this.binding=binding;
+        this.binding = binding;
         init();
     }
 
@@ -75,7 +75,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
         //初始化Toast
         toastUtil = new ToastUtil(fragment.getActivity());
         //初始化Counter
-        counter = new Counter(this,2);
+        counter = new Counter(this, 2);
     }
 
 
@@ -187,7 +187,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
 
             }
         });
-        
+
     }
 
     /**
@@ -205,11 +205,11 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
             @Override
             public void onSuccess(Response<UserInfoBean> response) {
                 UserInfoBean userInfoBean = response.body();
-                if (!EmptyUtil.isEmpty(userInfoBean)){
+                if (!EmptyUtil.isEmpty(userInfoBean)) {
                     int resultCode = userInfoBean.getResultCode();
-                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                    if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         UserInfoBean.ResultBean resultBean = userInfoBean.getResult();
-                        if(!EmptyUtil.isEmpty(resultBean)){
+                        if (!EmptyUtil.isEmpty(resultBean)) {
                             intent = new Intent(fragment.getActivity(), MatchStatusListActivity.class);
                             switch (type) {
                                 case StatusVariable.PERSONALCENTER_WAITPAY:
@@ -229,9 +229,9 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
                                 fragment.getActivity().startActivity(intent);
                             }
                         }
-                    }else if (resultCode == StatusVariable.NOBIND){
-                        IntentUtil.startActivity(fragment.getActivity(),LoginActivity.class);
-                    }else if (resultCode == StatusVariable.NOLOGIN){
+                    } else if (resultCode == StatusVariable.NOBIND) {
+                        IntentUtil.startActivity(fragment.getActivity(), LoginActivity.class);
+                    } else if (resultCode == StatusVariable.NOLOGIN) {
                         IntentUtil.startActivity(fragment.getActivity(), BindPhoneActivity.class);
                     }
 
@@ -246,7 +246,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
 
             @Override
             public void onFailed(int code, String msg) {
-                if(!EmptyUtil.isEmpty(msg)){
+                if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
             }
@@ -257,8 +257,9 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      * 发布
      */
     public void release() {
-
-        IntentUtil.startActivity(fragment.getActivity(), ReleaseActivity.class);
+        Intent intent = new Intent(fragment.getActivity(), ReleaseActivity.class);
+        intent.putExtra("registerId", registerCode);
+        fragment.getActivity().startActivityForResult(intent, StatusVariable.INTENTCODE);
 
     }
 
@@ -297,11 +298,11 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
             @Override
             public void onSuccess(Response<UserInfoBean> response) {
                 UserInfoBean userInfoBean = response.body();
-                if (!EmptyUtil.isEmpty(userInfoBean)){
+                if (!EmptyUtil.isEmpty(userInfoBean)) {
                     int resultCode = userInfoBean.getResultCode();
-                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                    if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         UserInfoBean.ResultBean result = userInfoBean.getResult();
-                        if (!EmptyUtil.isEmpty(result)){
+                        if (!EmptyUtil.isEmpty(result)) {
                             //未绑定手机号
                             if (!userInfoBean.getResult().getRegister().isIsBindPhone()) {
                                 intent = new Intent(fragment.getActivity(), PersonalMyApplyCardActivity.class);
@@ -402,40 +403,40 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
     /**
      * 获取认证状态
      */
-    private void getCertStatus(){
+    private void getCertStatus() {
 
         HashMap params = new HashMap();
         params.put("baseUrl", Config.baseUrl3);
         params.put("baseMethod", Method.GETCERTIFICATIONINFO);
-        params.put("terminal","ANDROID");
-        params.put("token",token);
+        params.put("terminal", "ANDROID");
+        params.put("token", token);
 
         OkHttpUtil.getRequest(fragment.getActivity(), params, new RequestCallBack<UserCertStatusBean>() {
             @Override
             public void onSuccess(Response<UserCertStatusBean> response) {
 
                 UserCertStatusBean userCertStatusBean = response.body();
-                if (!EmptyUtil.isEmpty(userCertStatusBean)){
+                if (!EmptyUtil.isEmpty(userCertStatusBean)) {
                     int resultCode = userCertStatusBean.getResultCode();
-                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                    if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         UserCertStatusBean.ResultBean resultBean = userCertStatusBean.getResult();
-                        if (!EmptyUtil.isEmpty(resultBean)){
+                        if (!EmptyUtil.isEmpty(resultBean)) {
                             String authStatus = resultBean.getAuthStatus();
-                            if (!EmptyUtil.isEmpty(authStatus)){
+                            if (!EmptyUtil.isEmpty(authStatus)) {
 
-                                if (authStatus.equals(StatusVariable.WAIT_AUTH)){
+                                if (authStatus.equals(StatusVariable.WAIT_AUTH)) {
                                     binding.tvApproveStatus.setText(fragment.getActivity().getResources().getString(R.string.wait_auth));
-                                }else if (authStatus.equals(StatusVariable.PASS)){
+                                } else if (authStatus.equals(StatusVariable.PASS)) {
                                     binding.tvApproveStatus.setText(fragment.getActivity().getResources().getString(R.string.pass));
-                                }else if (authStatus.equals(StatusVariable.REJECT)){
+                                } else if (authStatus.equals(StatusVariable.REJECT)) {
                                     binding.tvApproveStatus.setText(fragment.getActivity().getResources().getString(R.string.wait_auth));
-                                }else if (authStatus.equals(StatusVariable.WAIT_AUDIT)){
+                                } else if (authStatus.equals(StatusVariable.WAIT_AUDIT)) {
                                     binding.tvApproveStatus.setText(fragment.getActivity().getResources().getString(R.string.wait_auth));
                                 }
 
                             }
 
-                        }else{
+                        } else {
                             LogUtil.e("UserCertStatusBeam是空的");
                         }
 
@@ -456,12 +457,11 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
             @Override
             public void onFailed(int code, String msg) {
 
-                if (!EmptyUtil.isEmpty(msg)){
+                if (!EmptyUtil.isEmpty(msg)) {
                     toastUtil.centerToast(msg);
                 }
             }
         });
-
 
 
     }
@@ -469,39 +469,39 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
     /**
      * 获取用户认证、发布、关注、粉丝信息
      */
-    private void getUserInfo(){
-        
+    private void getUserInfo() {
+
         HashMap params = new HashMap();
-        params.put("baseUrl",Config.baseUrl2);
-        params.put("token",token);
-        params.put("baseMethod",Method.GETUSERCENTERINFO);
-        params.put("registerId",registerCode);
-        
+        params.put("baseUrl", Config.baseUrl2);
+        params.put("token", token);
+        params.put("baseMethod", Method.GETUSERCENTERINFO);
+        params.put("registerId", registerCode);
+
         OkHttpUtil.getRequest(fragment.getActivity(), params, new RequestCallBack<UserCenterInfo>() {
             @Override
             public void onSuccess(Response<UserCenterInfo> response) {
                 UserCenterInfo userCenterInfo = response.body();
-                if (!EmptyUtil.isEmpty(userCenterInfo)){
+                if (!EmptyUtil.isEmpty(userCenterInfo)) {
                     int resultCode = userCenterInfo.getResultCode();
-                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+                    if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         UserCenterInfo.ResultBean resultBean = userCenterInfo.getResult();
-                        if (!EmptyUtil.isEmpty(resultBean)){
+                        if (!EmptyUtil.isEmpty(resultBean)) {
                             UserCenterInfo.ResultBean.UserBean userBean = resultBean.getUser();
-                            if (!EmptyUtil.isEmpty(userBean)){
+                            if (!EmptyUtil.isEmpty(userBean)) {
                                 int fansNumber = userBean.getFansNumber();
                                 int releaseNumber = userBean.getReleaseNumber();
                                 int followNumber = userBean.getFollowNumber();
-                                if (!EmptyUtil.isEmpty(fansNumber)){
-                                    binding.tvFansCount.setText(fansNumber+"");
+                                if (!EmptyUtil.isEmpty(fansNumber)) {
+                                    binding.tvFansCount.setText(fansNumber + "");
                                 }
-                                if (!EmptyUtil.isEmpty(releaseNumber)){
-                                    binding.tvReleaseCount.setText(releaseNumber+"");
+                                if (!EmptyUtil.isEmpty(releaseNumber)) {
+                                    binding.tvReleaseCount.setText(releaseNumber + "");
                                 }
-                                if (!EmptyUtil.isEmpty(followNumber)){
-                                    binding.tvAttentionCount.setText(followNumber+"");
+                                if (!EmptyUtil.isEmpty(followNumber)) {
+                                    binding.tvAttentionCount.setText(followNumber + "");
                                 }
                             }
-                        }else{
+                        } else {
                             LogUtil.e("UserCenterInfoBean是空的");
 
                         }
@@ -521,7 +521,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
             @Override
             public void onFailed(int code, String msg) {
 
-                if(!EmptyUtil.isEmpty(msg)){
+                if (!EmptyUtil.isEmpty(msg)) {
 
                     toastUtil.centerToast(msg);
 
@@ -535,18 +535,18 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
      * 更新Token、registerCode
      */
     private void upData() {
-        if (!EmptyUtil.isEmpty(MyApplication.getInstance().getUserBean())){
-            if (!EmptyUtil.isEmpty(MyApplication.getInstance().getUserBean().getToken())){
+        if (!EmptyUtil.isEmpty(MyApplication.getInstance().getUserBean())) {
+            if (!EmptyUtil.isEmpty(MyApplication.getInstance().getUserBean().getToken())) {
                 token = MyApplication.getInstance().getUserBean().getToken();
-            }else{
+            } else {
                 token = "";
             }
-           if (!EmptyUtil.isEmpty(MyApplication.getInstance().getUserBean().getRegisterCode())){
+            if (!EmptyUtil.isEmpty(MyApplication.getInstance().getUserBean().getRegisterCode())) {
                 registerCode = MyApplication.getInstance().getUserBean().getRegisterCode();
-           }else{
+            } else {
                 registerCode = "";
-           }
-        }else{
+            }
+        } else {
             token = "";
             registerCode = "";
         }

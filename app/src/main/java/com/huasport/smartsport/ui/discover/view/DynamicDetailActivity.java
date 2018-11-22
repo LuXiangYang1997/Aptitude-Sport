@@ -7,6 +7,7 @@ import android.view.View;
 import com.huasport.smartsport.BR;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseActivity;
+import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.DynamicDetailLayoutBinding;
 import com.huasport.smartsport.ui.discover.adapter.DynamicDetailAdapter;
 import com.huasport.smartsport.ui.discover.vm.DynamicDetailVm;
@@ -70,11 +71,17 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailLayoutBindi
 
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(StatusVariable.DISCOVER);
+        this.finish();
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
+                setResult(StatusVariable.DISCOVER);
                 this.finish();
                 break;
         }

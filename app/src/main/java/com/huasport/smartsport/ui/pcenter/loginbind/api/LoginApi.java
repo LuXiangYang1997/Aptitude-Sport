@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
-import com.huasport.smartsport.R;
 import com.huasport.smartsport.api.OkHttpUtil;
 import com.huasport.smartsport.api.RequestCallBack;
 import com.huasport.smartsport.bean.UserBean;
@@ -123,7 +122,6 @@ public class LoginApi {
         userBean.setPhone(registerBean.getPhone());
         userBean.setRegisterCode(registerBean.getRegisterCode());
         userBean.setToken(token);
-        MyApplication.getInstance().setUserBean(userBean);
-
+        SharedPreferencesUtil.setBean(context,"UserBean",userBean);
     }
 }

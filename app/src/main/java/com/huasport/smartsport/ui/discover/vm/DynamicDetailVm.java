@@ -504,8 +504,8 @@ public class DynamicDetailVm extends BaseViewModel implements View.OnClickListen
      */
     public void commentClick() {
 
-        if (EmptyUtil.isEmpty(token)){
-            IntentUtil.startActivity(dynamicDetailActivity,LoginActivity.class);
+        if (EmptyUtil.isEmpty(token)) {
+            IntentUtil.startActivity(dynamicDetailActivity, LoginActivity.class);
             return;
         }
         showCommentEdit("dynamicComment");
@@ -585,8 +585,8 @@ public class DynamicDetailVm extends BaseViewModel implements View.OnClickListen
      */
     public void shareClick() {
 
-        if (EmptyUtil.isEmpty(token)){
-            IntentUtil.startActivity(dynamicDetailActivity,LoginActivity.class);
+        if (EmptyUtil.isEmpty(token)) {
+            IntentUtil.startActivity(dynamicDetailActivity, LoginActivity.class);
             return;
         }
         if (!EmptyUtil.isEmpty(dataBean)) {
@@ -681,8 +681,8 @@ public class DynamicDetailVm extends BaseViewModel implements View.OnClickListen
      */
     public void deleteDynamic() {
 
-        if (EmptyUtil.isEmpty(token)){
-            IntentUtil.startActivity(dynamicDetailActivity,LoginActivity.class);
+        if (EmptyUtil.isEmpty(token)) {
+            IntentUtil.startActivity(dynamicDetailActivity, LoginActivity.class);
             return;
         }
 
@@ -693,6 +693,7 @@ public class DynamicDetailVm extends BaseViewModel implements View.OnClickListen
                     int resultCode = resultBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         toastUtil.centerToast(dynamicDetailActivity.getResources().getString(R.string.delete_success));
+                        dynamicDetailActivity.setResult(StatusVariable.DELEATECODESUCCESS);
                         dynamicDetailActivity.finish();
                     } else {
                         toastUtil.centerToast(dynamicDetailActivity.getResources().getString(R.string.delete_failed));
@@ -747,8 +748,8 @@ public class DynamicDetailVm extends BaseViewModel implements View.OnClickListen
         binding.tvAttention.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (EmptyUtil.isEmpty(token)){
-                    IntentUtil.startActivity(dynamicDetailActivity,LoginActivity.class);
+                if (EmptyUtil.isEmpty(token)) {
+                    IntentUtil.startActivity(dynamicDetailActivity, LoginActivity.class);
                     return;
                 }
                 attention();
@@ -780,49 +781,49 @@ public class DynamicDetailVm extends BaseViewModel implements View.OnClickListen
             @Override
             public void dynamicclick(CommentFavourBean.ResultBean.DataBean dataBean, int position, String id) {
 
-                if (EmptyUtil.isEmpty(token)){
-                    IntentUtil.startActivity(dynamicDetailActivity,LoginActivity.class);
+                if (EmptyUtil.isEmpty(token)) {
+                    IntentUtil.startActivity(dynamicDetailActivity, LoginActivity.class);
                     return;
                 }
-                    if (!registerID.equals(registerCode)) {
-                        if (registerCode.equals(registerID) || id.equals(registerCode)) {
-                            String socialInfoId = dataBean.getId();
-                            commentId = socialInfoId;
-                            showCommentEdit("reView");
-                        } else {
-                            toastUtil.centerToast(dynamicDetailActivity.getResources().getString(R.string.forbid_command));
-                        }
-                    } else {
+                if (!registerID.equals(registerCode)) {
+                    if (registerCode.equals(registerID) || id.equals(registerCode)) {
                         String socialInfoId = dataBean.getId();
                         commentId = socialInfoId;
                         showCommentEdit("reView");
+                    } else {
+                        toastUtil.centerToast(dynamicDetailActivity.getResources().getString(R.string.forbid_command));
                     }
-
+                } else {
+                    String socialInfoId = dataBean.getId();
+                    commentId = socialInfoId;
+                    showCommentEdit("reView");
                 }
+
+            }
         });
 //
         dynamicDetailAdapter.setDynamicReplyInfoClick(new DynamicDetailAdapter.DynamicReplyInfoClick() {
             @Override
             public void dynamicReplyInfoClick(CommentFavourBean.ResultBean.DataBean.ReplyInfosBean dataBean, String s, String id) {
 
-                    if (EmptyUtil.isEmpty(token)){
-                        IntentUtil.startActivity(dynamicDetailActivity,LoginActivity.class);
-                        return;
-                    }
-                    if (!registerID.equals(registerCode)) {
-                        if (registerCode.equals(id)) {
-                            commentId = s;
-                            replyId = dataBean.getCommentId();
-                            showCommentEdit("reView");
-                        } else {
-                            toastUtil.centerToast(dynamicDetailActivity.getResources().getString(R.string.forbid_command));
-                        }
-                    } else {
-                        String socialInfoId = dataBean.getCommentId();
-                        commentId = socialInfoId;
-                        showCommentEdit("reView");
-                    }
+                if (EmptyUtil.isEmpty(token)) {
+                    IntentUtil.startActivity(dynamicDetailActivity, LoginActivity.class);
+                    return;
                 }
+                if (!registerID.equals(registerCode)) {
+                    if (registerCode.equals(id)) {
+                        commentId = s;
+                        replyId = dataBean.getCommentId();
+                        showCommentEdit("reView");
+                    } else {
+                        toastUtil.centerToast(dynamicDetailActivity.getResources().getString(R.string.forbid_command));
+                    }
+                } else {
+                    String socialInfoId = dataBean.getCommentId();
+                    commentId = socialInfoId;
+                    showCommentEdit("reView");
+                }
+            }
         });
 
     }

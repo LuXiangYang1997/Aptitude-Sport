@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.ObservableField;
 import android.graphics.Color;
 import android.view.View;
+
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -25,6 +26,7 @@ import com.huasport.smartsport.ui.matchapply.bean.CancelResultBean;
 import com.huasport.smartsport.ui.matchapply.bean.GroupOrderMsgBean;
 import com.huasport.smartsport.ui.matchapply.bean.SubmitApplyMessageBean;
 import com.huasport.smartsport.ui.matchapply.view.AdditionMemberActivity;
+import com.huasport.smartsport.ui.matchapply.view.GroupApplySuccessActivity;
 import com.huasport.smartsport.ui.matchapply.view.GroupApplyWaitPerfectActivity;
 import com.huasport.smartsport.ui.matchapply.view.PayMentOrderActivty;
 import com.huasport.smartsport.ui.pcenter.loginbind.bean.GetVertifyCodeResultBean;
@@ -37,6 +39,7 @@ import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.Util;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -109,7 +112,6 @@ public class GroupApplyWaitPerfectVM extends BaseViewModel implements CounterLis
         }
         //弹出加载框
         loadingDialog.show();
-        
     }
 
     /**
@@ -122,7 +124,6 @@ public class GroupApplyWaitPerfectVM extends BaseViewModel implements CounterLis
         params.put("token", token);
         params.put("orderCode", orderCode);
         params.put("baseUrl", Config.baseUrl);
-
 
         OkHttpUtil.getRequest(groupApplyWaitPerfectActivity, params, new RequestCallBack<GroupOrderMsgBean>() {
             @Override
@@ -216,11 +217,11 @@ public class GroupApplyWaitPerfectVM extends BaseViewModel implements CounterLis
 
         number = 60;
 
-        if (EmptyUtil.isEmpty(waitPerfectphoneNum.get())) {
+        if (EmptyUtil.isEmpty(groupPhoneNum.get())) {
             toastUtil.showTopSnackBar("手机号码不能为空");
             return;
         }
-        if (!Util.isPhoneNumber(waitPerfectphoneNum.get())) {
+        if (!Util.isPhoneNumber(groupPhoneNum.get())) {
             toastUtil.showTopSnackBar("请输入正确的手机号");
             return;
         }
@@ -230,7 +231,7 @@ public class GroupApplyWaitPerfectVM extends BaseViewModel implements CounterLis
         HashMap params = new HashMap();
         params.put("baseUrl", Config.baseUrl);
         params.put("baseMethod", Method.GETVERTIFYCODE);
-        params.put("phoneNum", waitPerfectphoneNum.get());
+        params.put("phoneNum", groupPhoneNum.get());
 
         OkHttpUtil.getRequest(groupApplyWaitPerfectActivity, params, new RequestCallBack<GetVertifyCodeResultBean>() {
             @Override
@@ -410,10 +411,10 @@ public class GroupApplyWaitPerfectVM extends BaseViewModel implements CounterLis
                         if (!EmptyUtil.isEmpty(resultBean)) {
                             //跳转到成功页面
                             if (submitApplyMessageBean.getResult().getOrderStaus().equals("success")) {
-//                                        Intent intent = new Intent(groupApplyWaitPerfectActivity, GroupApplySuccessActivity.class);
-//                                        intent.putExtra("orderCode", submitApplyMessageBean.getResult().getOrderCode());
-//                                        intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
-//                                        groupApplyWaitPerfectActivity.startActivity(intent);
+                                        Intent intent = new Intent(groupApplyWaitPerfectActivity, GroupApplySuccessActivity.class);
+                                        intent.putExtra("orderCode", submitApplyMessageBean.getResult().getOrderCode());
+                                        intent.putExtra("orderType", StatusVariable.SUCCESSAPPLY);
+                                        groupApplyWaitPerfectActivity.startActivity(intent);
                             } else {
                                 //跳转到订单支付页面
                                 Intent intent = new Intent(groupApplyWaitPerfectActivity, PayMentOrderActivty.class);
@@ -428,6 +429,10 @@ public class GroupApplyWaitPerfectVM extends BaseViewModel implements CounterLis
                     } else if (resultCode == StatusVariable.NOBIND) {
 
                         IntentUtil.startActivity(groupApplyWaitPerfectActivity, BindPhoneActivity.class);
+                    }else{
+
+                        toastUtil.showTopSnackBar(submitApplyMessageBean.getResultMsg());
+
                     }
                 }
             }

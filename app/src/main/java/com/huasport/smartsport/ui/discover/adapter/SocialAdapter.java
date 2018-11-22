@@ -313,7 +313,7 @@ public class SocialAdapter extends BaseAdapter<SocialBean.ResultBean.DataBean, R
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, DynamicDetailActivity.class);
                     intent.putExtra("dynamicId", mList.get(position).getId());
-                    activity.startActivity(intent);
+                    activity.startActivityForResult(intent,StatusVariable.INTENTCODE);
 
                 }
             });
@@ -324,7 +324,7 @@ public class SocialAdapter extends BaseAdapter<SocialBean.ResultBean.DataBean, R
 
                     intent = new Intent(activity, ReleaseActivity.class);
                     intent.putExtra("registerId", mList.get(position).getRegisterID());
-                    activity.startActivity(intent);
+                    activity.startActivityForResult(intent,StatusVariable.INTENTCODE);
 
                 }
             });

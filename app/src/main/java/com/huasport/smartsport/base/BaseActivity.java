@@ -202,4 +202,10 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         viewModel.onDestroy();
         viewModel = null;
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        viewModel.onNewIntent(intent);
+    }
 }

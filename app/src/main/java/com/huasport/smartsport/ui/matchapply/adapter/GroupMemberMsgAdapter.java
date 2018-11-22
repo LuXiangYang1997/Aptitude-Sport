@@ -1,8 +1,6 @@
 package com.huasport.smartsport.ui.matchapply.adapter;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +24,7 @@ import com.huasport.smartsport.ui.matchapply.bean.GroupOrderMsgBean;
 import com.huasport.smartsport.ui.matchapply.view.GroupApplyWaitPerfectActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
+
 import java.util.HashMap;
 
 
@@ -56,18 +55,26 @@ public class GroupMemberMsgAdapter extends BaseAdapter<GroupOrderMsgBean.ResultB
         binding.waitperfectMemberName.setText(mList.get(position).getPlayerName());
         binding.waitperfectMemberphonenum.setText(mList.get(position).getPlayerPhone());
 
-        BaseDialog.show(groupApplyWaitPerfectActivity, "删除提示", "确定删除此成员信息吗？", "确定", "取消", false, false,
-                0, new DialogCallBack() {
-                    @Override
-                    public void submit(CustomDialog.Builder customDialog) {
-                        deleteUser(position);
-                    }
+        binding.waitperfectDeletemember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    @Override
-                    public void cancel(CustomDialog.Builder customDialog) {
-                        customDialog.dismiss();
-                    }
-                });
+                BaseDialog.show(groupApplyWaitPerfectActivity, "删除提示", "确定删除此成员信息吗？", "确定", "取消", false, false,
+                        0, new DialogCallBack() {
+                            @Override
+                            public void submit(CustomDialog.Builder customDialog) {
+                                deleteUser(position);
+                            }
+
+                            @Override
+                            public void cancel(CustomDialog.Builder customDialog) {
+                                customDialog.dismiss();
+                            }
+                        });
+            }
+        });
+
+
 
         baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -317,6 +317,7 @@ public class ArticleVm extends BaseViewModel {
             public void cancel(CustomDialog.Builder customDialog) {
                 customDialog.dismiss();
                 SharedPreferencesUtil.remove(articleActivity, "articleContent");
+                articleActivity.setResult(StatusVariable.DISCOVER);
                 articleActivity.finish();
             }
         });
@@ -447,7 +448,7 @@ public class ArticleVm extends BaseViewModel {
                 if (!EmptyUtil.isEmpty(resultBean)) {
                     int resultCode = resultBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
-                        articleActivity.setResult(1000);
+                        articleActivity.setResult(StatusVariable.RELEASECODESUCCESS);
                         articleActivity.finish();
                     } else {
                         toastUtil.centerToast(resultBean.getResultMsg());
@@ -603,6 +604,7 @@ public class ArticleVm extends BaseViewModel {
                     int resultCode = resultBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         toastUtil.centerToast(articleActivity.getResources().getString(R.string.save_success));
+                        articleActivity.setResult(StatusVariable.DISCOVER);
                         articleActivity.finish();
                     } else {
                         toastUtil.centerToast(articleActivity.getResources().getString(R.string.save_failed));

@@ -475,6 +475,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewPagerAdapter.getItem(StatusVariable.PCENTERCODE).onActivityResult(requestCode,resultCode,data);
             }else if (resultCode == StatusVariable.RELEASE){
                 viewPagerAdapter.getItem(StatusVariable.DISCOVERCODE).onActivityResult(requestCode,resultCode,data);
+            }else if (resultCode == StatusVariable.RELEASECODESUCCESS){
+                viewPagerAdapter.getItem(StatusVariable.DISCOVER).onActivityResult(requestCode,resultCode,data);
+            }else if (resultCode == StatusVariable.DELEATECODESUCCESS){
+                viewPagerAdapter.getItem(StatusVariable.DISCOVER).onActivityResult(requestCode,resultCode,data);
             }
         }
     }

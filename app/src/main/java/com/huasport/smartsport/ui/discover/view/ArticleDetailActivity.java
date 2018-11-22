@@ -7,6 +7,7 @@ import android.view.View;
 import com.huasport.smartsport.BR;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.base.BaseActivity;
+import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.databinding.ArticledetailLayoutBinding;
 import com.huasport.smartsport.ui.discover.adapter.ArticleDetailAdapter;
 import com.huasport.smartsport.ui.discover.vm.ArticleDetailVm;
@@ -63,9 +64,16 @@ public class ArticleDetailActivity extends BaseActivity<ArticledetailLayoutBindi
     }
 
     @Override
+    public void onBackPressed() {
+        setResult(StatusVariable.DISCOVER);
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
+                setResult(StatusVariable.DISCOVER);
                 finish();
                 break;
             case R.id.tv_right:

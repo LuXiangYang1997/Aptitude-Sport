@@ -291,6 +291,7 @@ public class DynamicVm extends BaseViewModel {
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
                         SharedPreferencesUtil.setParam(dynamicactivity, "ActivityState", true);
                         SharedPreferencesUtil.remove(dynamicactivity, "dynamicBean");
+                        dynamicactivity.setResult(StatusVariable.RELEASECODESUCCESS);
                         dynamicactivity.finish();
                     } else {
                         toastUtil.centerToast(resultBean.getResultMsg());
@@ -389,11 +390,12 @@ public class DynamicVm extends BaseViewModel {
                 public void cancel(CustomDialog.Builder customDialog) {
                     SharedPreferencesUtil.remove(dynamicactivity, "dynamicBean");
                     customDialog.dismiss();
-                    dynamicactivity.setResult(-1);
+                    dynamicactivity.setResult(StatusVariable.RELEASECODESUCCESS);
                     dynamicactivity.finish();
                 }
             });
         } else {
+            dynamicactivity.setResult(StatusVariable.DISCOVER);
             dynamicactivity.finish();
         }
     }
@@ -511,6 +513,7 @@ public class DynamicVm extends BaseViewModel {
                 if (!EmptyUtil.isEmpty(resultBean)) {
                     int resultCode = resultBean.getResultCode();
                     if (resultCode == StatusVariable.REQUESTSUCCESS) {
+                        dynamicactivity.setResult(StatusVariable.DISCOVER);
                         dynamicactivity.finish();
                         toastUtil.centerToast(dynamicactivity.getResources().getString(R.string.save_success));
                     } else {
