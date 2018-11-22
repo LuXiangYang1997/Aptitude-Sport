@@ -260,14 +260,10 @@ public class AddFriendsVm extends BaseViewModel implements CounterListener {
         OkHttpUtil.uploadFile(addFriendsActivity, params, new RequestCallBack<ResultBean>() {
             @Override
             public void onSuccess(com.lzy.okgo.model.Response<ResultBean> response) {
-                ResultBean resultBean = response.body();
-                if (!EmptyUtil.isEmpty(resultBean)){
-                    int resultCode = resultBean.getResultCode();
-                    if (resultCode == StatusVariable.REQUESTSUCCESS){
+
                         initData();
                         toastUtil.centerToast("导入成功");
-                    }
-                }
+
             }
 
             @Override

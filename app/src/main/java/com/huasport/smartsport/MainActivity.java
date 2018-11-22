@@ -1,6 +1,7 @@
 package com.huasport.smartsport;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -51,6 +52,7 @@ import com.huasport.smartsport.util.Util;
 import com.huasport.smartsport.wxapi.ThirdPart;
 import com.lzy.okgo.model.Response;
 import com.sina.weibo.sdk.share.WbShareCallback;
+import com.tbruyelle.rxpermissions.RxPermissions;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -59,6 +61,8 @@ import com.tencent.tauth.UiError;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import rx.functions.Action1;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ILocationCallBack,WbShareCallback {
 
@@ -85,11 +89,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         init();
         initData();
         UpDataVersion();
+        initPermission();
         initCert();
         getLocation();
     }
-
-
 
 
     /**
@@ -558,6 +561,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationBean.setLongitude(location.getLongitude());
         MyApplication.getInstance().setLocationBean(locationBean);
     }
+
+
+    /**
+     * 申请权限
+     */
+    private void initPermission() {
+
+
+        RxPermissions rxPermission = new RxPermissions(this);
+
+        rxPermission.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE)
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean grand) {
+                        if (!grand) {
+                            toastUtil.centerToast("用户拒绝了权限");
+                        }
+
+                    }
+                });
+    }
+
+
 }
 
 

@@ -34,6 +34,7 @@ public class Method {
     public static final String LOGINTHIRD = "/api/third/login";
     //创建订单
     public static final String CREATEORDER = "/api/create/order";
+    public static final String CREATEORDERMEDAL = "/api/shop/user/order/create";
     //获取填写报名信息
     public static final String GETFORMMSG = "/api/project/player/property";
     //完善信息

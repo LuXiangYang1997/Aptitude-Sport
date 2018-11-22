@@ -1,5 +1,6 @@
 package com.huasport.smartsport.ui.pcenter.medal.vm;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -16,6 +17,7 @@ import com.huasport.smartsport.databinding.MedaldetailLayoutBinding;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
 import com.huasport.smartsport.ui.pcenter.medal.bean.MedalDetailBean;
+import com.huasport.smartsport.ui.pcenter.medal.view.PersonalMedalConfirmOrderActivity;
 import com.huasport.smartsport.ui.pcenter.medal.view.PersonalMedalDetailActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
@@ -31,6 +33,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 public class PersonalMedalDetailVM extends BaseViewModel implements CounterListener {
@@ -122,6 +125,12 @@ public class PersonalMedalDetailVM extends BaseViewModel implements CounterListe
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
     }
 
@@ -130,9 +139,9 @@ public class PersonalMedalDetailVM extends BaseViewModel implements CounterListe
      * */
     public void purchase() {
         if (!EmptyUtil.isEmpty(goodsBean)) {
-//            Intent intent = new Intent(personalMedalDetailActivity, PersonalMedalConfirmOrderActivity.class);
-//            intent.putExtra("GoodsBean", (Serializable) goodsBean);
-//            personalMedalDetailActivity.startActivity(intent);
+            Intent intent = new Intent(personalMedalDetailActivity, PersonalMedalConfirmOrderActivity.class);
+            intent.putExtra("GoodsBean", (Serializable) goodsBean);
+            personalMedalDetailActivity.startActivity(intent);
         }
     }
 

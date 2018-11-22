@@ -20,8 +20,8 @@ import com.huasport.smartsport.bean.UserBean;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.LoadingDialog;
 import com.huasport.smartsport.databinding.AddnewaddressLayoutBinding;
-import com.huasport.smartsport.ui.pcenter.attention.bean.AddressBean;
 import com.huasport.smartsport.ui.pcenter.medal.bean.AddAddressResultBean;
+import com.huasport.smartsport.ui.pcenter.medal.bean.AddressBean;
 import com.huasport.smartsport.ui.pcenter.medal.bean.RegionBean;
 import com.huasport.smartsport.ui.pcenter.medal.view.AddNewAddressActivity;
 import com.huasport.smartsport.util.Config;
@@ -49,7 +49,7 @@ public class AddNewAddressVM extends BaseViewModel implements CounterListener {
     public ObservableField<Integer> default_address = new ObservableField<>(0);//是否是默认地址
     public ObservableField<String> detail_address = new ObservableField<>("");//详细地址
     public ObservableField<String> addressCode = new ObservableField<>("");//code
-    private AddressBean.ResultBean.ListBean addressBean;
+
     private AddnewaddressLayoutBinding addnewaddressLayoutBinding;
     private String token;
     private String addressType;
@@ -80,16 +80,17 @@ public class AddNewAddressVM extends BaseViewModel implements CounterListener {
         if (!EmptyUtil.isEmpty(userBean)) {
             token = userBean.getToken();
         }
-        //弹出加载框
-        loadingDialog.show();
     }
 
+    /**
+     * 初始化数据
+     */
     private void initData() {
 
         Intent intent = addNewAddressActivity.getIntent();
         addressType = intent.getStringExtra("addressType");
         if (addressType.equals("modifyAddress")) {
-            addressBean = (AddressBean.ResultBean.ListBean) intent.getSerializableExtra("AddressBean");
+         AddressBean.ResultBean.ListBean addressBean = (AddressBean.ResultBean.ListBean) intent.getSerializableExtra("AddressBean");
             addressCode.set(addressBean.getAddressCode());
             consignee.set(addressBean.getRealname());
             phoneNumber.set(addressBean.getMobile());
@@ -121,7 +122,9 @@ public class AddNewAddressVM extends BaseViewModel implements CounterListener {
         });
     }
 
-    //添加或修改地址
+    /**
+     * 添加或修改地址
+     */
     public void addAddress() {
 
         if (addressType.equals("modifyAddress")) {
@@ -154,6 +157,10 @@ public class AddNewAddressVM extends BaseViewModel implements CounterListener {
             return;
 
         }
+
+        counter.setCount(1);
+        loadingDialog.show();
+
         HashMap params = new HashMap();
         params.put("addressCode", addressCode.get());
         params.put("token", token);
@@ -190,9 +197,18 @@ public class AddNewAddressVM extends BaseViewModel implements CounterListener {
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
     }
 
+    /**
+     * 选择地区
+     */
     public void selectCisty() {
 
         OptionsPickerView pickerView = new OptionsPickerView.Builder(addNewAddressActivity, new OptionsPickerView.OnOptionsSelectListener() {
@@ -229,7 +245,9 @@ public class AddNewAddressVM extends BaseViewModel implements CounterListener {
 
     }
 
-
+    /**
+     * 解析数据
+     */
     private void initJsonData() {   //解析数据
 
         /**

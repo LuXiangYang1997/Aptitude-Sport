@@ -25,8 +25,10 @@ import com.huasport.smartsport.ui.pcenter.medal.bean.MedalOrderDetailBean;
 import com.huasport.smartsport.ui.pcenter.medal.bean.MedalWechatPayBean;
 import com.huasport.smartsport.ui.pcenter.medal.bean.PayStatusBean;
 import com.huasport.smartsport.ui.pcenter.medal.view.ImmediatelyPayActivity;
+import com.huasport.smartsport.ui.pcenter.medal.view.MedalPaySuccessActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
+import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.Util;
 import com.huasport.smartsport.util.counter.Counter;
@@ -117,7 +119,8 @@ public class MedalPayVm extends BaseViewModel implements CounterListener {
             @Override
             public void onClick(View v) {
                 if (!EmptyUtil.isEmpty(payType)) {
-
+                    counter.setCount(1);
+                    loadingDialog.show();
                     if (payType == StatusVariable.WECHAT) {
                         wechat();
                     } else {
@@ -163,10 +166,18 @@ public class MedalPayVm extends BaseViewModel implements CounterListener {
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
     }
 
-    //微信支付
+    /**
+     * 立即支付
+     */
     private void wechat() {
 
         HashMap params = new HashMap();
@@ -198,6 +209,12 @@ public class MedalPayVm extends BaseViewModel implements CounterListener {
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
     }
 
@@ -206,8 +223,7 @@ public class MedalPayVm extends BaseViewModel implements CounterListener {
     AlipayCallBack alipayCallBack = new AlipayCallBack() {
         @Override
         public void paySuccess(String resultStatus) {
-//            IntentUtil.startActivity(immediatelyPayActivity,Medal);
-//            immediatelyPayActivity.startActivity2(MedalPaySuccessActivity.class);
+            IntentUtil.startActivity(immediatelyPayActivity,MedalPaySuccessActivity.class);
         }
 
         @Override
@@ -262,6 +278,12 @@ public class MedalPayVm extends BaseViewModel implements CounterListener {
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
 
     }
@@ -273,7 +295,7 @@ public class MedalPayVm extends BaseViewModel implements CounterListener {
             @Override
             public void call(PayStatusBean payStatusBean) {
                 if (payStatusBean.getPayStatus().equals(StatusVariable.PAYSUCCESS)) {
-//                    immediatelyPayActivity.startActivity2(MedalPaySuccessActivity.class);
+                    IntentUtil.startActivity(immediatelyPayActivity,MedalPaySuccessActivity.class);
                 }
             }
         });
@@ -292,10 +314,9 @@ public class MedalPayVm extends BaseViewModel implements CounterListener {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-
             String paystatus = intent.getStringExtra(StatusVariable.PAYSUCCESS);
             if (paystatus.equals("WXPaySuccess")) {
-//                immediatelyPayActivity.startActivity2(MedalPaySuccessActivity.class);
+                IntentUtil.startActivity(immediatelyPayActivity,MedalPaySuccessActivity.class);
             }
         }
     }

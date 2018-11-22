@@ -1,5 +1,6 @@
 package com.huasport.smartsport.ui.pcenter.vm;
 
+import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
 import com.huasport.smartsport.api.Method;
@@ -29,6 +30,8 @@ public class PersonalMyGradeDetailVM extends BaseViewModel implements CounterLis
     private ToastUtil toastUtil;
     private LoadingDialog loadingDialog;
     private Counter counter;
+    private String competiotionCode;
+    private String scoreDesc;
 
 
     public PersonalMyGradeDetailVM(PersonalMyGradeDetailActivity personalMyGradeDetailActivity, MatchGradeDetailAdapter matchGradeDetailAdapter) {
@@ -41,6 +44,8 @@ public class PersonalMyGradeDetailVM extends BaseViewModel implements CounterLis
      * 初始化
      */
     private void init() {
+        competiotionCode = personalMyGradeDetailActivity.getIntent().getStringExtra("competiotionCode");
+        scoreDesc = personalMyGradeDetailActivity.getIntent().getStringExtra("scoreDesc");
         //初始化Toast
         toastUtil = new ToastUtil(personalMyGradeDetailActivity);
         //初始化加载框
@@ -61,8 +66,7 @@ public class PersonalMyGradeDetailVM extends BaseViewModel implements CounterLis
      * 初始化数据
      */
     private void initData() {
-        String competiotionCode = personalMyGradeDetailActivity.getIntent().getStringExtra("competiotionCode");
-        String scoreDesc = personalMyGradeDetailActivity.getIntent().getStringExtra("scoreDesc");
+
 
         HashMap params = new HashMap();
         params.put("baseMethod", Method.MYGRADETAIL);
@@ -118,7 +122,8 @@ public class PersonalMyGradeDetailVM extends BaseViewModel implements CounterLis
 
             @Override
             public PersonalMyGradeDetailBean parseNetworkResponse(String jsonResult) {
-                return null;
+                PersonalMyGradeDetailBean personalMyGradeDetailBean = JSON.parseObject(jsonResult, PersonalMyGradeDetailBean.class);
+                return personalMyGradeDetailBean;
             }
 
             @Override

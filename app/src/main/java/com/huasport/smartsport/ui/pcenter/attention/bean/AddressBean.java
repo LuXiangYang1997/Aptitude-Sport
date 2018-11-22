@@ -11,7 +11,6 @@ public class AddressBean implements Serializable {
      * resultCode : 200
      * resultMsg : 请求操作成功
      */
-
     private ResultBean result;
     private int resultCode;
     private String resultMsg;

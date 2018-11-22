@@ -26,6 +26,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     public ToolbarLayoutBinding toolbarBinding;
     private View decorView;
     private LinearLayout linearLayout;
+    public AppManager appManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         decorView = getWindow().getDecorView();
         MyApplication.removeActivity(this);
         MyApplication.addActivity(this);
+        appManager = new AppManager();
+        appManager.addActivity(this);
         initParam();
         initData();
         initViewDataBinding();

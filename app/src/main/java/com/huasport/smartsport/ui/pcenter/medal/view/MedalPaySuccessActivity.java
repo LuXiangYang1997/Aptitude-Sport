@@ -43,7 +43,7 @@ public class MedalPaySuccessActivity extends BaseActivity<MedalPaysuccessLayoutB
             @Override
             public void onClick(View v) {
                 IntentUtil.startActivity(MedalPaySuccessActivity.this,PersonalMyOrderActivity.class);
-                finish();
+                appManager.finishAllActivity();
             }
         });
 
@@ -58,7 +58,7 @@ public class MedalPaySuccessActivity extends BaseActivity<MedalPaysuccessLayoutB
             intent = new Intent(this, PersonalMyMedalActivity.class);
         }
         startActivity(intent);
-        finish();
+        appManager.finishAllActivity();
         super.onBackPressed();
     }
 
@@ -73,7 +73,7 @@ public class MedalPaySuccessActivity extends BaseActivity<MedalPaysuccessLayoutB
                     intent = new Intent(this, PersonalMyMedalActivity.class);
                 }
                 startActivity(intent);
-                finish();
+                appManager.finishAllActivity();
                 break;
         }
 

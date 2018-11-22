@@ -38,6 +38,9 @@ public class ApproveResultActivity extends BaseActivity<ApproveresultLayoutBindi
     @Override
     public void initViewObservable() {
         super.initViewObservable();
+
+        toolbarBinding.llLeft.setOnClickListener(this);
+
         String certType = getIntent().getStringExtra("certType");
         type = getIntent().getStringExtra("type");
         if (certType.equals("enterprise")) {

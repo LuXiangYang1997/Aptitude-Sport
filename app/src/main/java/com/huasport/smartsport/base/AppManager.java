@@ -15,7 +15,7 @@ public class AppManager {
     private static Stack<Fragment> fragmentStack;
     private static AppManager instance;
 
-    private AppManager() {
+    public AppManager() {
     }
 
     /**

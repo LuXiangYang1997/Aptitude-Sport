@@ -14,6 +14,7 @@ import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.SwipeLayout;
 import com.huasport.smartsport.databinding.AddressItemLayoutBinding;
 import com.huasport.smartsport.ui.pcenter.medal.bean.AddressBean;
+import com.huasport.smartsport.ui.pcenter.medal.bean.MyOrderAddressBean;
 import com.huasport.smartsport.ui.pcenter.medal.view.AddAddressActivity;
 import com.huasport.smartsport.ui.pcenter.medal.view.AddNewAddressActivity;
 import com.huasport.smartsport.util.EmptyUtil;
@@ -103,7 +104,7 @@ public class AddressAdapter extends BaseAdapter<AddressBean.ResultBean.ListBean,
                     Intent intent = new Intent(addAddressActivity, AddNewAddressActivity.class);
                     intent.putExtra("addressType", "modifyAddress");//修改地址
                     addAddressActivity.addressCode.set(mList.get(position).getAddressCode());
-                    intent.putExtra("AddressBean", (Serializable) mList.get(position));
+                    intent.putExtra("AddressBean",mList.get(position));
                     addAddressActivity.startActivity(intent);
                 }
             });

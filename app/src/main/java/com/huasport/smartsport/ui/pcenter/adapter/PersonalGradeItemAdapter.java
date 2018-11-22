@@ -11,6 +11,7 @@ import com.huasport.smartsport.base.BaseViewHolder;
 import com.huasport.smartsport.databinding.PersonalgradeItemlayoutBinding;
 import com.huasport.smartsport.ui.pcenter.bean.PersonalPrimordialMyGradeBean;
 import com.huasport.smartsport.ui.pcenter.view.PersonalPrimordialMyGradeActivity;
+import com.huasport.smartsport.ui.pcenter.view.PersonalScoreCardAvtivity;
 import com.huasport.smartsport.util.DateUtil;
 import com.huasport.smartsport.util.EmptyUtil;
 
@@ -77,9 +78,9 @@ public class PersonalGradeItemAdapter extends BaseAdapter<PersonalPrimordialMyGr
         baseViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(personalPrimordialMyGradeActivity, PersonalScoreCardAvtivity.class);
-//                intent.putExtra("CompetitionCode", mList.get(position).getCompetition().getCompetitionCode());
-//                personalPrimordialMyGradeActivity.startActivity(intent);
+                Intent intent = new Intent(personalPrimordialMyGradeActivity, PersonalScoreCardAvtivity.class);
+                intent.putExtra("CompetitionCode", mList.get(position).getCompetition().getCompetitionCode());
+                personalPrimordialMyGradeActivity.startActivity(intent);
             }
         });
 

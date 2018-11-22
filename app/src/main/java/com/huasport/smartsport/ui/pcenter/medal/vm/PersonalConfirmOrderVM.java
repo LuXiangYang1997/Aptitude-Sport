@@ -5,7 +5,6 @@ import android.databinding.ObservableField;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
 import com.huasport.smartsport.R;
@@ -17,9 +16,9 @@ import com.huasport.smartsport.bean.UserBean;
 import com.huasport.smartsport.constant.StatusVariable;
 import com.huasport.smartsport.custom.LoadingDialog;
 import com.huasport.smartsport.databinding.ConfirmorderLayoutBinding;
-import com.huasport.smartsport.ui.pcenter.attention.bean.AddressBean;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
+import com.huasport.smartsport.ui.pcenter.medal.bean.AddressBean;
 import com.huasport.smartsport.ui.pcenter.medal.bean.MedalDetailBean;
 import com.huasport.smartsport.ui.pcenter.medal.bean.MedalOrderBean;
 import com.huasport.smartsport.ui.pcenter.medal.bean.MyOrderAddressBean;
@@ -146,6 +145,12 @@ public class PersonalConfirmOrderVM extends BaseViewModel implements CounterList
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
     }
 
@@ -253,7 +258,7 @@ public class PersonalConfirmOrderVM extends BaseViewModel implements CounterList
         personalMedalConfirmOrderActivity.startActivityForResult(intent, StatusVariable.ADDRESSCODE);
     }
 
-    /*
+    /**
      * 提交订单
      * */
     public void applyOrder() {
@@ -271,9 +276,10 @@ public class PersonalConfirmOrderVM extends BaseViewModel implements CounterList
             toastUtil.centerToast( "请添加收货地址");
             return;
         }
-
+        counter.setCount(1);
+        loadingDialog.show();
         HashMap params = new HashMap();
-        params.put("baseMethod", Method.CREATEORDER);
+        params.put("baseMethod", Method.CREATEORDERMEDAL);
         params.put("goodsCode", goodsBean.getGoodsCode());
         params.put("addressCode", addressCodeStr.get());
         params.put("remark", leavingMsg.get());
@@ -308,6 +314,12 @@ public class PersonalConfirmOrderVM extends BaseViewModel implements CounterList
             @Override
             public void onFailed(int code, String msg) {
 
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+               counter.countDown();
             }
         });
     }

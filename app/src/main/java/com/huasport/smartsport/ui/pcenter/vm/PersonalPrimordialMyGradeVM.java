@@ -79,7 +79,7 @@ public class PersonalPrimordialMyGradeVM extends BaseViewModel implements Counte
     private void initData(final int loadType) {
 
         final HashMap params = new HashMap();
-        params.put("method", Method.MYGRADELIST);
+        params.put("baseMethod", Method.MYGRADELIST);
         params.put("pageSize", 10 + "");
         params.put("token", token);
         params.put("currentPage", page + "");

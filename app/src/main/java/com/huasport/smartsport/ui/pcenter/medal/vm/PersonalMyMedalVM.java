@@ -1,5 +1,6 @@
 package com.huasport.smartsport.ui.pcenter.medal.vm;
 
+import android.content.Intent;
 import android.widget.PopupWindow;
 import com.alibaba.fastjson.JSON;
 import com.huasport.smartsport.MyApplication;
@@ -16,11 +17,13 @@ import com.huasport.smartsport.ui.pcenter.medal.adapter.PersonalMedalAdapter;
 import com.huasport.smartsport.ui.pcenter.bean.PersonalMedalBean;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.BindPhoneActivity;
 import com.huasport.smartsport.ui.pcenter.loginbind.view.LoginActivity;
+import com.huasport.smartsport.ui.pcenter.medal.view.PersonalMedalDetailActivity;
 import com.huasport.smartsport.ui.pcenter.medal.view.PersonalMyMedalActivity;
 import com.huasport.smartsport.util.Config;
 import com.huasport.smartsport.util.EmptyUtil;
 import com.huasport.smartsport.util.IntentUtil;
 import com.huasport.smartsport.util.NullStateUtil;
+import com.huasport.smartsport.util.SharedPreferencesUtil;
 import com.huasport.smartsport.util.ToastUtil;
 import com.huasport.smartsport.util.counter.Counter;
 import com.huasport.smartsport.util.counter.CounterListener;
@@ -52,8 +55,10 @@ public class PersonalMyMedalVM extends BaseViewModel implements CounterListener,
         this.personalMedalAdapter = personalMedalAdapter;
         binding = personalMyMedalActivity.getBinding();
         init();
+        initclick();
         initData(StatusVariable.REFRESH);
     }
+
 
     /**
      * 初始化
@@ -151,6 +156,22 @@ public class PersonalMyMedalVM extends BaseViewModel implements CounterListener,
             }
         });
 
+    }
+
+
+    /**
+     * 点击事件
+     */
+    private void initclick() {
+
+        personalMedalAdapter.setShareClick(new PersonalMedalAdapter.ShareClick() {
+            @Override
+            public void shareclick(PersonalMedalBean.ResultBean.ScoreCertBean scoreCertBean) {
+                SharedPreferencesUtil.setParam(personalMyMedalActivity, "successType", "mymedal");
+                Intent intent = new Intent(personalMyMedalActivity, PersonalMedalDetailActivity.class);
+                personalMyMedalActivity.startActivity(intent);
+            }
+        });
     }
 
     @Override

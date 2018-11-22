@@ -35,6 +35,7 @@ public class MyApplication extends Application {
     private int loginChannel = StatusVariable.SMSLOGIN;
     public LocationBean locationBean = new LocationBean();
     private static List<Activity> lists = new ArrayList<>();
+    private  UserBean userBean;
 
     @Override
     public void onCreate() {
@@ -89,8 +90,6 @@ public class MyApplication extends Application {
      */
     public UserBean getUserBean() {
 
-        UserBean userBean = (UserBean) SharedPreferencesUtil.getBean(this, "UserBean");
-
         if (!EmptyUtil.isEmpty(userBean)) {
             return userBean;
         } else {
@@ -98,11 +97,15 @@ public class MyApplication extends Application {
         }
     }
 
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+
     /**
      * 获取用户登录状态
      */
     public boolean getLoginState() {
-        UserBean userBean = (UserBean) SharedPreferencesUtil.getBean(this, "UserBean");
+
         if (!EmptyUtil.isEmpty(userBean)) {
             String token = userBean.getToken();
             if (!EmptyUtil.isEmpty(token)) {

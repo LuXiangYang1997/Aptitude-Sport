@@ -220,6 +220,7 @@
                             android:layout_weight="1">
 
                             <ImageView
+                                android:onClick="@{()->personalscoreVm.shareCard()}"
                                 android:id="@+id/imggradeShare"
                                 android:layout_width="@dimen/dp_130"
                                 android:layout_height="@dimen/dp_60"

@@ -40,7 +40,7 @@ public class PersonalScoreCardAvtivity extends BaseActivity<PersonalscoreLayoutB
         super.initViewObservable();
 
         setTitle("我的成绩");
-
+        back();
         binding.gradecardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.gradecardRecyclerView.setAdapter(personalRankingAdapter);
     }

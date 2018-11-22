@@ -138,7 +138,7 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
                                 }
                                 approveStatus = status;
                             }
-                            String registerCode = (String) SharedPreferencesUtil.getParam(fragment.getActivity(), "registerCode", "");
+
                             statusType = (String) SharedPreferencesUtil.getParam(fragment.getActivity(), registerCode, "");
                             if (!EmptyUtil.isEmpty(registerCode)) {
                                 if (approveStatus.equals(StatusVariable.WAITAUTH)) {
@@ -355,14 +355,12 @@ public class PcenterVm extends BaseViewModel implements CounterListener {
     public void medal() {
         intent = new Intent(fragment.getActivity(), PersonalMyMedalActivity.class);
         fragment.getActivity().startActivity(intent);
-
     }
 
     /**
      * 我的订单
      */
     public void order() {
-
 
         intent = new Intent(fragment.getActivity(), PersonalMyOrderActivity.class);
         fragment.getActivity().startActivity(intent);

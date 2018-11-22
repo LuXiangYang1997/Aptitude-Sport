@@ -73,13 +73,17 @@ public class SelectAddressVM extends BaseViewModel implements CounterListener, R
         loadingDialog.show();
     }
 
+    /**
+     * 初始化数据
+     * @param loadType
+     */
     private void initdata(final int loadType) {
 
         HashMap params = new HashMap();
         params.put("currentPage", page + "");
         params.put("pageSize", "10");
         params.put("token", token);
-        params.put("method", Method.ADDRESSLIST);
+        params.put("baseMethod", Method.ADDRESSLIST);
         params.put("baseUrl", Config.baseUrl);
 
         OkHttpUtil.getRequest(addAddressActivity, params, new RequestCallBack<AddressBean>() {
@@ -94,7 +98,7 @@ public class SelectAddressVM extends BaseViewModel implements CounterListener, R
                         if (!EmptyUtil.isEmpty(resultBean)) {
                             totalPage = resultBean.getTotalPage();
                             List<AddressBean.ResultBean.ListBean> list = resultBean.getList();
-                            if (loadType == StatusVariable.REFRESH) {
+                            if (loadType == StatusVariable.LOADMORE) {
                                 binding.smartRefreshlayout.finishLoadMore();
                                 addressAdapter.loadMoreData(list);
                             } else {
@@ -120,10 +124,18 @@ public class SelectAddressVM extends BaseViewModel implements CounterListener, R
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
     }
 
-    //添加收货地址
+    /**
+     * 添加新地址
+     */
     public void addAddress() {
 
         Intent intent = new Intent(addAddressActivity, AddNewAddressActivity.class);
@@ -133,28 +145,11 @@ public class SelectAddressVM extends BaseViewModel implements CounterListener, R
 
     }
 
-    //刷新数据
-    public void refresh() {
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        page = 1;
-        initdata(StatusVariable.REFRESH);
-
-    }
-
-    @Override
-    public void countEnd(boolean isEnd) {
-        if(isEnd){
-            if (!EmptyUtil.isEmpty(loadingDialog)){
-                loadingDialog.dismiss();
-            }
-        }
-    }
-
+    /**
+     * 刷新
+     * @param refreshLayout
+     * @param type
+     */
     @Override
     public void refresh(RefreshLayout refreshLayout, int type) {
         page = 1;
@@ -162,6 +157,11 @@ public class SelectAddressVM extends BaseViewModel implements CounterListener, R
         initdata(type);
     }
 
+    /**
+     * 加载
+     * @param refreshLayout
+     * @param type
+     */
     @Override
     public void loadMore(RefreshLayout refreshLayout, int type) {
         if (page <= totalPage) {
@@ -171,5 +171,26 @@ public class SelectAddressVM extends BaseViewModel implements CounterListener, R
             binding.smartRefreshlayout.finishLoadMoreWithNoMoreData();
             binding.smartRefreshlayout.setNoMoreData(true);
         }
+    }
+
+    /**
+     * 结束加载框
+     * @param isEnd
+     */
+    @Override
+    public void countEnd(boolean isEnd) {
+        if(isEnd){
+            if (!EmptyUtil.isEmpty(loadingDialog)){
+                loadingDialog.dismiss();
+            }
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        page = 1;
+        initdata(StatusVariable.REFRESH);
     }
 }

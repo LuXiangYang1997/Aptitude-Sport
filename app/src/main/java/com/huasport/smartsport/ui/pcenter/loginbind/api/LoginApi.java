@@ -123,8 +123,7 @@ public class LoginApi {
         userBean.setPhone(registerBean.getPhone());
         userBean.setRegisterCode(registerBean.getRegisterCode());
         userBean.setToken(token);
-        //存储用户信息
-        SharedPreferencesUtil.setBean(context, "UserBean", userBean);
+        MyApplication.getInstance().setUserBean(userBean);
 
     }
 }

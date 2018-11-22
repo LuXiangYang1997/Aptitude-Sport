@@ -51,7 +51,6 @@ public class AddAddressActivity extends BaseActivity<SelectAddressLayoutBinding,
         toolbarBinding.llLeft.setOnClickListener(this);
         binding.addressRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.addressRecyclerView.setAdapter(addressAdapter);
-
         binding.smartRefreshlayout.setScrollBoundaryDecider(new ScrollBoundaryDeciderAdapter());//自定义滚动边界
         binding.addressRecyclerView.setOnTouchListener(this);
     }
@@ -84,7 +83,6 @@ public class AddAddressActivity extends BaseActivity<SelectAddressLayoutBinding,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_left:
-
                 String addressCode = getIntent().getStringExtra("addressCode");
                 for (int i = 0; i < addressAdapter.mList.size(); i++) {
                     if (EmptyUtil.isEmpty(addressCode)) {

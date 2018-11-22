@@ -47,7 +47,6 @@ import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -84,7 +83,7 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
         init();
         initView();
         initData();
-        mThirdPart = new ThirdPart(personalScoreCardactivity);
+
     }
     /**
      * 初始化
@@ -104,6 +103,7 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
         }
         //初始化分享
         shareUtil = new ShareUtil(personalScoreCardactivity);
+        mThirdPart = new ThirdPart(personalScoreCardactivity);
         //弹出加载框
         loadingDialog.show();
     }
@@ -154,16 +154,13 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
                            }
                            //时间日期
                            if (!EmptyUtil.isEmpty(bestScore.getPartTime())) {
-
                                Calendar calendar = Calendar.getInstance();
                                calendar.setTimeInMillis(bestScore.getPartTime());
                                SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这里的格式可换"yyyy年-MM月dd日-HH时mm分ss秒"等等格式
                                String date = sf.format(calendar.getTime());
                                binding.shareCardTime.setText(date);
                            }
-                           //
                            //赛事名称
-
                            String groupName = (String) bestScore.getGroupName();
                            String eventName = bestScore.getEventName();
 
@@ -194,6 +191,12 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
             public void onFailed(int code, String msg) {
 
             }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                counter.countDown();
+            }
         });
     }
 
@@ -203,28 +206,33 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
             @Override
             public boolean onLongClick(View v) {
 
-                Bitmap bitmap = saveScreenImage();//生成Bitmap
+                Bitmap bitmap = saveScreenImage(v);//生成Bitmap
                 Util.saveImageToGallery(personalScoreCardactivity, bitmap);
 
                 return false;
             }
         });
 
-        //分享图片
-        binding.imggradeShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Bitmap bitmap = saveScreenImage();//生成Bitmap
-                String s = uploadImg(bitmap);//拿到地址
-                uploadImg(s);//上传分享
-            }
-        });
 
     }
 
-    //排名点击事件
+    /**
+     * 分享点击事件
+     */
+    public void shareCard(){
+
+        Bitmap bitmap = saveScreenImage(binding.rlScoreCard);//生成Bitmap
+        String s = uploadImg(bitmap);//拿到地址
+        uploadImg(s);//上传分享
+
+    }
+
+
+    /**
+     * 排名点击事件
+     */
     public void scoreRankings() {
+
         Intent intent = new Intent(personalScoreCardactivity, MatchGradeRankingsActivity.class);
         intent.putExtra("comptitionCode", competitionCode);
         intent.putExtra("comptitionDate", competitionDate.get());
@@ -241,7 +249,7 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
         File appDir = new File(Environment.getExternalStorageDirectory(),
                 "zhinengtiyu");
         if (!appDir.exists()) {
-            appDir.mkdir();
+            appDir.mkdirs();
         }
         //当前时间来命名图片
         String fileName = System.currentTimeMillis() + ".jpg";
@@ -455,9 +463,9 @@ public class PersonalScoreCardVM extends BaseViewModel implements WbShareCallbac
     }
 
     //对ScrollView内部的Imageview进行截图
-    private Bitmap saveScreenImage() {
+    private Bitmap saveScreenImage(View view) {
         //宽度是ScrollView的宽度，高度是RelativeLayout的高度+130
-        Bitmap bmp = Bitmap.createBitmap(binding.rlScoreCard.getWidth(), binding.rlScoreCard.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bmp = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
         binding.rlScoreCard.draw(canvas);
         return bmp;

@@ -5,7 +5,7 @@
 
         <variable
             name="confirmorderVm"
-            type="com.huasport.smartsport.ui.pcenter.vm.PersonalConfirmOrderVM" />
+            type="com.huasport.smartsport.ui.pcenter.medal.vm.PersonalConfirmOrderVM" />
 
     </data>
 
